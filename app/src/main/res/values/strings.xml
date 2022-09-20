@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ArHiking</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="Map">Map</string>
+    <string name="user">User</string>
+    <string name="newHike">New Hike</string>
+</resources>

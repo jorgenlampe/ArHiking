@@ -1,7 +1,11 @@
 package com.example.arhiking;
 
 import android.os.Bundle;
+import android.util.Log;
 
+import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.UserDao;
+import com.example.arhiking.Models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +13,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
 
 import com.example.arhiking.databinding.ActivityMainBinding;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +40,31 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        //create instance of database
+        try {
+
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").allowMainThreadQueries().build();
+            //todo fjerne mulighet for å bruke database i main thread
+
+            //example use of db
+            UserDao userDao = db.userDao();
+
+            User user = new User();
+            user.firstName = "John";
+            user.lastName = "Doe";
+
+            userDao.insertAll(user);
+
+            List<User> users = userDao.getAll();
+            String firstName = users.get(0).firstName;
+            Log.i("fornavn", firstName);
+
+        }
+        catch (Exception e) {
+            new Exception(e.getMessage(), e);
+        }
     }
 
 }

@@ -12,18 +12,18 @@
         android:title="@string/Map" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_user"
         android:icon="@drawable/ic_nav_user_foreground"
         android:title="@string/user" />
 
     <item
-        android:id="@+id/navigation_notifications2"
+        android:id="@+id/navigation_register_hike"
         android:icon="@drawable/ic_nav_new_hike_foreground"
         android:title="@string/newHike" />
 
     <item
-        android:id="@+id/navigation_notifications3"
+        android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings_foreground"
-        android:title="@string/title_notifications" />
+        android:title="@string/title_settings" />
 
 </menu>

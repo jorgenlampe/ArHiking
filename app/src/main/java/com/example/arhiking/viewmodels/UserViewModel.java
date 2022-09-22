@@ -1,16 +1,16 @@
-package com.example.arhiking.ui;
+package com.example.arhiking.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SettingsViewModel extends ViewModel {
+public class UserViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public SettingsViewModel() {
+    public UserViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is settings fragment");
+        mText.setValue("This is user fragment");
     }
 
     public LiveData<String> getText() {

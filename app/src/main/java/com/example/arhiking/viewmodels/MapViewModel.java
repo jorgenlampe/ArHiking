@@ -1,4 +1,4 @@
-package com.example.arhiking.ui.dashboard;
+package com.example.arhiking.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

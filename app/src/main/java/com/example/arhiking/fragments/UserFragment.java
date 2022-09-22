@@ -1,4 +1,4 @@
-package com.example.arhiking.ui;
+package com.example.arhiking.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.arhiking.databinding.FragmentUserBinding;
+import com.example.arhiking.viewmodels.UserViewModel;
 
 public class UserFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.example.arhiking.ui;
+package com.example.arhiking.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,23 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.arhiking.databinding.FragmentMapBinding;
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
-import com.example.arhiking.databinding.FragmentSettingsBinding;
+import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
-public class SettingsFragment extends Fragment {
+public class RegisterHikeFragment extends Fragment {
 
-    private FragmentSettingsBinding binding;
+    private FragmentRegisterHikeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SettingsViewModel mapViewModel =
-                new ViewModelProvider(this).get(SettingsViewModel.class);
+        RegisterHikeViewModel mapViewModel =
+                new ViewModelProvider(this).get(RegisterHikeViewModel.class);
 
-        binding = FragmentSettingsBinding.inflate(inflater, container, false);
+        binding = FragmentRegisterHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSettings;
+        final TextView textView = binding.textRegisterHike;
         mapViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }

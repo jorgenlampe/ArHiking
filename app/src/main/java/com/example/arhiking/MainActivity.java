@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.HikeDao;
 import com.example.arhiking.Data.UserDao;
+import com.example.arhiking.Models.Hike;
 import com.example.arhiking.Models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -43,13 +45,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        final Migration MIGRATION_3_4 = new Migration(3, 4) {
-            @Override
-            public void migrate(SupportSQLiteDatabase database) {
-                database.execSQL("DROP TABLE IF EXISTS `Hike`");
-                database.execSQL("DROP TABLE IF EXISTS `User`");
-            }
-        };
         //create instance of database
         try {
 
@@ -73,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
             List<User> users = userDao.getAll();
             String firstName = users.get(0).firstName;
             Log.i("fornavn", firstName);
+
+            HikeDao hikeDao = db.hikeDao();
+            Hike hike = new Hike();
+            hike.hikeName = "En fin tur";
+            hike.hikeDescription = "Turen gikk fra A til B";
+
+            List<Hike> hikes = hikeDao.getAll();
+            hikeDao.insertAll(hike);
+            String hikeName = hikes.get(0).hikeName;
+            Log.i("hikeName", hikeName);
 
         }
         catch (Exception e) {

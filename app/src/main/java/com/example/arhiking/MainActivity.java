@@ -8,6 +8,7 @@ import com.example.arhiking.Data.HikeDao;
 import com.example.arhiking.Data.UserDao;
 import com.example.arhiking.Models.Hike;
 import com.example.arhiking.Models.User;
+import com.example.arhiking.Models.UserWithHikes;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.arhiking.databinding.ActivityMainBinding;
 
 import java.util.List;
+
+import javax.security.auth.login.LoginException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
             hikeDao.insertAll(hike);
             String hikeName = hikes.get(0).hikeName;
             Log.i("hikeName", hikeName);
+
+            List<UserWithHikes> userWithHikes = userDao.getUserWithHikes();
+            Log.i("userWithHikes", userWithHikes.toString());
 
         }
         catch (Exception e) {

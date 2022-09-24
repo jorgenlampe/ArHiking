@@ -15,4 +15,7 @@ public class Hike {
     @ColumnInfo(name = "hike_description")
     public String hikeDescription;
 
+    @ColumnInfo(name = "user_creator_id", defaultValue = "0")
+    public long userCreatorId;
+
 }

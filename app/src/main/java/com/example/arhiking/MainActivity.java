@@ -14,6 +14,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.arhiking.databinding.ActivityMainBinding;
 
@@ -41,12 +43,23 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+        final Migration MIGRATION_3_4 = new Migration(3, 4) {
+            @Override
+            public void migrate(SupportSQLiteDatabase database) {
+                database.execSQL("DROP TABLE IF EXISTS `Hike`");
+                database.execSQL("DROP TABLE IF EXISTS `User`");
+            }
+        };
         //create instance of database
         try {
 
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "database-name").allowMainThreadQueries().build();
+          //          addMigrations(MIGRATION_3_4).allowMainThreadQueries().build();
+
             //todo fjerne mulighet for å bruke database i main thread
+
+
 
             //example use of db
             UserDao userDao = db.userDao();

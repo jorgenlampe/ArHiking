@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
+import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.HikeActivityDao;
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
@@ -30,11 +33,11 @@ public class RegisterHikeFragment extends Fragment {
         final TextView textView = binding.textRegisterHike;
         registerHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        registerHikeViewModel.getSensorData().observe(getViewLifecycleOwner(), s -> {
+        AppDatabase db = Room.databaseBuilder(getContext(),
+                AppDatabase.class, "database-name").allowMainThreadQueries().build();
+        //          addMigrations(MIGRATION_3_4).allowMainThreadQueries().build();
 
-            Log.d("RPMFragment", this.toString());
-
-        });
+        HikeActivityDao dao = db.hikeActivityDao();
 
 
 

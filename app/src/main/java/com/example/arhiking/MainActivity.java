@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.arhiking.Data.AppDatabase;
-import com.example.arhiking.Data.HikeActivityDao;
-import com.example.arhiking.Data.HikeActivityDao_Impl;
 import com.example.arhiking.Data.HikeDao;
 import com.example.arhiking.Data.UserDao;
 import com.example.arhiking.Models.Hike;

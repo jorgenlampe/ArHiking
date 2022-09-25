@@ -41,11 +41,11 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         return mText;
     }
 
-    public LiveData<String> getSensorData() {
+    public void getSensorData() {
 
-        //todo hente fra service og tilordne sensorData;
+        //todo hente fra service og lagre i database;
 
-        return sensorData;
+
 
     }
 

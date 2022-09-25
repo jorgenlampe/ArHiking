@@ -5,6 +5,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
@@ -12,7 +14,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
-    public class SensorService extends Service {
+    public class SensorService extends Service implements SensorEventListener {
 
         private Context mContext;
         private SensorManager sensorManager;
@@ -34,17 +36,32 @@ import androidx.lifecycle.LiveData;
             getDataFromSensors();
         }
 
-        public void getDataFromSensors() {
+        public LiveData<String> getDataFromSensors() {
 
+        startListening();
+
+        return null; //todo returnere data fra sensor... og lagre i DB
 
         }
 
         public void startListening(){
 
+            if (geoMagneticSensor != null) {
+                sensorManager.registerListener(this, geoMagneticSensor,
+                        SensorManager.SENSOR_DELAY_NORMAL);
+            }
+
+            if (accelerometerSensor != null) {
+                sensorManager.registerListener(this, accelerometerSensor,
+                        SensorManager.SENSOR_DELAY_NORMAL);
+            }
+
+
+
         }
 
         public void stopListening(){
-
+            sensorManager.unregisterListener(this);
         }
 
 
@@ -54,5 +71,28 @@ import androidx.lifecycle.LiveData;
         @Override
         public IBinder onBind(Intent intent) {
             return null;
+        }
+
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+
+            int sensorType = sensorEvent.sensor.getType();
+            float currentValue = sensorEvent.values[0];
+            switch (sensorType) {
+                case Sensor.TYPE_ACCELEROMETER:
+                    Log.i("sensor:Accelerometer value: ", String.valueOf(currentValue));
+                    break;
+                case Sensor.TYPE_MAGNETIC_FIELD:
+                    Log.i("sensor:Geomagnetic field value: ", String.valueOf(currentValue));
+                    break;
+                default:
+                    Log.i("sensor:Unknown sensor type: ", String.valueOf(currentValue));
+
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
         }
     }

@@ -3,11 +3,6 @@ package com.example.arhiking;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.arhiking.Data.AppDatabase;
-import com.example.arhiking.Data.UserDao;
-import com.example.arhiking.Models.User;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,7 +10,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
 
+import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.UserDao;
+import com.example.arhiking.Models.User;
 import com.example.arhiking.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 

@@ -17,7 +17,7 @@
         android:padding="@dimen/_8sdp">
         
         <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/imageHike"
+            android:id="@+id/imageHikePoster"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
@@ -35,7 +35,7 @@
             android:textSize="@dimen/_15ssp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/imageHike"
+            app:layout_constraintTop_toBottomOf="@id/imageHikePoster"
             android:text="@string/hike_name"
             />
 
@@ -71,13 +71,35 @@
             app:layout_constraintTop_toBottomOf="@id/hikeLocation">
 
             <TextView
+                android:id="@+id/length"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/length"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9ssp"
+                android:layout_weight="6"
+                app:layout_constraintLeft_toRightOf="@id/iconLocation"
+                app:layout_constraintTop_toBottomOf="@id/hikeName" />
+
+            <TextView
                 android:id="@+id/hikeLength"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/hike_length"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9ssp"
-                android:layout_weight="3"
+                android:layout_weight="6"
+                app:layout_constraintLeft_toRightOf="@id/iconLocation"
+                app:layout_constraintTop_toBottomOf="@id/hikeName" />
+
+            <TextView
+                android:id="@+id/ascent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ascent"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9ssp"
+                android:layout_weight="6"
                 app:layout_constraintLeft_toRightOf="@id/iconLocation"
                 app:layout_constraintTop_toBottomOf="@id/hikeName" />
 
@@ -88,7 +110,18 @@
                 android:text="@string/hike_ascent"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9ssp"
-                android:layout_weight="3"
+                android:layout_weight="6"
+                app:layout_constraintLeft_toRightOf="@id/iconLocation"
+                app:layout_constraintTop_toBottomOf="@id/hikeName" />
+
+            <TextView
+                android:id="@+id/estTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:text="@string/estTime"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9ssp"
                 app:layout_constraintLeft_toRightOf="@id/iconLocation"
                 app:layout_constraintTop_toBottomOf="@id/hikeName" />
 
@@ -96,7 +129,7 @@
                 android:id="@+id/hikeTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="6"
                 android:text="@string/hike_time"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9ssp"
@@ -110,7 +143,7 @@
             android:layout_height="@dimen/_30sdp"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayoutHikeCard"
             app:layout_constraintEnd_toEndOf="@+id/hikeName"
-            app:layout_constraintTop_toBottomOf="@+id/imageHike"
+            app:layout_constraintTop_toBottomOf="@+id/imageHikePoster"
             app:srcCompat="@drawable/ic_info" />
 
         <TextView

@@ -65,5 +65,4 @@ public class MainActivity extends AppCompatActivity {
             new Exception(e.getMessage(), e);
         }
     }
-
 }

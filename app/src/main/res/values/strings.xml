@@ -12,8 +12,11 @@
     <string name="latest_hikes">LATEST HIKES</string>
     <string name="hike_name">BAKKANOSI</string>
     <string name="hike_location">Jordalen, Voss, Norway</string>
-    <string name="hike_length">Length: 20km</string>
-    <string name="hike_ascent">Ascent: 580 - 1398m</string>
-    <string name="hike_time">Est. Time: 8h</string>
+    <string name="length">Length: </string>
+    <string name="ascent">Ascent: </string>
+    <string name="estTime">Est. time: </string>
+    <string name="hike_length">20km</string>
+    <string name="hike_ascent">580 - 1398m</string>
+    <string name="hike_time">8h</string>
     <string name="hike_date">Date of hike: 22.07.2022</string>
 </resources>

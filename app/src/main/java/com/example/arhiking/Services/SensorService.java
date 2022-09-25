@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -30,8 +31,24 @@ import androidx.lifecycle.LiveData;
             sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
             geoMagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
             accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            getDataFromSensors();
+        }
+
+        public void getDataFromSensors() {
+
 
         }
+
+        public void startListening(){
+
+        }
+
+        public void stopListening(){
+
+        }
+
+
+
 
         @Nullable
         @Override

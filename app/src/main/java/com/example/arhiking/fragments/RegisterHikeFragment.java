@@ -30,11 +30,15 @@ public class RegisterHikeFragment extends Fragment {
         final TextView textView = binding.textRegisterHike;
         registerHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        registerHikeViewModel.sensorData.observe(getViewLifecycleOwner(), s -> {
+        registerHikeViewModel.getSensorData().observe(getViewLifecycleOwner(), s -> {
 
             Log.d("RPMFragment", this.toString());
 
         });
+
+
+
+
 
         return root;
     }

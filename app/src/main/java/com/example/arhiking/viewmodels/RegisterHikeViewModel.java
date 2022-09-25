@@ -31,12 +31,22 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         super(application);
         mText = new MutableLiveData<>();
         mText.setValue("This is register hike fragment");
+        sensorData = new MutableLiveData<>();
         sensorService = new SensorService(application);
-        
+
+
     }
 
     public LiveData<String> getText() {
         return mText;
+    }
+
+    public LiveData<String> getSensorData() {
+
+        //todo hente fra service og tilordne sensorData;
+
+        return sensorData;
+
     }
 
 }

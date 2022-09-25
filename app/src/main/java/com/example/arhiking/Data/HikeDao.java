@@ -4,8 +4,11 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.example.arhiking.Models.Hike;
+import com.example.arhiking.Models.HikesWithHikesActivities;
+import com.example.arhiking.Models.UserWithHikes;
 
 import java.util.List;
 
@@ -25,4 +28,8 @@ public interface HikeDao {
 
     @Delete
     void delete(Hike hike);
+
+    @Transaction
+    @Query("SELECT * FROM Hike")
+    public List<HikesWithHikesActivities> getHikesWithActivities();
 }

@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.arhiking.Data.AppDatabase;
 
-public class UserViewModel extends ViewModel {
+public class LibraryViewModel extends ViewModel {
 
     private AppDatabase database;
     private final MutableLiveData<String> mText;
 
-    public UserViewModel() {
+    public LibraryViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is user fragment");
+        mText.setValue("This is library fragment");
     }
 
 

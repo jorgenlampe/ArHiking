@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.arhiking.databinding.FragmentUserBinding;
-import com.example.arhiking.viewmodels.UserViewModel;
+import com.example.arhiking.databinding.FragmentLibraryBinding;
+import com.example.arhiking.viewmodels.LibraryViewModel;
 
-public class UserFragment extends Fragment {
+public class LibraryFragment extends Fragment {
 
-    private FragmentUserBinding binding;
+    private FragmentLibraryBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        UserViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(UserViewModel.class);
+        LibraryViewModel notificationsViewModel =
+                new ViewModelProvider(this).get(LibraryViewModel.class);
 
-        binding = FragmentUserBinding.inflate(inflater, container, false);
+        binding = FragmentLibraryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textUser;
+        final TextView textView = binding.textLibrary;
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }

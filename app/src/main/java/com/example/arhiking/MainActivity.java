@@ -4,8 +4,15 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.HikeActivityDao;
+import com.example.arhiking.Data.HikeActivityDao_Impl;
+import com.example.arhiking.Data.HikeDao;
 import com.example.arhiking.Data.UserDao;
+import com.example.arhiking.Models.Hike;
+import com.example.arhiking.Models.HikeActivity;
+import com.example.arhiking.Models.HikesWithHikesActivities;
 import com.example.arhiking.Models.User;
+import com.example.arhiking.Models.UserWithHikes;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,10 +21,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.arhiking.databinding.ActivityMainBinding;
 
 import java.util.List;
+
+import javax.security.auth.login.LoginException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,7 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "database-name").allowMainThreadQueries().build();
+          //          addMigrations(MIGRATION_3_4).allowMainThreadQueries().build();
+
             //todo fjerne mulighet for å bruke database i main thread
+
+
 
             //example use of db
             UserDao userDao = db.userDao();
@@ -60,6 +75,31 @@ public class MainActivity extends AppCompatActivity {
             List<User> users = userDao.getAll();
             String firstName = users.get(0).firstName;
             Log.i("fornavn", firstName);
+
+            HikeDao hikeDao = db.hikeDao();
+            Hike hike = new Hike();
+            hike.hikeName = "En fin tur";
+            hike.hikeDescription = "Turen gikk fra A til B";
+
+            List<Hike> hikes = hikeDao.getAll();
+            hikeDao.insertAll(hike);
+            String hikeName = hikes.get(0).hikeName;
+            Log.i("hikeName", hikeName);
+
+            List<UserWithHikes> userWithHikes = userDao.getUserWithHikes();
+            Log.i("userWithHikes", userWithHikes.toString());
+
+            HikeActivity activity = new HikeActivity();
+            activity.hikeActivityName = "fin tur i dag";
+            activity.hikeActivityLength = 53.5;
+            activity.hikeActivityDuration = 25;
+            activity.hike_id = 1;
+
+
+            List<HikesWithHikesActivities> activities = hikeDao.getHikesWithActivities();
+
+
+            Log.i("activities", activities.toString());
 
         }
         catch (Exception e) {

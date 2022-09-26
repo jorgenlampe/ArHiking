@@ -3,8 +3,10 @@ package com.example.arhiking.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,10 +29,7 @@ public class HikesAdapter extends RecyclerView.Adapter<HikesAdapter.HikesViewHol
     @Override
     public HikesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new HikesViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.item_container_hike,
-                        parent,
-                        false
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_hike, parent, false
                 )
         );
     }
@@ -45,11 +44,13 @@ public class HikesAdapter extends RecyclerView.Adapter<HikesAdapter.HikesViewHol
         return hikes.size();
     }
 
-    static class HikesViewHolder extends RecyclerView.ViewHolder {
+    static class HikesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private final RoundedImageView imageHikePoster;
         private final TextView hikeName, hikeLocation, hikeLength, hikeDate, hikeAscent, hikeTime;
         private final RatingBar ratingBar;
+
+        ImageButton hikeInfoButton;
 
         public HikesViewHolder(View view){
             super(view);
@@ -61,6 +62,10 @@ public class HikesAdapter extends RecyclerView.Adapter<HikesAdapter.HikesViewHol
             hikeDate = view.findViewById(R.id.hikeDate);
             hikeTime = view.findViewById(R.id.hikeTime);
             ratingBar = view.findViewById(R.id.hikeRatingBar);
+
+            //hike info button in home fragment
+            this.hikeInfoButton = (ImageButton) view.findViewById(R.id.hikeInfoButton);
+            hikeInfoButton.setOnClickListener(this);
         }
 
         void setHike(Tour hike){
@@ -72,6 +77,11 @@ public class HikesAdapter extends RecyclerView.Adapter<HikesAdapter.HikesViewHol
             hikeDate.setText(hike.hikeDate);
             hikeTime.setText(hike.hikeTime);
             ratingBar.setRating(hike.rating);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(v.getContext(), "Will show hike info window", Toast.LENGTH_SHORT).show();
         }
     }
 }

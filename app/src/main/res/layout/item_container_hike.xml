@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
             android:textSize="@dimen/_15ssp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -40,9 +41,9 @@
             />
 
         <ImageView
-            android:id="@+id/iconLocation"
+            android:id="@+id/hikeLocationImage"
             android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
+            android:layout_height="@dimen/_18sdp"
             android:src="@drawable/ic_location"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_15sdp"
@@ -59,7 +60,7 @@
             android:text="@string/hike_location"
             android:textColor="@color/light_grey"
             android:textSize="@dimen/_10ssp"
-            app:layout_constraintLeft_toRightOf="@id/iconLocation"
+            app:layout_constraintLeft_toRightOf="@id/hikeLocationImage"
             app:layout_constraintTop_toBottomOf="@id/hikeName" />
 
         <LinearLayout
@@ -78,7 +79,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9ssp"
                 android:layout_weight="6"
-                app:layout_constraintLeft_toRightOf="@id/iconLocation"
+                app:layout_constraintLeft_toRightOf="@id/hikeInfoButton"
                 app:layout_constraintTop_toBottomOf="@id/hikeName" />
 
             <TextView
@@ -89,7 +90,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9ssp"
                 android:layout_weight="6"
-                app:layout_constraintLeft_toRightOf="@id/iconLocation"
+                app:layout_constraintLeft_toRightOf="@id/hikeInfoButton"
                 app:layout_constraintTop_toBottomOf="@id/hikeName" />
 
             <TextView
@@ -100,7 +101,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9ssp"
                 android:layout_weight="6"
-                app:layout_constraintLeft_toRightOf="@id/iconLocation"
+                app:layout_constraintLeft_toRightOf="@id/hikeInfoButton"
                 app:layout_constraintTop_toBottomOf="@id/hikeName" />
 
             <TextView
@@ -111,7 +112,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9ssp"
                 android:layout_weight="6"
-                app:layout_constraintLeft_toRightOf="@id/iconLocation"
+                app:layout_constraintLeft_toRightOf="@id/hikeInfoButton"
                 app:layout_constraintTop_toBottomOf="@id/hikeName" />
 
             <TextView
@@ -122,7 +123,7 @@
                 android:text="@string/estTime"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9ssp"
-                app:layout_constraintLeft_toRightOf="@id/iconLocation"
+                app:layout_constraintLeft_toRightOf="@id/hikeInfoButton"
                 app:layout_constraintTop_toBottomOf="@id/hikeName" />
 
             <TextView
@@ -133,18 +134,22 @@
                 android:text="@string/hike_time"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9ssp"
-                app:layout_constraintLeft_toRightOf="@id/iconLocation"
+                app:layout_constraintLeft_toRightOf="@id/hikeInfoButton"
                 app:layout_constraintTop_toBottomOf="@id/hikeName" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
+        <ImageButton
+            android:id="@+id/hikeInfoButton"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginEnd="4dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/ic_info"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayoutHikeCard"
             app:layout_constraintEnd_toEndOf="@+id/hikeName"
             app:layout_constraintTop_toBottomOf="@+id/imageHikePoster"
-            app:srcCompat="@drawable/ic_info" />
+            app:layout_constraintVertical_bias="0.24" />
 
         <TextView
             android:id="@+id/hikeDateText"

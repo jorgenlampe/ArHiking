@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment {
         hikes.add(litlefjelletHike);
 
         Tour stalheimsnipaHike = new Tour();
-        stalheimsnipaHike.poster = R.drawable.hike_2;
+        stalheimsnipaHike.poster = R.drawable.hike_4;
         stalheimsnipaHike.name = "Stalheimsnipa";
         stalheimsnipaHike.hikeLocation = "Stalheim, Voss, Norway";
         stalheimsnipaHike.hikeLength = "3.5km";

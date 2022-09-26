@@ -32,14 +32,25 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:cardBackgroundColor="@color/app_theme_color">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_50sdp"
+                    android:layout_height="@dimen/_200sdp"
                     android:orientation="horizontal"
-                    >
+                    android:background="@drawable/browse_library_img">
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/browseLibraryTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:background="@color/white"
+                        android:text="@string/browse_hike_library"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_18ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_editor_absoluteX="-16dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -59,8 +70,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/latest_hikes"
                 android:layout_marginTop="@dimen/_30sdp"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:textSize="@dimen/_25ssp"
+                android:paddingStart="@dimen/_15sdp"
+                android:background="@color/app_theme_color"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20ssp"
                 app:layout_constraintTop_toBottomOf="@id/cardBrowseLibrary"
                 />
 
@@ -68,13 +81,20 @@
                 android:id="@+id/hikesViewPager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:paddingStart="@dimen/_30sdp"
                 android:paddingEnd="@dimen/_30sdp"
                 app:layout_constraintTop_toBottomOf="@id/latestHikesTextView"
-                app:layout_constraintBottom_toTopOf="@id/mapImageView"
+                app:layout_constraintBottom_toTopOf="@id/mapImageView" />
 
+            <TextView
+                android:id="@+id/dividerTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_20ssp"
+                android:background="@color/app_theme_color"
+                app:layout_constraintTop_toBottomOf="@id/hikesViewPager"
                 />
 
             <ImageView

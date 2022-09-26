@@ -18,5 +18,7 @@
     <string name="hike_length">20km</string>
     <string name="hike_ascent">580 - 1398m</string>
     <string name="hike_time">8h</string>
-    <string name="hike_date">Date of hike: 22.07.2022</string>
+    <string name="date">Date of hike: </string>
+    <string name="hike_date">23.08.2022</string>
+    <string name="browse_hike_library">Browse your hike library</string>
 </resources>

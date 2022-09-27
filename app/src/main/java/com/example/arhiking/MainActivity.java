@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         //create instance of database
-        try {
+      /*  try {
 
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "database-name").allowMainThreadQueries().build();
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         catch (Exception e) {
             new Exception(e.getMessage(), e);
         }
+        */
     }
 
 }

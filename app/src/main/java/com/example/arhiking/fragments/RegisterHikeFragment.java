@@ -52,7 +52,7 @@ public class RegisterHikeFragment extends Fragment {
 
         } catch(Exception e)
         {
-
+            e.getMessage();
         }
 
 

@@ -42,10 +42,16 @@ public class SensorService extends Activity implements SensorEventListener {
                 geoMagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
                 accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "database-name").allowMainThreadQueries().build();
+                try {
+                    AppDatabase db = Room.databaseBuilder(context,
+                            AppDatabase.class, "database-name").allowMainThreadQueries().build();
 
-                hikeActivityDao = db.hikeActivityDao();
+                    hikeActivityDao = db.hikeActivityDao();
+
+                } catch (Exception e) {
+                    e.getMessage();
+                }
+
         }
 
 

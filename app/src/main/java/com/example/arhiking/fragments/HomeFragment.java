@@ -23,9 +23,10 @@ import com.example.arhiking.viewmodels.HomeViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment  {
+public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    //CardView cardBrowseLibrary;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +35,15 @@ public class HomeFragment extends Fragment  {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        // todo Fix navigation when fragment opened on button click
+        /*CardView cardBrowseLibrary = (CardView) root.findViewById(R.id.cardBrowseLibrary);
+        cardBrowseLibrary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.navigation_library);
+            }
+        });*/
 
         return root;
     }

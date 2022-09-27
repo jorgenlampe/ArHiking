@@ -17,6 +17,7 @@
     <string name="estTime">Est. time: </string>
     <string name="date">Date of hike: </string>
     <string name="browse_hike_library">Browse your hike library</string>
+    <string name="create_new_hike">Click map to plan your next trip!</string>
 
     <!--Hardcoded data strings (temporary)-->
     <string name="hike_name">BAKKANOSI</string>

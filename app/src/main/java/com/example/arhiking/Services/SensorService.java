@@ -29,8 +29,8 @@ public class SensorService extends Activity implements SensorEventListener {
         private SensorManager sensorManager;
         private Sensor geoMagneticSensor;
         private Sensor accelerometerSensor;
-        private AppDatabase db;
-        private HikeActivityDao dao;
+
+        HikeActivityDao hikeActivityDao;
 
         public SensorService(){
 
@@ -42,6 +42,10 @@ public class SensorService extends Activity implements SensorEventListener {
                 geoMagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
                 accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name").allowMainThreadQueries().build();
+
+                hikeActivityDao = db.hikeActivityDao();
         }
 
 
@@ -86,7 +90,11 @@ public class SensorService extends Activity implements SensorEventListener {
             float currentValue = sensorEvent.values[0];
             switch (sensorType) {
                 case Sensor.TYPE_ACCELEROMETER:
-                    dao.addAccelerometerSensorTimeData(1, new Date());
+                    try {
+                        hikeActivityDao.addAccelerometerSensorTimeData(1, new Date());
+                    } catch (Exception e) {
+                        e.getMessage();
+                    }
                     Log.i("sensor:Accelerometer value: ", String.valueOf(currentValue));
                     break;
                 case Sensor.TYPE_MAGNETIC_FIELD:

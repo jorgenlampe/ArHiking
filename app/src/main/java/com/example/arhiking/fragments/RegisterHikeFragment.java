@@ -39,25 +39,22 @@ public class RegisterHikeFragment extends Fragment {
         final TextView textView = binding.textRegisterHike;
         registerHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        /*
+
         try {
 
-//todo feiler her....
+
 
             registerHikeViewModel.getSensorAccelerometerData().observe(
-                    getViewLifecycleOwner(), new Observer<Float>() {
-                        @Override
-                        public void onChanged(Float aFloat) {
-                            //todo.....
-                            Log.i("sensor changed - value: ", aFloat.toString());
-                        }
+                    getViewLifecycleOwner(), aFloat -> {
+                        //todo.....
+                        Log.i("sensor changed - value: ", aFloat.toString());
                     });
 
         } catch(Exception e)
         {
 
         }
-*/
+
 
         return root;  //todo feiler her...
     }

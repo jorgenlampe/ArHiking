@@ -22,31 +22,32 @@ import com.example.arhiking.Services.SensorService;
 public class RegisterHikeViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> mText;
-    private SensorManager mSensorManager;
-    public MutableLiveData<String> sensorData;
-    private Sensor mSensorGeomagteticField;
-    public SensorService sensorService;
+    public MutableLiveData<Float> sensorDataAcceleromaterData;
+
+
 
     public RegisterHikeViewModel(Application application) {
         super(application);
         mText = new MutableLiveData<>();
         mText.setValue("This is register hike fragment");
-        sensorData = new MutableLiveData<>();
-        sensorService = new SensorService(application);
-
-
+        //sensorService = new SensorService();
     }
+
 
     public LiveData<String> getText() {
         return mText;
     }
 
-    public void getSensorData() {
+    public MutableLiveData<Float> getSensorAccelerometerData() {
+        SensorService sensorService = new SensorService(getApplication());
+        sensorService.getSensorAccelerometerDataFromSensorService();
 
-        //todo hente fra service og lagre i database;
-
-
+        if (sensorDataAcceleromaterData == null) {
+            sensorDataAcceleromaterData = new MutableLiveData<>();
+        }
+        return sensorDataAcceleromaterData;
 
     }
+
 
 }

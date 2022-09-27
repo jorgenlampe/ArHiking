@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.arhiking.Models.Hike;
 import com.example.arhiking.Models.HikeActivity;
@@ -17,7 +18,7 @@ import java.util.List;
 @Dao
 public interface HikeActivityDao {
     @Query("SELECT * FROM hikeActivity")
-    List<HikeActivity> getAll();
+    LiveData<List<HikeActivity>> getAll();
 
     @Query("SELECT * FROM hikeActivity WHERE hikeActivityId IN (:hikeActivityIds)")
     List<HikeActivity> loadAllByIds(int[] hikeActivityIds);
@@ -27,6 +28,9 @@ public interface HikeActivityDao {
 
     @Insert
     void insertAll(HikeActivity... hikeActivities);
+
+    @Query("UPDATE hikeActivity SET hike_activity_accelerometer_sensor_data_time_registered = :date WHERE hikeActivityId LIKE :hike_id")
+    void addAccelerometerSensorTimeData(int hike_id, Date date);
 
     @Delete
     void delete(HikeActivity hikeActivity);

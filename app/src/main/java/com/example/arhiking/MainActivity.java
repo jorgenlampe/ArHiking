@@ -11,6 +11,7 @@ import com.example.arhiking.Models.HikeActivity;
 import com.example.arhiking.Models.HikesWithHikesActivities;
 import com.example.arhiking.Models.User;
 import com.example.arhiking.Models.UserWithHikes;
+import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;

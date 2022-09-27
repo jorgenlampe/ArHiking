@@ -53,8 +53,8 @@ public class MapFragment extends Fragment {
         map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
         map.setMultiTouchControls(true);
         mapController = map.getController();
-        mapController.setZoom(15.0);
-        GeoPoint startPoint = new GeoPoint(51496994.0, -134733.0);
+        mapController.setZoom(13.0);
+        GeoPoint startPoint = new GeoPoint(63.45, 10.42);
         mapController.setCenter(startPoint);
 
         return root;

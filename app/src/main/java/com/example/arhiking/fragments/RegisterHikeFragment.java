@@ -39,48 +39,33 @@ public class RegisterHikeFragment extends Fragment {
         final TextView textView = binding.textRegisterHike;
         registerHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-      /*  AppDatabase db = Room.databaseBuilder(getContext(),
-                AppDatabase.class, "database-name").build();//allowMainThreadQueries().build();
-        //          addMigrations(MIGRATION_3_4).allowMainThreadQueries().build();
+        /*
+        try {
 
-*/
-        registerHikeViewModel.getSensorAccelerometerData().observe(
-                getViewLifecycleOwner(), new Observer<Float>() {
-                    @Override
-                    public void onChanged(Float aFloat) {
-                        //todo.....
-                        Log.i("sensor changed - value: " , aFloat.toString());
-                    }
-                });
+//todo feiler her....
 
+            registerHikeViewModel.getSensorAccelerometerData().observe(
+                    getViewLifecycleOwner(), new Observer<Float>() {
+                        @Override
+                        public void onChanged(Float aFloat) {
+                            //todo.....
+                            Log.i("sensor changed - value: ", aFloat.toString());
+                        }
+                    });
 
-        //test
+        } catch(Exception e)
+        {
 
-
-
-
-  /*      HikeActivityDao dao = db.hikeActivityDao();
-
-        dao.getAll().observe(
-                getViewLifecycleOwner(), null);
-                //todo update gui? calculations?);
+        }
 */
 
-
-
-                //todo kalkulere og oppdatere GUI?
-
-
-
-
-
-        return root;
+        return root;  //todo feiler her...
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        SensorService service = new SensorService((Application) getContext());
+        SensorService service = new SensorService(getContext());
         service.stopListening();
         binding = null;
     }

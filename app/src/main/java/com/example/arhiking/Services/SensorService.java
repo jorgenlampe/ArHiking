@@ -1,5 +1,6 @@
 package com.example.arhiking.Services;
 
+import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Context;
@@ -23,7 +24,7 @@ import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
 import java.util.Date;
 
-public class SensorService extends Service implements SensorEventListener {
+public class SensorService extends Activity implements SensorEventListener {
 
         private SensorManager sensorManager;
         private Sensor geoMagneticSensor;
@@ -35,37 +36,13 @@ public class SensorService extends Service implements SensorEventListener {
 
         }
 
-        public SensorService(Application context) {
+        public SensorService(Context context) {
 
-          /*  db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "database-name").build();//allowMainThreadQueries().build();
-            //          addMigrations(MIGRATION_3_4).allowMainThreadQueries().build();
-
-            dao = db.hikeActivityDao();*/
-            try {
                 sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
                 geoMagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
                 accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-            } catch (Exception e) {
-                Log.i("feil:::", e.getMessage());
-            }
-        }
-
-        @Override  //todo register in manifest??? or extend service and register service....
-        public void onCreate() {
-
-            //todo onCreate not called....
-            sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-            geoMagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-            accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
 
 
     public void getSensorAccelerometerDataFromSensorService() {
@@ -77,12 +54,7 @@ public class SensorService extends Service implements SensorEventListener {
 
     }
 
-       /* public LiveData<String> getDataFromSensors() {
-
-        startListening();
-
-        return null; //todo returnere data fra sensor... og lagre i DB
-
+/*
         }
 
         public void startListening(){
@@ -103,17 +75,10 @@ public class SensorService extends Service implements SensorEventListener {
 
         public void stopListening(){
             sensorManager.unregisterListener(this);
+
         }
 
 
-
-/*
-        @Nullable
-        @Override
-        public IBinder onBind(Intent intent) {
-            return null;
-        }
-*/
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
 
@@ -128,28 +93,20 @@ public class SensorService extends Service implements SensorEventListener {
                     Log.i("sensor:Geomagnetic field value: ", String.valueOf(currentValue));
                     break;
                 default:
-                    //test....
 
                     //sensorFromAccelerometerValue = currentValue;
                     Log.i("sensor:Unknown sensor type: ", String.valueOf(currentValue));
 
+                    //tester å sette inn verdi i LiveData objekt
                     RegisterHikeViewModel model = new RegisterHikeViewModel
-                            (getApplication());
+                            ((Application) getApplicationContext());//todo usikker på denne
                     model.getSensorAccelerometerData().setValue(
                             currentValue);
 
 
-
-
             }
 
-
-
-
-
             //todo lagre til database
-
-
         }
 
         @Override

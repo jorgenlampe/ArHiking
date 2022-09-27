@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_map" />
 
     <fragment
-        android:id="@+id/navigation_user"
-        android:name="com.example.arhiking.fragments.UserFragment"
-        android:label="@string/title_user"
-        tools:layout="@layout/fragment_user" />
+        android:id="@+id/navigation_library"
+        android:name="com.example.arhiking.fragments.LibraryFragment"
+        android:label="@string/title_library"
+        tools:layout="@layout/fragment_library" />
 
     <fragment
         android:id="@+id/navigation_register_hike"

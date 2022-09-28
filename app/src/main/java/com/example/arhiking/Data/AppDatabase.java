@@ -3,6 +3,7 @@ package com.example.arhiking.Data;
 import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.DeleteColumn;
+import androidx.room.DeleteTable;
 import androidx.room.RenameColumn;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverter;
@@ -10,14 +11,15 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.AutoMigrationSpec;
 
 import com.example.arhiking.Models.Hike;
+import com.example.arhiking.Models.HikeActivities;
 import com.example.arhiking.Models.HikeActivity;
 import com.example.arhiking.Models.User;
 
 import java.lang.annotation.Annotation;
 import java.util.Date;
 
-@Database(entities = {User.class, Hike.class, HikeActivity.class}, version = 9, autoMigrations = {
-        @AutoMigration (from = 7, to = 9, spec = AppDatabase.MyAutoMigration.class)
+@Database(entities = {User.class, Hike.class, HikeActivities.class}, version = 13, autoMigrations = {
+        @AutoMigration (from = 12, to = 13, spec = AppDatabase.MyAutoMigration.class)
 }, exportSchema = true)
 @TypeConverters({AppDatabase.Converters.class})
 public abstract class AppDatabase extends RoomDatabase {

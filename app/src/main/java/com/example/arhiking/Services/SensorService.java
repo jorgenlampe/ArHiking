@@ -93,7 +93,17 @@ public class SensorService extends Activity implements SensorEventListener {
             switch (sensorType) {
                 case Sensor.TYPE_ACCELEROMETER:
                     try {
-                        hikeActivityDao.addAccelerometerSensorTimeData(1, new Date());
+                        Date date = new Date();
+                        //tester å sette inn i database
+                        hikeActivityDao.addAccelerometerSensorTimeData(1, date.getTime());
+                        hikeActivityDao.addAccelerometerSensorData(1, currentValue);
+
+                        //tester å sette inn verdi i LiveData objekt
+                        RegisterHikeViewModel model = new RegisterHikeViewModel
+                                (getApplication());//todo usikker på denne
+                        model.getSensorAccelerometerData().setValue(
+                                Float.valueOf(currentValue));
+
                     } catch (Exception e) {
                         e.getMessage();
                     }
@@ -106,11 +116,7 @@ public class SensorService extends Activity implements SensorEventListener {
 
                     Log.i("sensor:Unknown sensor type: ", String.valueOf(currentValue));
 
-                    //tester å sette inn verdi i LiveData objekt
-                    RegisterHikeViewModel model = new RegisterHikeViewModel
-                            ((Application) getApplicationContext());//todo usikker på denne
-                    model.getSensorAccelerometerData().setValue(
-                            currentValue);
+
 
             }
 

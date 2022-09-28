@@ -43,7 +43,8 @@ public class RegisterHikeViewModel extends AndroidViewModel {
             sensorDataAcceleromaterData = new MutableLiveData<>();
         }
 
-        SensorService sensorService = new SensorService(getApplication());
+        SensorService sensorService = new SensorService(
+                getApplication().getApplicationContext());
         sensorService.getSensorAccelerometerDataFromSensorService();
 
         return sensorDataAcceleromaterData;

@@ -70,22 +70,6 @@ public class SensorService extends Activity implements SensorEventListener {
         }
 
     }
-/*
-        }
-
-        public void startListening(){
-
-            if (geoMagneticSensor != null) {
-                sensorManager.registerListener(this, geoMagneticSensor,
-                        SensorManager.SENSOR_DELAY_NORMAL);
-            }
-
-            if (accelerometerSensor != null) {
-                sensorManager.registerListener(this, accelerometerSensor,
-                        SensorManager.SENSOR_DELAY_NORMAL);
-            }
-
-        }*/
 
         public void stopListening(){
             sensorManager.unregisterListener(this);

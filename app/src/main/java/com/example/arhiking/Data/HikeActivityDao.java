@@ -35,6 +35,12 @@ public interface HikeActivityDao {
 
      @Query("UPDATE hikeActivities SET hike_activity_accelerometer_sensor_data = :data WHERE hikeActivityId LIKE :hike_id")
     void addAccelerometerSensorData(int hike_id, Float data);
+
+    @Query("UPDATE hikeActivities SET hike_activity_geomagnetic_sensor_data_time_registered = :date WHERE hikeActivityId LIKE :hike_id")
+    void addGeomagneticSensorTimeData(int hike_id, Long date);
+
+    @Query("UPDATE hikeActivities SET hike_activity_geomagnetic_sensor_data = :data WHERE hikeActivityId LIKE :hike_id")
+    void addGeomagneticSensorData(int hike_id, Float data);
 /*
     @Delete
     void delete(HikeActivity hikeActivity);

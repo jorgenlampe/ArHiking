@@ -45,7 +45,20 @@ public class RegisterHikeFragment extends Fragment {
             registerHikeViewModel.getSensorAccelerometerData().observe(
                     getViewLifecycleOwner(), aFloat -> {
                         //todo... analysere/filtrere data fra sensorer
-                        Log.i("sensor changed - value: ", aFloat.toString());
+                        Log.i("accelerometer sensor changed - value: ", aFloat.toString());
+                    });
+
+        } catch(Exception e)
+        {
+            e.getMessage();
+        }
+
+        try {
+
+            registerHikeViewModel.getSensorGeomagneticData().observe(
+                    getViewLifecycleOwner(), aFloat -> {
+                        //todo... analysere/filtrere data fra sensorer
+                        Log.i("geomagnetic sensor changed - value: ", aFloat.toString());
                     });
 
         } catch(Exception e)

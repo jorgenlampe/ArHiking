@@ -23,6 +23,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> mText;
     public MutableLiveData<Float> sensorDataAcceleromaterData;
+    public MutableLiveData<Float> sensorDataGeomagneticData;
 
 
 
@@ -51,5 +52,17 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
     }
 
+    public MutableLiveData<Float> getSensorGeomagneticData() {
 
+        if (sensorDataGeomagneticData == null) {
+            sensorDataGeomagneticData = new MutableLiveData<>();
+        }
+
+        SensorService sensorService = new SensorService(
+                getApplication().getApplicationContext());
+        sensorService.getSensorGeomagneticDataFromSensorService();
+
+        return sensorDataGeomagneticData;
+
+    }
 }

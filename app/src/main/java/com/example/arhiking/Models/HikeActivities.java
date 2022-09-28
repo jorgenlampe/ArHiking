@@ -38,6 +38,12 @@ import java.util.Date;
 
         @ColumnInfo(name = "hike_activity_accelerometer_sensor_data")
         public Float hikeAccelerometerSensorData;
+
+        @ColumnInfo(name = "hike_activity_geomagnetic_sensor_data_time_registered")
+        public Long hikeGeomagneticSensorDataTimeRegistered;
+
+        @ColumnInfo(name = "hike_activity_geomagnetic_sensor_data")
+        public Float hikeGeomagneticSensorData;
 /*
         @ColumnInfo(name = "hike_activity_accelerometer_sensor_data")
         public String hikeAccelerometerSensorData;

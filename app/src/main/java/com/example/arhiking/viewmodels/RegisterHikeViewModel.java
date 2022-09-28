@@ -30,7 +30,6 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         super(application);
         mText = new MutableLiveData<>();
         mText.setValue("This is register hike fragment");
-        //sensorService = new SensorService();
     }
 
 

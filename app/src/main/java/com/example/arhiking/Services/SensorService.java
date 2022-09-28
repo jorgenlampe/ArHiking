@@ -51,9 +51,7 @@ public class SensorService extends Activity implements SensorEventListener {
                 } catch (Exception e) {
                     e.getMessage();
                 }
-
         }
-
 
     public void getSensorAccelerometerDataFromSensorService() {
 
@@ -78,8 +76,6 @@ public class SensorService extends Activity implements SensorEventListener {
                 sensorManager.registerListener(this, accelerometerSensor,
                         SensorManager.SENSOR_DELAY_NORMAL);
             }
-
-
 
         }*/
 
@@ -108,7 +104,6 @@ public class SensorService extends Activity implements SensorEventListener {
                     break;
                 default:
 
-                    //sensorFromAccelerometerValue = currentValue;
                     Log.i("sensor:Unknown sensor type: ", String.valueOf(currentValue));
 
                     //tester å sette inn verdi i LiveData objekt
@@ -117,10 +112,8 @@ public class SensorService extends Activity implements SensorEventListener {
                     model.getSensorAccelerometerData().setValue(
                             currentValue);
 
-
             }
 
-            //todo lagre til database
         }
 
         @Override

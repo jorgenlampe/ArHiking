@@ -42,11 +42,9 @@ public class RegisterHikeFragment extends Fragment {
 
         try {
 
-
-
             registerHikeViewModel.getSensorAccelerometerData().observe(
                     getViewLifecycleOwner(), aFloat -> {
-                        //todo.....
+                        //todo... analysere/filtrere data fra sensorer
                         Log.i("sensor changed - value: ", aFloat.toString());
                     });
 
@@ -56,7 +54,7 @@ public class RegisterHikeFragment extends Fragment {
         }
 
 
-        return root;  //todo feiler her...
+        return root;
     }
 
     @Override

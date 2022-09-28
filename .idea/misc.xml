@@ -4,7 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Bruker/AndroidStudioProjects/ArHiking/app/src/main/res/layout/activity_main.xml" value="0.265625" />
+        <entry key="..\:/Users/Bruker/AndroidStudioProjects/ArHiking/app/src/main/res/layout/fragment_camera.xml" value="0.19322916666666667" />
+        <entry key="..\:/Users/Bruker/AndroidStudioProjects/ArHiking/app/src/main/res/layout/fragment_charts.xml" value="0.20425724637681159" />
         <entry key="..\:/Users/Bruker/AndroidStudioProjects/ArHiking/app/src/main/res/layout/fragment_home.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/Bruker/AndroidStudioProjects/ArHiking/app/src/main/res/layout/fragment_info.xml" value="0.1625" />
         <entry key="..\:/Users/Bruker/AndroidStudioProjects/ArHiking/app/src/main/res/layout/fragment_map.xml" value="0.358695652173913" />
         <entry key="..\:/Users/jorge/AndroidStudioProjects/ArHiking2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/jorge/AndroidStudioProjects/ArHiking2/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1" />

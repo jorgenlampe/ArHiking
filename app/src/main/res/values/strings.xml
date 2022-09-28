@@ -27,4 +27,7 @@
     <string name="hike_time">8h</string>
     <string name="hike_date">23.08.2022</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="appInfo">Utviklet av Jørgen Breistrand Lampe, Romana Faiglova og Henrik Grevstad</string>
 </resources>

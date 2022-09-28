@@ -10,7 +10,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }
 rootProject.name = "ArHiking"
 include ':app'
+include ':openCVLibrary3416'
+include ':openCVLibrary3416'
+include ':OpenCV2'

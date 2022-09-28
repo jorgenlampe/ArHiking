@@ -11,6 +11,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
+        applicationId "opencv.org"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -34,9 +35,17 @@ android {
     buildFeatures {
         viewBinding true
     }
+    sourceSets {
+        main {
+            jni {
+                srcDirs 'src\\main\\jni', 'src\\main\\jniLibs'
+            }
+        }
+    }
 }
 
 dependencies {
+    implementation project(path: ':OpenCV2')
 
     //room
     def room_version = "2.4.3"
@@ -61,6 +70,9 @@ dependencies {
     implementation 'org.osmdroid:osmdroid-wms:6.1.6'
     implementation 'org.osmdroid:osmdroid-mapsforge:6.1.6'
     implementation 'org.osmdroid:osmdroid-geopackage:6.1.6'
+
+    // MPAndroidChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
     // Rounded ImageView
     implementation 'com.makeramen:roundedimageview:2.3.0'

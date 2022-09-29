@@ -29,6 +29,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract HikeDao hikeDao();
     public abstract HikeActivityDao hikeActivityDao();
 
+
     @DeleteColumn(tableName = "HikeActivities", columnName = "hike_activity_geomagnetic_sensor_data_time_registered")
     @DeleteColumn(tableName = "HikeActivities", columnName = "hike_activity_geomagnetic_sensor_data")
     @DeleteColumn(tableName = "HikeActivities", columnName = "hike_activity_gyroscope_sensor_data_time_registered")

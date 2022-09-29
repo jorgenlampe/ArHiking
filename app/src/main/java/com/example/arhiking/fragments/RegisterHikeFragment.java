@@ -45,13 +45,11 @@ public class RegisterHikeFragment extends Fragment {
 
         try {
 
-            final Observer<Float> sensorObserver = new Observer<Float>() {
-                @Override
-                public void onChanged(@Nullable final Float newValue) {
-                    // Update the UI, in this case, a TextView.
-                    //mText.setText(newName);
+            final Observer<Float> sensorObserver = newValue -> {
+                // Update the UI, in this case, a TextView.
+                //mText.setText(newName);
 
-                }};
+            };
 
             registerHikeViewModel.getSensorAccelerometerData().
                 observe(getViewLifecycleOwner(),sensorObserver);

@@ -43,6 +43,7 @@ public class RegisterHikeFragment extends Fragment {
 
 
 
+/*
         try {
 
             final Observer<Float> sensorObserver = newValue -> {
@@ -86,7 +87,7 @@ public class RegisterHikeFragment extends Fragment {
         {
             e.getMessage();
         }
-
+*/
 
         return root;
     }

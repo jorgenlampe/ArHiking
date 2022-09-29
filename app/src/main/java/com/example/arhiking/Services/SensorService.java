@@ -11,6 +11,7 @@ import androidx.room.Room;
 
 import com.example.arhiking.Data.AppDatabase;
 import com.example.arhiking.Data.HikeActivityDao;
+import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
 public class SensorService extends Activity implements SensorEventListener {
 
@@ -47,7 +48,7 @@ public class SensorService extends Activity implements SensorEventListener {
             e.getMessage();
         }
     }
-
+/*
     public void getSensorAccelerometerDataFromSensorService() {
 
         if (accelerometerSensor != null) {
@@ -74,7 +75,7 @@ public class SensorService extends Activity implements SensorEventListener {
         }
 
     }
-
+*/
         public void stopListening(){
             sensorManager.unregisterListener(this);
 
@@ -87,7 +88,12 @@ public class SensorService extends Activity implements SensorEventListener {
 
         // "rotationMatrix" now has up-to-date information.
 
-        SensorManager.getOrientation(rotationMatrix, orientationAngles);
+        float[] orientation = SensorManager.getOrientation(rotationMatrix, orientationAngles);
+
+        RegisterHikeViewModel model = new RegisterHikeViewModel
+                (getApplication());
+        model.getSensorData().setValue(orientation);
+
 
         // "orientationAngles" now has up-to-date information.
     }
@@ -102,7 +108,9 @@ public class SensorService extends Activity implements SensorEventListener {
                         0, magnetometerReading.length);
             }
 
-            //todo endre databasen til å ta imot Float[]...?
+            calculateOrientationFromSensors(magnetometerReading, accelerometerReading);
+
+
 /*
             int sensorType = sensorEvent.sensor.getType();
             float currentValue = sensorEvent.values[0]; //sende tre verdier til calculation...
@@ -174,7 +182,25 @@ public class SensorService extends Activity implements SensorEventListener {
 */
         }
 
-    void calculateOrientationFromSensors(float[] magnetometerValues, float[] acceleromaterValues){
+        public void listenToSensors(){
+            if (geoMagneticSensor != null) {
+                sensorManager.registerListener(this, geoMagneticSensor,
+                        SensorManager.SENSOR_DELAY_NORMAL);
+            }
+
+            if (accelerometerSensor != null) {
+                sensorManager.registerListener(this, accelerometerSensor,
+                        SensorManager.SENSOR_DELAY_NORMAL);
+            }
+
+            if (gyroscopeSensor != null) {
+                sensorManager.registerListener(this, gyroscopeSensor,
+                        SensorManager.SENSOR_DELAY_NORMAL);
+            }
+
+        }
+
+    public void calculateOrientationFromSensors(float[] magnetometerValues, float[] acceleromaterValues){
 
         final float[] rotationMatrix = new float[9];
         SensorManager.getRotationMatrix(rotationMatrix, null,

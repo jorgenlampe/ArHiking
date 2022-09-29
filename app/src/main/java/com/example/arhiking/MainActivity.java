@@ -7,11 +7,9 @@ import com.example.arhiking.Data.AppDatabase;
 import com.example.arhiking.Data.HikeDao;
 import com.example.arhiking.Data.UserDao;
 import com.example.arhiking.Models.Hike;
-import com.example.arhiking.Models.HikeActivity;
 import com.example.arhiking.Models.HikesWithHikesActivities;
 import com.example.arhiking.Models.User;
 import com.example.arhiking.Models.UserWithHikes;
-import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,14 +18,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.arhiking.databinding.ActivityMainBinding;
 
 import java.util.List;
-
-import javax.security.auth.login.LoginException;
 
 public class MainActivity extends AppCompatActivity {
 

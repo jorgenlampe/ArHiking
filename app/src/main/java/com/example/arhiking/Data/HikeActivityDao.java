@@ -2,18 +2,10 @@ package com.example.arhiking.Data;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
-import com.example.arhiking.Models.Hike;
 import com.example.arhiking.Models.HikeActivities;
-import com.example.arhiking.Models.HikeActivity;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Dictionary;
 import java.util.List;
 
 @Dao

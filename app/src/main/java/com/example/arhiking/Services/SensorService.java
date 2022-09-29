@@ -1,28 +1,16 @@
 package com.example.arhiking.Services;
 
 import android.app.Activity;
-import android.app.Application;
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.IBinder;
-import android.util.Log;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
 import com.example.arhiking.Data.AppDatabase;
 import com.example.arhiking.Data.HikeActivityDao;
-import com.example.arhiking.Models.HikeActivity;
-import com.example.arhiking.viewmodels.RegisterHikeViewModel;
-
-import java.util.Date;
 
 public class SensorService extends Activity implements SensorEventListener {
 
@@ -30,6 +18,11 @@ public class SensorService extends Activity implements SensorEventListener {
     private Sensor geoMagneticSensor;
     private Sensor accelerometerSensor;
     private Sensor gyroscopeSensor;
+    private final float[] accelerometerReading = new float[3];
+    private final float[] magnetometerReading = new float[3];
+
+    private final float[] rotationMatrix = new float[9];
+    private final float[] orientationAngles = new float[3];
 
     HikeActivityDao hikeActivityDao;
 
@@ -87,12 +80,32 @@ public class SensorService extends Activity implements SensorEventListener {
 
         }
 
+    public void updateOrientationAngles() {  //observere denne i stedet....
+        // Update rotation matrix, which is needed to update orientation angles.
+        SensorManager.getRotationMatrix(rotationMatrix, null,
+                accelerometerReading, magnetometerReading);
+
+        // "rotationMatrix" now has up-to-date information.
+
+        SensorManager.getOrientation(rotationMatrix, orientationAngles);
+
+        // "orientationAngles" now has up-to-date information.
+    }
 
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
+            if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                System.arraycopy(sensorEvent.values, 0, accelerometerReading,
+                        0, accelerometerReading.length);
+            } else if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+                System.arraycopy(sensorEvent.values, 0, magnetometerReading,
+                        0, magnetometerReading.length);
+            }
 
+            //todo endre databasen til å ta imot Float[]...?
+/*
             int sensorType = sensorEvent.sensor.getType();
-            float currentValue = sensorEvent.values[0];
+            float currentValue = sensorEvent.values[0]; //sende tre verdier til calculation...
             Date date = new Date();
             Long time = date.getTime();
             switch (sensorType) {
@@ -126,6 +139,8 @@ public class SensorService extends Activity implements SensorEventListener {
                         model.getSensorGeomagneticData().postValue(
                                 Float.valueOf(currentValue));
 
+
+
                     } catch (Exception e) {
                         e.getMessage();
                     }
@@ -143,6 +158,7 @@ public class SensorService extends Activity implements SensorEventListener {
                         model.getSensorGyroscopeData().postValue(
                                 Float.valueOf(currentValue));
 
+
                     } catch (Exception e) {
                         e.getMessage();
                     }
@@ -155,8 +171,20 @@ public class SensorService extends Activity implements SensorEventListener {
 
 
             }
-
+*/
         }
+
+    void calculateOrientationFromSensors(float[] magnetometerValues, float[] acceleromaterValues){
+
+        final float[] rotationMatrix = new float[9];
+        SensorManager.getRotationMatrix(rotationMatrix, null,
+                acceleromaterValues, magnetometerValues);
+
+        final float[] orientationAngles = new float[3];
+        SensorManager.getOrientation(rotationMatrix, orientationAngles);
+
+        //todo.... hvordan lese inn data... og hva skal metode returnere?
+    }
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int i) {

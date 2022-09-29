@@ -22,10 +22,11 @@ import com.example.arhiking.Services.SensorService;
 
 public class RegisterHikeViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<String> mText;
+    private MutableLiveData<String> mText;
     public MutableLiveData<Float> sensorDataAcceleromaterData;
     public MutableLiveData<Float> sensorDataGeomagneticData;
     public MutableLiveData<Float> sensorDataGyroscopeData;
+    //float[] sensorData som liveDataobjekt her.....
 
 
 
@@ -65,6 +66,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
         SensorService sensorService = new SensorService(
                 getApplication().getApplicationContext());
+
         sensorService.getSensorGeomagneticDataFromSensorService();
 
         return sensorDataGeomagneticData;

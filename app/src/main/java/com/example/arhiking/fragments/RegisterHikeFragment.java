@@ -40,7 +40,6 @@ public class RegisterHikeFragment extends Fragment {
         final TextView textView = binding.textRegisterHike;
         registerHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-//testing......
 
 
 
@@ -93,6 +92,8 @@ public class RegisterHikeFragment extends Fragment {
 
         return root;
     }
+
+
 
     @Override
     public void onDestroyView() {

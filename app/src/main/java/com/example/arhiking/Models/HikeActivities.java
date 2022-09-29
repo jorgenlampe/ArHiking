@@ -4,7 +4,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -33,23 +35,14 @@ import java.util.Date;
         @ColumnInfo(name = "hike_activity_stop_time")
         public Date hikeActivityStopTime;
 */
-        @ColumnInfo(name = "hike_activity_accelerometer_sensor_data_time_registered")
-        public Long hikeAccelerometerSensorDataTimeRegistered;
+        @ColumnInfo(name = "gyroscopeSensorData")
+        public List<GyroscopeSensorData> gyroscopeSensorData;
 
-        @ColumnInfo(name = "hike_activity_accelerometer_sensor_data")
-        public Float hikeAccelerometerSensorData;
+        @ColumnInfo(name = "acceleromaterSensorData")
+        public List<AccelerometerData> acceleromaterSensorData;
 
-        @ColumnInfo(name = "hike_activity_geomagnetic_sensor_data_time_registered")
-        public Long hikeGeomagneticSensorDataTimeRegistered;
-
-        @ColumnInfo(name = "hike_activity_geomagnetic_sensor_data")
-        public Float hikeGeomagneticSensorData;
-
-        @ColumnInfo(name = "hike_activity_gyroscope_sensor_data_time_registered")
-        public Long hikeGyroscopeSensorDataTimeRegistered;
-
-        @ColumnInfo(name = "hike_activity_gyroscope_sensor_data")
-        public Float hikeGyroscopeSensorData;
+        @ColumnInfo(name = "geomagneticSensorData")
+        public List<GeomagneticSensorData> geomagneticSensorData;
 /*
         @ColumnInfo(name = "hike_activity_accelerometer_sensor_data")
         public String hikeAccelerometerSensorData;

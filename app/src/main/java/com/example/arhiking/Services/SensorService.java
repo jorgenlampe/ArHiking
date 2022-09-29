@@ -92,9 +92,10 @@ public class SensorService extends Activity implements SensorEventListener {
                         hikeActivityDao.addAccelerometerSensorData(1, currentValue);
 
                         //oppdaterer LiveData-objekt
+                        //todo fungerer ikke
                         RegisterHikeViewModel model = new RegisterHikeViewModel
                                 (getApplication());
-                        model.getSensorAccelerometerData().setValue(
+                        model.getSensorAccelerometerData().postValue(
                                 Float.valueOf(currentValue));
 
                     } catch (Exception e) {
@@ -111,7 +112,7 @@ public class SensorService extends Activity implements SensorEventListener {
                         //oppdaterer LiveData-objekt
                         RegisterHikeViewModel model = new RegisterHikeViewModel
                                 (getApplication());
-                        model.getSensorGeomagneticData().setValue(
+                        model.getSensorGeomagneticData().postValue(
                                 Float.valueOf(currentValue));
 
                     } catch (Exception e) {

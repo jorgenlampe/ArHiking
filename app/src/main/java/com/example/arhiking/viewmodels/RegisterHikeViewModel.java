@@ -11,6 +11,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -44,13 +45,13 @@ public class RegisterHikeViewModel extends AndroidViewModel {
             sensorDataAcceleromaterData = new MutableLiveData<>();
         }
 
-        try {
             SensorService sensorService = new SensorService(
                     getApplication().getApplicationContext());
             sensorService.getSensorAccelerometerDataFromSensorService();
-        } catch (Exception e) {
-            e.getMessage();
-        }
+
+            //sjekker om det er aktive observers...
+        Boolean active = sensorDataAcceleromaterData.hasActiveObservers();
+
         return sensorDataAcceleromaterData;
 
     }

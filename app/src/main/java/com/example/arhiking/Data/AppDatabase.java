@@ -18,8 +18,8 @@ import com.example.arhiking.Models.User;
 import java.lang.annotation.Annotation;
 import java.util.Date;
 
-@Database(entities = {User.class, Hike.class, HikeActivities.class}, version = 14, autoMigrations = {
-        @AutoMigration (from = 13, to = 14, spec = AppDatabase.MyAutoMigration.class)
+@Database(entities = {User.class, Hike.class, HikeActivities.class}, version = 15, autoMigrations = {
+        @AutoMigration (from = 14, to = 15, spec = AppDatabase.MyAutoMigration.class)
 }, exportSchema = true)
 @TypeConverters({AppDatabase.Converters.class})
 public abstract class AppDatabase extends RoomDatabase {

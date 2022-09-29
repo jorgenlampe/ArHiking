@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -39,14 +40,24 @@ public class RegisterHikeFragment extends Fragment {
         final TextView textView = binding.textRegisterHike;
         registerHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
+//testing......
+
+
 
         try {
 
-            registerHikeViewModel.getSensorAccelerometerData().observe(
-                    getViewLifecycleOwner(), aFloat -> {
-                        //todo... analysere/filtrere data fra sensorer
-                        Log.i("accelerometer sensor changed - value: ", aFloat.toString());
-                    });
+            final Observer<Float> sensorObserver = new Observer<Float>() {
+                @Override
+                public void onChanged(@Nullable final Float newValue) {
+                    // Update the UI, in this case, a TextView.
+                    //mText.setText(newName);
+
+                }};
+
+            registerHikeViewModel.getSensorAccelerometerData().
+                observe(getViewLifecycleOwner(),sensorObserver);
+
+
 
         } catch(Exception e)
         {

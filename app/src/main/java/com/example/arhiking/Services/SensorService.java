@@ -29,6 +29,7 @@ public class SensorService extends Activity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor geoMagneticSensor;
     private Sensor accelerometerSensor;
+    private Sensor gyroscopeSensor;
 
     HikeActivityDao hikeActivityDao;
 
@@ -41,6 +42,7 @@ public class SensorService extends Activity implements SensorEventListener {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         geoMagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
         try {
             AppDatabase db = Room.databaseBuilder(context,
@@ -66,6 +68,15 @@ public class SensorService extends Activity implements SensorEventListener {
 
         if (geoMagneticSensor != null) {
             sensorManager.registerListener(this, geoMagneticSensor,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
+    }
+
+    public void getSensorGyroscopeDataFromSensorService() {
+
+        if (gyroscopeSensor != null) {
+            sensorManager.registerListener(this, gyroscopeSensor,
                     SensorManager.SENSOR_DELAY_NORMAL);
         }
 
@@ -119,6 +130,23 @@ public class SensorService extends Activity implements SensorEventListener {
                         e.getMessage();
                     }
                     Log.i("sensor:Geomagnetic field value: ", String.valueOf(currentValue));
+                    break;
+                case Sensor.TYPE_GYROSCOPE:
+                    try {
+                        //lagrer i database
+                        hikeActivityDao.addGyroscopeTimeData(1, time);
+                        hikeActivityDao.addGyroscopeSensorData(1, currentValue);
+
+                        //oppdaterer LiveData-objekt
+                        RegisterHikeViewModel model = new RegisterHikeViewModel
+                                (getApplication());
+                        model.getSensorGyroscopeData().postValue(
+                                Float.valueOf(currentValue));
+
+                    } catch (Exception e) {
+                        e.getMessage();
+                    }
+                    Log.i("sensor:Gyroscope field value: ", String.valueOf(currentValue));
                     break;
                 default:
 

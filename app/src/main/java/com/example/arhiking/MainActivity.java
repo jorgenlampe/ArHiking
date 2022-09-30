@@ -82,13 +82,6 @@ public class MainActivity extends AppCompatActivity {
             List<UserWithHikes> userWithHikes = userDao.getUserWithHikes();
             Log.i("userWithHikes", userWithHikes.toString());
 
-           /* HikeActivity activity = new HikeActivity();
-            activity.hikeActivityName = "fin tur i dag";
-            activity.hikeActivityLength = 53.5;
-            activity.hikeActivityDuration = 25;
-            activity.hike_id = 1;
-*/
-
             List<HikesWithHikesActivities> activities = hikeDao.getHikesWithActivities();
 
 

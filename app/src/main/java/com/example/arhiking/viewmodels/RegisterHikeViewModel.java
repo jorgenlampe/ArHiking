@@ -1,6 +1,7 @@
 package com.example.arhiking.viewmodels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -21,16 +22,28 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         super(application);
         mText = new MutableLiveData<>();
         mText.setValue("This is register hike fragment");
+        mText.hasObservers();
+        if (mText.hasObservers()) {
+            Log.i("observers ok", "yes");
+        }
+        if (mText.hasActiveObservers()) {
+            Log.i("active observers ok", "yes");
+        }
+
+
     }
+
 
     public MutableLiveData<float[]> getSensorData() {
         if (sensorData == null){
             sensorData = new MutableLiveData<float[]>();
     }
 
-        SensorService sensorService = new SensorService(
-                getApplication().getApplicationContext());
-        sensorService.listenToSensors();
+        if (sensorData.hasObservers())
+            Log.i("observer ok?", "yes");
+
+        if (sensorData.hasActiveObservers())
+            Log.i("active observer ok?", "yes");
 
         return sensorData;
 
@@ -40,49 +53,17 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         return mText;
     }
 
-  /*  public MutableLiveData<Float> getSensorAccelerometerData() {
 
-        if (sensorDataAcceleromaterData == null) {
-            sensorDataAcceleromaterData = new MutableLiveData<>();
-        }
+    public void startSensorService() {
 
+        try {
             SensorService sensorService = new SensorService(
                     getApplication().getApplicationContext());
-            sensorService.getSensorAccelerometerDataFromSensorService();
+            sensorService.listenToSensors();
 
-            //sjekker om det er aktive observers...
-        Boolean active = sensorDataAcceleromaterData.hasActiveObservers();
-
-        return sensorDataAcceleromaterData;
-
+        } catch(Exception e){
+            e.getMessage();
+        }
     }
 
-    public MutableLiveData<Float> getSensorGeomagneticData() {
-
-        if (sensorDataGeomagneticData == null) {
-            sensorDataGeomagneticData = new MutableLiveData<>();
-        }
-
-        SensorService sensorService = new SensorService(
-                getApplication().getApplicationContext());
-
-        sensorService.getSensorGeomagneticDataFromSensorService();
-
-        return sensorDataGeomagneticData;
-
-    }
-
-    public MutableLiveData<Float> getSensorGyroscopeData() {
-
-        if (sensorDataGyroscopeData == null) {
-            sensorDataGyroscopeData = new MutableLiveData<>();
-        }
-
-        SensorService sensorService = new SensorService(
-                getApplication().getApplicationContext());
-        sensorService.getSensorGyroscopeDataFromSensorService();
-
-        return sensorDataGyroscopeData;
-
-    }*/
 }

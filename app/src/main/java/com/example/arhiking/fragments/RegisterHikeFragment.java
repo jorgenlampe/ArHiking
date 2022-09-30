@@ -40,34 +40,15 @@ public class RegisterHikeFragment extends Fragment {
         final TextView textView = binding.textRegisterHike;
         registerHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
+        registerHikeViewModel.startSensorService();
 
-
-
-/*
-        try {
-
-            final Observer<Float> sensorObserver = newValue -> {
-                // Update the UI, in this case, a TextView.
-                //mText.setText(newName);
-
-            };
-
-            registerHikeViewModel.getSensorAccelerometerData().
-                observe(getViewLifecycleOwner(),sensorObserver);
-
-
-
-        } catch(Exception e)
-        {
-            e.getMessage();
-        }
 
         try {
 
-            registerHikeViewModel.getSensorGeomagneticData().observe(
+            registerHikeViewModel.getSensorData().observe(
                     getViewLifecycleOwner(), aFloat -> {
                         //todo... analysere/filtrere data fra sensorer
-                        Log.i("geomagnetic sensor changed - value: ", aFloat.toString());
+                        Log.i("gyroscope sensor change observed - value: ", aFloat.toString());
                     });
 
         } catch(Exception e)
@@ -75,19 +56,6 @@ public class RegisterHikeFragment extends Fragment {
             e.getMessage();
         }
 
-        try {
-
-            registerHikeViewModel.getSensorGyroscopeData().observe(
-                    getViewLifecycleOwner(), aFloat -> {
-                        //todo... analysere/filtrere data fra sensorer
-                        Log.i("gyroscope sensor changed - value: ", aFloat.toString());
-                    });
-
-        } catch(Exception e)
-        {
-            e.getMessage();
-        }
-*/
 
         return root;
     }

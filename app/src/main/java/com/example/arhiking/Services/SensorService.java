@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import androidx.room.Room;
 
@@ -48,40 +49,13 @@ public class SensorService extends Activity implements SensorEventListener {
             e.getMessage();
         }
     }
-/*
-    public void getSensorAccelerometerDataFromSensorService() {
 
-        if (accelerometerSensor != null) {
-            sensorManager.registerListener(this, accelerometerSensor,
-                    SensorManager.SENSOR_DELAY_NORMAL);
-        }
-
-    }
-
-    public void getSensorGeomagneticDataFromSensorService() {
-
-        if (geoMagneticSensor != null) {
-            sensorManager.registerListener(this, geoMagneticSensor,
-                    SensorManager.SENSOR_DELAY_NORMAL);
-        }
-
-    }
-
-    public void getSensorGyroscopeDataFromSensorService() {
-
-        if (gyroscopeSensor != null) {
-            sensorManager.registerListener(this, gyroscopeSensor,
-                    SensorManager.SENSOR_DELAY_NORMAL);
-        }
-
-    }
-*/
         public void stopListening(){
             sensorManager.unregisterListener(this);
 
         }
 
-    public void updateOrientationAngles() {  //observere denne i stedet....
+    public void updateOrientationAngles() {
         // Update rotation matrix, which is needed to update orientation angles.
         SensorManager.getRotationMatrix(rotationMatrix, null,
                 accelerometerReading, magnetometerReading);
@@ -103,83 +77,20 @@ public class SensorService extends Activity implements SensorEventListener {
             if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 System.arraycopy(sensorEvent.values, 0, accelerometerReading,
                         0, accelerometerReading.length);
+                Log.i("acceleromater sensor changed. value_x: ", String.valueOf(accelerometerReading[0]));
+                Log.i("acceleromater sensor changed. value_y: ", String.valueOf(accelerometerReading[1]));
+                Log.i("acceleromater sensor changed. value_z: ", String.valueOf(accelerometerReading[2]));
             } else if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
                 System.arraycopy(sensorEvent.values, 0, magnetometerReading,
                         0, magnetometerReading.length);
+                Log.i("magnetometer sensor changed. value_x: ", String.valueOf(magnetometerReading[0]));
+                Log.i("magnetometer sensor changed. value_y: ", String.valueOf(magnetometerReading[1]));
+                Log.i("magnetometer sensor changed. value_z: ", String.valueOf(magnetometerReading[2]));
             }
 
             calculateOrientationFromSensors(magnetometerReading, accelerometerReading);
 
 
-/*
-            int sensorType = sensorEvent.sensor.getType();
-            float currentValue = sensorEvent.values[0]; //sende tre verdier til calculation...
-            Date date = new Date();
-            Long time = date.getTime();
-            switch (sensorType) {
-                case Sensor.TYPE_ACCELEROMETER:
-                    try {
-                      //lagrer i database
-                        hikeActivityDao.addAccelerometerSensorTimeData(1, time);
-                        hikeActivityDao.addAccelerometerSensorData(1, currentValue);
-
-                        //oppdaterer LiveData-objekt
-                        //todo fungerer ikke
-                        RegisterHikeViewModel model = new RegisterHikeViewModel
-                                (getApplication());
-                        model.getSensorAccelerometerData().postValue(
-                                Float.valueOf(currentValue));
-
-                    } catch (Exception e) {
-                        e.getMessage();
-                    }
-                    Log.i("sensor:Accelerometer value: ", String.valueOf(currentValue));
-                    break;
-                case Sensor.TYPE_MAGNETIC_FIELD:
-                    try {
-                        //lagrer i database
-                        hikeActivityDao.addGeomagneticSensorTimeData(1, time);
-                        hikeActivityDao.addGeomagneticSensorData(1, currentValue);
-
-                        //oppdaterer LiveData-objekt
-                        RegisterHikeViewModel model = new RegisterHikeViewModel
-                                (getApplication());
-                        model.getSensorGeomagneticData().postValue(
-                                Float.valueOf(currentValue));
-
-
-
-                    } catch (Exception e) {
-                        e.getMessage();
-                    }
-                    Log.i("sensor:Geomagnetic field value: ", String.valueOf(currentValue));
-                    break;
-                case Sensor.TYPE_GYROSCOPE:
-                    try {
-                        //lagrer i database
-                        hikeActivityDao.addGyroscopeTimeData(1, time);
-                        hikeActivityDao.addGyroscopeSensorData(1, currentValue);
-
-                        //oppdaterer LiveData-objekt
-                        RegisterHikeViewModel model = new RegisterHikeViewModel
-                                (getApplication());
-                        model.getSensorGyroscopeData().postValue(
-                                Float.valueOf(currentValue));
-
-
-                    } catch (Exception e) {
-                        e.getMessage();
-                    }
-                    Log.i("sensor:Gyroscope field value: ", String.valueOf(currentValue));
-                    break;
-                default:
-
-                    Log.i("sensor:Unknown sensor type: ", String.valueOf(currentValue));
-
-
-
-            }
-*/
         }
 
         public void listenToSensors(){
@@ -209,7 +120,8 @@ public class SensorService extends Activity implements SensorEventListener {
         final float[] orientationAngles = new float[3];
         SensorManager.getOrientation(rotationMatrix, orientationAngles);
 
-        //todo.... hvordan lese inn data... og hva skal metode returnere?
+        updateOrientationAngles();
+
     }
 
         @Override

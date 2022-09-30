@@ -9,10 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.arhiking.R;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
@@ -20,7 +25,7 @@ import java.util.Map;
 
 
 public class ChartsFragment extends Fragment {
-    LineChart lineChart;
+    BarChart barChart;
 
 
 
@@ -34,19 +39,19 @@ public class ChartsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_charts, container, false);
-        lineChart=(LineChart)view.findViewById(R.id.line_chart);
+        barChart=(BarChart)view.findViewById(R.id.bar_chart);
 
         // Inflate the layout for this fragment
         return view;
     }
 
-    private ArrayList<Entry> dataValues1() {
-        ArrayList<Entry> dataValues = new ArrayList<Entry>();
-        dataValues.add(new Entry(0, 20));
-        dataValues.add(new Entry(1, 15));
-        dataValues.add(new Entry(2, 22));
-        dataValues.add(new Entry(3, 35));
-        dataValues.add(new Entry(4, 24));
+    private ArrayList<BarEntry> dataValues1() {
+        ArrayList<BarEntry> dataValues = new ArrayList<BarEntry>();
+        dataValues.add(new BarEntry(0, 20));
+        dataValues.add(new BarEntry(1, 15));
+        dataValues.add(new BarEntry(2, 22));
+        dataValues.add(new BarEntry(3, 35));
+        dataValues.add(new BarEntry(4, 24));
 
         return dataValues;
     }
@@ -54,12 +59,12 @@ public class ChartsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        LineDataSet lineDataSet = new LineDataSet(dataValues1(),"Data Set 1");
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(lineDataSet);
+        BarDataSet barDataSet = new BarDataSet(dataValues1(),"Data Set 1");
+        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(barDataSet);
 
-        LineData data = new LineData(dataSets);
-        lineChart.setData(data);
-        lineChart.invalidate();
+        BarData data = new BarData(dataSets);
+        barChart.setData(data);
+        barChart.invalidate();
     }
 }

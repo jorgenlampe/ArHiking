@@ -28,7 +28,9 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract HikeDao hikeDao();
     public abstract HikeActivityDao hikeActivityDao();
-
+    public abstract AccelerometerDao accelerometerDao();
+    public abstract GeomagneticDao geomagneticDao();
+    public abstract GyroscopeDao gyroscopeDao();
 
     @DeleteTable.Entries(value = @DeleteTable(tableName = "HikeActivities"))
     static class MyAutoMigration implements AutoMigrationSpec {

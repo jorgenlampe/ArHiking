@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import com.example.arhiking.Models.AccelerometerData;
 
 @Dao
-public interface AcceleromaterDao {
+public interface AccelerometerDao {
 
     @Insert
     void insertAll(AccelerometerData... accelerometerData);

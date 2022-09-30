@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 7,
-    "identityHash": "949bba0f1428e069940759a4d69b3338",
+    "version": 9,
+    "identityHash": "6f6e77543d7688c7dedaa1db8606bf10",
     "entities": [
       {
         "tableName": "User",
@@ -77,7 +77,7 @@
       },
       {
         "tableName": "HikeActivity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hikeActivityId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `hike_activity_name` TEXT, `hike_activity_description` TEXT, `hike_id` INTEGER NOT NULL DEFAULT 0, `hike_activity_length` REAL NOT NULL, `hike_activity_duration` REAL NOT NULL, `hike_activity_start_time` INTEGER, `hike_activity_stop_time` INTEGER, `hike_activity_accelerometer_sensor_data` TEXT, `hike_activity_geomagnetic_sensor_data` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hikeActivityId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `hike_activity_name` TEXT, `hike_activity_description` TEXT, `hike_id` INTEGER NOT NULL DEFAULT 0, `hike_activity_length` REAL NOT NULL, `hike_activity_duration` REAL NOT NULL, `hike_activity_start_time` INTEGER, `hike_activity_stop_time` INTEGER, `hike_activity_accelerometer_sensor_data_time_registered` INTEGER, `hike_activity_accelerometer_sensor_data` TEXT, `hike_activity_geomagnetic_sensor_data_time_registered` INTEGER, `hike_activity_geomagnetic_sensor_data` TEXT)",
         "fields": [
           {
             "fieldPath": "hikeActivityId",
@@ -129,9 +129,21 @@
             "notNull": false
           },
           {
+            "fieldPath": "hikeAccelerometerSensorDataTimeRegistered",
+            "columnName": "hike_activity_accelerometer_sensor_data_time_registered",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
             "fieldPath": "hikeAccelerometerSensorData",
             "columnName": "hike_activity_accelerometer_sensor_data",
             "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hikeGeomagneticSensorDataTimeRegistered",
+            "columnName": "hike_activity_geomagnetic_sensor_data_time_registered",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -154,7 +166,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '949bba0f1428e069940759a4d69b3338')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6f6e77543d7688c7dedaa1db8606bf10')"
     ]
   }
 }

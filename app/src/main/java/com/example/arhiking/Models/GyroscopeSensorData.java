@@ -1,8 +1,10 @@
 package com.example.arhiking.Models;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+@Entity
 public class GyroscopeSensorData {
 
     @PrimaryKey(autoGenerate = true)

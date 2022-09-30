@@ -14,7 +14,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
     public MutableLiveData<Float> sensorDataAcceleromaterData;
     public MutableLiveData<Float> sensorDataGeomagneticData;
     public MutableLiveData<Float> sensorDataGyroscopeData;
-    public MutableLiveData<Float[]> sensorData;
+    public MutableLiveData<float[]> sensorData;
 
 
     public RegisterHikeViewModel(Application application) {
@@ -23,9 +23,9 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         mText.setValue("This is register hike fragment");
     }
 
-    public MutableLiveData<Float[]> getSensorData() {
+    public MutableLiveData<float[]> getSensorData() {
         if (sensorData == null){
-            sensorData = new MutableLiveData<Float[]>();
+            sensorData = new MutableLiveData<float[]>();
     }
 
         SensorService sensorService = new SensorService(

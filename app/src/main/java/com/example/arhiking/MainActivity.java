@@ -1,5 +1,7 @@
 package com.example.arhiking;
 
+import android.content.SharedPreferences;
+import androidx.preference.PreferenceManager;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -23,7 +25,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-
 import com.example.arhiking.databinding.ActivityMainBinding;
 
 import java.util.List;

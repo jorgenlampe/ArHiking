@@ -39,4 +39,12 @@
     <string name="theme_settings">Theme</string>
     <string name="light_theme">Light theme is on</string>
     <string name="dark_theme">Dark theme is on</string>
+    <string name="default_theme">System default theme is on</string>
+    <string name="english">English</string>
+    <string name="norwegian">Norwegian</string>
+    <string name="help">Help</string>
+    <string name="feedback">Send feedback</string>
+    <string name="feedback_summary">Report technical issues or suggest new features</string>
+
+
 </resources>

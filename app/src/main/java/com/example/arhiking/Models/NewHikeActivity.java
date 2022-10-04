@@ -3,6 +3,11 @@ package com.example.arhiking.Models;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.arhiking.Data.AppDatabase;
+
+import org.osmdroid.util.GeoPoint;
 
 
 @Entity(tableName = "hikeActivity")
@@ -19,6 +24,7 @@ import androidx.room.PrimaryKey;
 
     @ColumnInfo(name = "hike_id", defaultValue = "0")
     public long hike_id;
+
 
 
 

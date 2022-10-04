@@ -1,5 +1,6 @@
 package com.example.arhiking;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -20,6 +21,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
 
 import com.example.arhiking.databinding.ActivityMainBinding;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.type.LatLng;
 
 import java.util.List;
 
@@ -84,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
             List<HikesWithHikesActivities> activities = hikeDao.getHikesWithActivities();
 
-
             Log.i("activities", activities.toString());
+
 
         }
         catch (Exception e) {

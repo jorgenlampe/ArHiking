@@ -1,6 +1,5 @@
 package com.example.arhiking.viewmodels;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -20,7 +19,7 @@ import com.example.arhiking.Data.GeomagneticDao;
 import com.example.arhiking.Data.HikeActivityDao;
 import com.example.arhiking.Models.AccelerometerData;
 import com.example.arhiking.Models.GeomagneticSensorData;
-import com.example.arhiking.Services.SensorService;
+
 
 import java.util.Date;
 
@@ -28,6 +27,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
     private MutableLiveData<String> mText;
     public MutableLiveData<float[]> sensorData;
+    public MutableLiveData<Float> accelerationData;
 
 
     public RegisterHikeViewModel(Application application) {
@@ -46,6 +46,17 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
     }
 
+
+
+    public MutableLiveData<Float> getAccelerationData() {
+        if (accelerationData == null){
+            accelerationData = new MutableLiveData<Float>();
+        }
+
+        return accelerationData;
+
+    }
+
     public LiveData<String> getText() {
         return mText;
     }
@@ -60,10 +71,10 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
      public class SensorService implements SensorEventListener {
 
-        private SensorManager sensorManager;
-        private Sensor geoMagneticSensor;
-        private Sensor accelerometerSensor;
-        private Sensor gyroscopeSensor;
+        private final SensorManager sensorManager;
+        private final Sensor geoMagneticSensor;
+        private final Sensor accelerometerSensor;
+        private final Sensor gyroscopeSensor;
         private final float[] accelerometerReading = new float[3];
         private final float[] magnetometerReading = new float[3];
 
@@ -93,6 +104,17 @@ public class RegisterHikeViewModel extends AndroidViewModel {
             sensorManager.unregisterListener(this);
 
         }
+
+         public void calculateAcceleration(float[] values){
+
+            Float acceleration = (float)Math.sqrt(
+                    values[0]*values[0]+values[1]*values[1]+values[2]*
+                    values[2]);
+
+             getAccelerationData().setValue(acceleration);
+
+
+         }
 
         public void updateOrientationAngles() {
             // Update rotation matrix, which is needed to update orientation angles.
@@ -130,7 +152,18 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                 accelerometerData.yValue = accelerometerReading[1];
                 accelerometerData.zValue = accelerometerReading[2];
 
+                //lagrer til dataase todo bare lagre hvert 10. sekund?
                 accelerometerDao.insertAll(accelerometerData);
+
+                //beregner akselerasjon
+               /* float[] testValues = new float[3];
+                testValues[0] = (float)1.26;
+                testValues[1] = (float)1.26;
+                testValues[2] = (float)1.26;
+                calculateAcceleration(testValues);
+*/
+                calculateAcceleration(sensorEvent.values);
+
 
 
             } else if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {

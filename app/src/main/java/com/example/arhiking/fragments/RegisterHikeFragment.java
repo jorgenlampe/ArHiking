@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
@@ -39,21 +40,24 @@ public class RegisterHikeFragment extends Fragment {
 
         registerHikeViewModel.startSensorService();
 
-
-        try {
-
             registerHikeViewModel.getSensorData().observe(
                     getViewLifecycleOwner(), aFloat -> {
                         //todo... analysere/filtrere data fra sensorer
-                        Log.i("Sensor change observed. Value: ", aFloat.toString());
+                        Log.i("Sensor change observed. OrientationX: ",
+                                String.valueOf(aFloat[0]));
+                        Log.i("Sensor change observed. OrientationY: ",
+                                String.valueOf(aFloat[1]));
+                        Log.i("Sensor change observed. OrientationZ: ",
+                                String.valueOf(aFloat[2]));
                     });
 
-        } catch(Exception e)
-        {
-            e.getMessage();
-        }
+            registerHikeViewModel.getAccelerationData().observe(
+                    getViewLifecycleOwner(), accel -> {
 
+              Log.i("Akselerasjon er: ", String.valueOf(accel));
 
+                    }
+            );
         return root;
     }
 

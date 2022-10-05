@@ -17,9 +17,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
-import com.example.arhiking.Data.AppDatabase;
-import com.example.arhiking.Data.HikeActivityDao;
-import com.example.arhiking.Services.SensorService;
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
@@ -65,8 +62,6 @@ public class RegisterHikeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        SensorService service = new SensorService(getContext());
-        service.stopListening();
         binding = null;
     }
 }

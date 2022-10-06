@@ -48,7 +48,7 @@ public class RegisterHikeFragment extends Fragment {
             registerHikeViewModel.getSensorData().observe(
                     getViewLifecycleOwner(), aFloat -> {
                         //todo... analysere/filtrere data fra sensorer
-                        Log.i("gyroscope sensor change observed - value: ", aFloat.toString());
+                        Log.i("Sensor change observed. Value: ", aFloat.toString());
                     });
 
         } catch(Exception e)

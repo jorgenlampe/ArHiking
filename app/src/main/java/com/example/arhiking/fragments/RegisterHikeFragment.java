@@ -13,13 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
-import com.example.arhiking.Data.AppDatabase;
-import com.example.arhiking.Data.HikeActivityDao;
-import com.example.arhiking.Services.SensorService;
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
@@ -42,21 +40,24 @@ public class RegisterHikeFragment extends Fragment {
 
         registerHikeViewModel.startSensorService();
 
-
-        try {
-
             registerHikeViewModel.getSensorData().observe(
                     getViewLifecycleOwner(), aFloat -> {
                         //todo... analysere/filtrere data fra sensorer
-                        Log.i("Sensor change observed. Value: ", aFloat.toString());
+                        Log.i("Sensor change observed. OrientationX: ",
+                                String.valueOf(aFloat[0]));
+                        Log.i("Sensor change observed. OrientationY: ",
+                                String.valueOf(aFloat[1]));
+                        Log.i("Sensor change observed. OrientationZ: ",
+                                String.valueOf(aFloat[2]));
                     });
 
-        } catch(Exception e)
-        {
-            e.getMessage();
-        }
+            registerHikeViewModel.getAccelerationData().observe(
+                    getViewLifecycleOwner(), accel -> {
 
+              Log.i("Akselerasjon er: ", String.valueOf(accel));
 
+                    }
+            );
         return root;
     }
 
@@ -65,8 +66,6 @@ public class RegisterHikeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        SensorService service = new SensorService(getContext());
-        service.stopListening();
         binding = null;
     }
 }

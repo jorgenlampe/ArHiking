@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 18,
-    "identityHash": "4e2116c00de9b7bb98bd49a5e140e975",
+    "version": 19,
+    "identityHash": "d5edd724975cd0954119ac15eb86ebfe",
     "entities": [
       {
         "tableName": "User",
@@ -76,8 +76,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "hikeActivity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hikeActivityId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `hike_activity_name` TEXT, `hike_activity_description` TEXT, `hike_id` INTEGER NOT NULL DEFAULT 0, `hike_distance` REAL NOT NULL, `hike_time_registered` INTEGER NOT NULL)",
+        "tableName": "Hike_Activity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hikeActivityId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `hike_activity_name` TEXT, `hike_activity_description` TEXT, `hike_id` INTEGER NOT NULL DEFAULT 0, `hike_distance` REAL NOT NULL DEFAULT 0, `hike_time_registered` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "hikeActivityId",
@@ -108,7 +108,8 @@
             "fieldPath": "hikeDistance",
             "columnName": "hike_distance",
             "affinity": "REAL",
-            "notNull": true
+            "notNull": true,
+            "defaultValue": "0"
           },
           {
             "fieldPath": "timeRegistered",
@@ -316,7 +317,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4e2116c00de9b7bb98bd49a5e140e975')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd5edd724975cd0954119ac15eb86ebfe')"
     ]
   }
 }

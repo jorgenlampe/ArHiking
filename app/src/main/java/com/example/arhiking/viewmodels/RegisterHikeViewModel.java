@@ -93,6 +93,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
             gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
             _context = context;
 
+
                 AppDatabase db = Room.databaseBuilder(context,
                         AppDatabase.class, "database-name").allowMainThreadQueries().build();
 

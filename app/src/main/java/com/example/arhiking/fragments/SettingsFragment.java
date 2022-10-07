@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -33,6 +36,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         SwitchPreferenceCompat themePreference = findPreference("theme_settings");
     }
 
+
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
@@ -48,21 +53,25 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-      /* //open user data fragment (user statistics) from settings
+
+
+       //open user data fragment (user statistics) from settings
         Preference userDataPreference = findPreference("user_data");
         userDataPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(@NonNull Preference preference) {
-                UserDataFragment userDataFragment = new UserDataFragment();
+
+
+             /*  UserDataFragment userDataFragment = new UserDataFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, userDataFragment)
                         .addToBackStack(null)
                         .commit();
-
+*/
                 return true;
             }
-        }
-        );*/
+        });
+
     }
 
     @Override

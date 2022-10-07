@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -24,33 +25,43 @@ import com.example.arhiking.viewmodels.SettingsViewModel;
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private FragmentSettingsBinding binding;
-    public int currentTheme;
-    private SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        // Load preferences from an XML resource
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
         SwitchPreferenceCompat themePreference = findPreference("theme_settings");
-
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
+        // Settings to change theme
         SwitchPreferenceCompat themePreference = findPreference("theme_settings");
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean isChecked = sharedPreferences.getBoolean("theme_settings", false);
         if(isChecked){
             themePreference.setSummaryOn(R.string.dark_theme);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             themePreference.setSummaryOff(R.string.light_theme);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        /*Preference userDataPreference = findPreference("user_data");
-        userDataPreference.setOnPreferenceClickListener(
+      /* //open user data fragment (user statistics) from settings
+        Preference userDataPreference = findPreference("user_data");
+        userDataPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(@NonNull Preference preference) {
+                UserDataFragment userDataFragment = new UserDataFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, userDataFragment)
+                        .addToBackStack(null)
+                        .commit();
 
+                return true;
+            }
+        }
         );*/
     }
 
@@ -68,6 +79,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -86,4 +98,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         super.onDestroyView();
         binding = null;
     }
+
+
 }

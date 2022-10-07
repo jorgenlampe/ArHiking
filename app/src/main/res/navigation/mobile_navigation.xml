@@ -55,4 +55,9 @@
         android:name="com.example.arhiking.fragments.AcceleratorVisualizationFragment"
         android:label="fragment_accelerator_visualization"
         tools:layout="@layout/fragment_accelerator_visualization" />
+    <fragment
+        android:id="@+id/userDataFragment"
+        android:name="com.example.arhiking.fragments.UserDataFragment"
+        android:label="fragment_user_data"
+        tools:layout="@layout/fragment_user_data" />
 </navigation>

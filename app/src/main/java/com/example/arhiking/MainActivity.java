@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
         if (!permissionsGranted())
             requestPermissionsForLocation();
 
-
     }
 
 

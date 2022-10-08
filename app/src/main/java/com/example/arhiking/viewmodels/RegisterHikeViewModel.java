@@ -166,6 +166,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                     values[0]*values[0]+values[1]*values[1]+values[2]*
                     values[2]);
 
+            if (acceleration > 0.5f)  //filter
              getAccelerationData().setValue(acceleration);
 
 

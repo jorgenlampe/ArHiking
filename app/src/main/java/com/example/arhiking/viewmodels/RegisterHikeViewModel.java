@@ -69,6 +69,13 @@ public class RegisterHikeViewModel extends AndroidViewModel {
             sensorService.listenToSensors();
     }
 
+    public void stopSensorService() {
+
+        SensorService sensorService = new SensorService(
+                getApplication().getApplicationContext());
+        sensorService.stopListening();
+    }
+
      public class SensorService implements SensorEventListener {
 
         private final SensorManager sensorManager;

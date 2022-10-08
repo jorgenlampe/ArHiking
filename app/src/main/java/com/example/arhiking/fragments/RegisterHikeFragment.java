@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
+import com.example.arhiking.R;
 import com.example.arhiking.databinding.FragmentMapBinding;
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
@@ -38,6 +40,10 @@ public class RegisterHikeFragment extends Fragment {
 
     private MapView map;
     private IMapController mapController;
+
+    private ImageView imgPlay;
+    private ImageView imgStop;
+    private ImageView imgPause;
 
     private static final String TAG = "RegisterHikeFragment";
 
@@ -62,7 +68,9 @@ public class RegisterHikeFragment extends Fragment {
         //todo sette aktuelt startpoint
         mapController.setCenter(startPoint);
 
-        registerHikeViewModel.startSensorService();
+        imgPlay = binding.imageViewPlay;
+        imgPlay.setOnClickListener(v -> {
+            registerHikeViewModel.startSensorService();
 
             registerHikeViewModel.getSensorData().observe(
                     getViewLifecycleOwner(), aFloat -> {
@@ -78,10 +86,16 @@ public class RegisterHikeFragment extends Fragment {
             registerHikeViewModel.getAccelerationData().observe(
                     getViewLifecycleOwner(), accel -> {
 
-              Log.i("Akselerasjon er: ", String.valueOf(accel));
+                        Log.i("Akselerasjon er: ", String.valueOf(accel));
 
                     }
             );
+        });
+
+        imgStop = binding.imageViewStop;
+        imgStop.setOnClickListener(v -> registerHikeViewModel.stopSensorService());
+//todo denne virker ikke...
+
         return root;
     }
 

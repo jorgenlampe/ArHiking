@@ -9,6 +9,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -29,9 +31,13 @@ import com.example.arhiking.Data.GeomagneticDao;
 import com.example.arhiking.Data.HikeActivityDao;
 import com.example.arhiking.Models.AccelerometerData;
 import com.example.arhiking.Models.GeomagneticSensorData;
+import com.google.android.gms.maps.model.LatLng;
 
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class RegisterHikeViewModel extends AndroidViewModel {
 
@@ -83,6 +89,8 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
         private static final int REQUEST_CODE = 999;
         LocationManager locationManager;
+        LatLng latLng;
+
         private final SensorManager sensorManager;
         private final Sensor geoMagneticSensor;
         private final Sensor accelerometerSensor;
@@ -124,9 +132,26 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                         public void onLocationChanged(@NonNull Location location) {
                             Log.i("location updated: ",
                                     String.valueOf(location.getAccuracy()));
-
+                            latLng = new LatLng(location.getLatitude(),
+                                    location.getLongitude());
+                            Log.i("location information: ",
+                                    getLocationInfo(latLng));
                         }
                     });
+        }
+
+        private String getLocationInfo(LatLng latLng) {
+            Geocoder geoCoder = new Geocoder(_context, Locale.getDefault());
+            try {
+                List<Address> addresses = geoCoder.getFromLocation(latLng.latitude,
+                        latLng.longitude, 1);
+                Address adr = addresses.get(0);
+                return adr.getAddressLine(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+///\todo get last Known Location
+            return "";
         }
 
 

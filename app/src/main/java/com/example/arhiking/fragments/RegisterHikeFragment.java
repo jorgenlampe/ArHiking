@@ -16,16 +16,30 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
+import com.example.arhiking.databinding.FragmentMapBinding;
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
+
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
+import org.osmdroid.views.MapView;
 
 import java.util.Date;
 
 public class RegisterHikeFragment extends Fragment {
 
     private FragmentRegisterHikeBinding binding;
+
+    private MapView map;
+    private IMapController mapController;
+
+    private static final String TAG = "RegisterHikeFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +48,19 @@ public class RegisterHikeFragment extends Fragment {
 
         binding = FragmentRegisterHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        Context ctx = getActivity().getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        // Inflate the layout for this fragment
+        map = binding.registerHikeMapView;
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
+        map.setMultiTouchControls(true);
+        mapController = map.getController();
+        mapController.setZoom(13.0);
+        GeoPoint startPoint = new GeoPoint(63.45, 10.42);
+        //todo sette aktuelt startpoint
+        mapController.setCenter(startPoint);
 
         final TextView textView = binding.textRegisterHike;
         registerHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
@@ -59,6 +86,20 @@ public class RegisterHikeFragment extends Fragment {
                     }
             );
         return root;
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        if (map != null)
+            map.onResume();
+    }
+
+    public void onPause() {
+        super.onPause();
+
+        if (map != null)
+            map.onPause();
     }
 
 

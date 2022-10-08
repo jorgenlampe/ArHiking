@@ -177,7 +177,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
             HikeGeoPoint hikeGeoPoint = new HikeGeoPoint();
             hikeGeoPoint.geoPoint = point;
             //hikeGeoPoint.hike_activity_id = //todo få tak i id på gjeldende tur
-            db.geoPointsDao().insertAll(point);
+            db.geoPointsDao().insertAll(hikeGeoPoint);
         }
 
         private String getLocationInfo(LatLng latLng) {

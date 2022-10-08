@@ -62,9 +62,6 @@ public class RegisterHikeFragment extends Fragment {
         //todo sette aktuelt startpoint
         mapController.setCenter(startPoint);
 
-        final TextView textView = binding.textRegisterHike;
-        registerHikeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
         registerHikeViewModel.startSensorService();
 
             registerHikeViewModel.getSensorData().observe(

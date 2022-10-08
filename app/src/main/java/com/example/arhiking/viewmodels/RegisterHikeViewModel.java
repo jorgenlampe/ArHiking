@@ -1,13 +1,23 @@
 package com.example.arhiking.viewmodels;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -38,18 +48,17 @@ public class RegisterHikeViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<float[]> getSensorData() {
-        if (sensorData == null){
+        if (sensorData == null) {
             sensorData = new MutableLiveData<float[]>();
-    }
+        }
 
         return sensorData;
 
     }
 
 
-
     public MutableLiveData<Float> getAccelerationData() {
-        if (accelerationData == null){
+        if (accelerationData == null) {
             accelerationData = new MutableLiveData<Float>();
         }
 
@@ -58,19 +67,22 @@ public class RegisterHikeViewModel extends AndroidViewModel {
     }
 
     public LiveData<String> getText() {
+
         return mText;
     }
 
 
     public void startSensorService() {
 
-            SensorService sensorService = new SensorService(
-                    getApplication().getApplicationContext());
-            sensorService.listenToSensors();
+        SensorService sensorService = new SensorService(
+                getApplication().getApplicationContext());
+        sensorService.listenToSensors();
     }
 
-     public class SensorService implements SensorEventListener {
+    public class SensorService extends AppCompatActivity implements SensorEventListener {
 
+        private static final int REQUEST_CODE = 999;
+        LocationManager locationManager;
         private final SensorManager sensorManager;
         private final Sensor geoMagneticSensor;
         private final Sensor accelerometerSensor;
@@ -92,14 +104,31 @@ public class RegisterHikeViewModel extends AndroidViewModel {
             accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
             _context = context;
+            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            setUpLocationManager();
 
+            AppDatabase db = Room.databaseBuilder(context,
+            AppDatabase.class, "database-name").allowMainThreadQueries().build();
 
-                AppDatabase db = Room.databaseBuilder(context,
-                        AppDatabase.class, "database-name").allowMainThreadQueries().build();
-
-                hikeActivityDao = db.hikeActivityDao();
+            hikeActivityDao = db.hikeActivityDao();
 
         }
+
+
+
+
+        private void setUpLocationManager() {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0,
+                    new LocationListener() {
+                        @Override
+                        public void onLocationChanged(@NonNull Location location) {
+                            Log.i("location updated: ",
+                                    String.valueOf(location.getAccuracy()));
+
+                        }
+                    });
+        }
+
 
         public void stopListening() {
             sensorManager.unregisterListener(this);

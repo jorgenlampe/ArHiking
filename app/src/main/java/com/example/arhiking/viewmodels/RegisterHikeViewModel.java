@@ -28,12 +28,14 @@ public class RegisterHikeViewModel extends AndroidViewModel {
     private MutableLiveData<String> mText;
     public MutableLiveData<float[]> sensorData;
     public MutableLiveData<Float> accelerationData;
-
+    SensorService sensorService;
 
     public RegisterHikeViewModel(Application application) {
         super(application);
         mText = new MutableLiveData<>();
         mText.setValue("This is register hike fragment");
+        sensorService = new SensorService(
+                getApplication().getApplicationContext());
 
     }
 
@@ -63,16 +65,9 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
 
     public void startSensorService() {
-
-            SensorService sensorService = new SensorService(
-                    getApplication().getApplicationContext());
             sensorService.listenToSensors();
     }
-
     public void stopSensorService() {
-
-        SensorService sensorService = new SensorService(
-                getApplication().getApplicationContext());
         sensorService.stopListening();
     }
 

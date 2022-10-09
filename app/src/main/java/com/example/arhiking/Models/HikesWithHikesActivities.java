@@ -15,5 +15,5 @@ public class HikesWithHikesActivities {
             parentColumn = "hikeId",
             entityColumn = "hike_id"
     )
-    public List<NewHikeActivity> hikeActivities;
+    public List<Hike_Activity> hikeActivities;
 }

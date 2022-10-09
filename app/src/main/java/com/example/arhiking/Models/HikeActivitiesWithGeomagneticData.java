@@ -8,7 +8,7 @@ import java.util.List;
 public class HikeActivitiesWithGeomagneticData {
 
     @Embedded
-    public NewHikeActivity hikeActivity;
+    public Hike_Activity hikeActivity;
     @Relation(
             parentColumn = "hikeAtivityId",
             entityColumn = "hike__activity_id"

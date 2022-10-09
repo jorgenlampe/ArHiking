@@ -13,7 +13,7 @@ import com.example.arhiking.Models.GeomagneticSensorData;
 import com.example.arhiking.Models.GyroscopeSensorData;
 import com.example.arhiking.Models.Hike;
 import com.example.arhiking.Models.HikeGeoPoint;
-import com.example.arhiking.Models.NewHikeActivity;
+import com.example.arhiking.Models.Hike_Activity;
 import com.example.arhiking.Models.User;
 import com.google.gson.Gson;
 
@@ -22,10 +22,10 @@ import org.osmdroid.util.GeoPoint;
 
 import java.util.Date;
 
-@Database(entities = {User.class, Hike.class, NewHikeActivity.class, HikeGeoPoint.class,
+@Database(entities = {User.class, Hike.class, Hike_Activity.class, HikeGeoPoint.class,
 GyroscopeSensorData.class, AccelerometerData.class, GeomagneticSensorData.class}
-        , version = 18, autoMigrations = {
-        @AutoMigration (from = 16, to = 18, spec = AppDatabase.MyAutoMigration.class)
+        , version = 19, autoMigrations = {
+        @AutoMigration (from = 18, to = 19, spec = AppDatabase.MyAutoMigration.class)
 }, exportSchema = true)
 @TypeConverters({AppDatabase.Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -36,7 +36,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract GeomagneticDao geomagneticDao();
     public abstract GyroscopeDao gyroscopeDao();
 
-    //@DeleteTable.Entries(value = @DeleteTable(tableName = "GeoPoint"))
+    @DeleteTable.Entries(value = @DeleteTable(tableName = "hikeActivity"))
     static class MyAutoMigration implements AutoMigrationSpec {
 
     }

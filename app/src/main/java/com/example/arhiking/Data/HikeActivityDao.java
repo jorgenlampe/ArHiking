@@ -4,17 +4,17 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 
-import com.example.arhiking.Models.NewHikeActivity;
+import com.example.arhiking.Models.Hike_Activity;
 
 import java.util.List;
 
 @Dao
 public interface HikeActivityDao {
-    @Query("SELECT * FROM hikeActivity")
-    LiveData<List<NewHikeActivity>> getAll();
+    @Query("SELECT * FROM hike_Activity")
+    LiveData<List<Hike_Activity>> getAll();
 
-    @Query("SELECT * FROM hikeActivity WHERE hikeActivityId IN (:hikeActivityIds)")
-    List<NewHikeActivity> loadAllByIds(int[] hikeActivityIds);
+    @Query("SELECT * FROM hike_activity WHERE hikeActivityId IN (:hikeActivityIds)")
+    List<Hike_Activity> loadAllByIds(int[] hikeActivityIds);
 /*
     @Query("SELECT * FROM hikeActivity WHERE hike_activity_name LIKE :hikeActivityName")
     HikeActivity findByName(String hikeActivityName);

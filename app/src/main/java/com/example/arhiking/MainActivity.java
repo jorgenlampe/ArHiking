@@ -1,8 +1,14 @@
 package com.example.arhiking;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.arhiking.Data.AppDatabase;
 import com.example.arhiking.Data.HikeDao;
@@ -13,7 +19,9 @@ import com.example.arhiking.Models.User;
 import com.example.arhiking.Models.UserWithHikes;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -29,10 +37,16 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private static final int REQUEST_CODE = 999;
+    LocationManager locationManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        askForPermission();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -47,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+
+
+
 
         //create instance of database
         try {
@@ -67,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             user.lastName = "Doe";
 
             userDao.insertAll(user);
+
 
             List<User> users = userDao.getAll();
             String firstName = users.get(0).firstName;
@@ -96,5 +115,61 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    private void askForPermission() {
+        if (!permissionsGranted())
+            requestPermissionsForLocation();
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+        switch (requestCode) {
+            case REQUEST_CODE:{
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                    Log.i("permission info", "permission granted");
+                    Toast.makeText(getApplicationContext(),
+                            "Starting tracking...", Toast.LENGTH_SHORT).show();
+                }else{
+                    Log.i("permission info", "permission not granted");
+                    Toast.makeText(getApplicationContext(),
+                            "Premission not granted", Toast.LENGTH_SHORT).show();
+                }
+            } break;
+            default:
+                super.onRequestPermissionsResult(requestCode,
+                        permissions,
+                        grantResults);
+
+        }
+    }
+
+
+
+    private void requestPermissionsForLocation() {
+        requestPermissions(
+                new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE
+
+        );
+    }
+
+    private boolean permissionsGranted() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return false;
+        }
+        return true;
+    }
+
 
 }

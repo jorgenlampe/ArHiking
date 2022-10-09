@@ -48,18 +48,18 @@ public class RegisterHikeViewModel extends AndroidViewModel {
     private MutableLiveData<String> mText;
     public MutableLiveData<float[]> sensorData; //orientation
     public MutableLiveData<Float> accelerationData;
+
     public MutableLiveData<Integer> trackingStatus;
     public MutableLiveData<GeoPoint> currentLocation;
+    SensorService sensorService;
     //todo livedata for turId???
-
-
-
-
 
     public RegisterHikeViewModel(Application application) {
         super(application);
         mText = new MutableLiveData<>();
         mText.setValue("This is register hike fragment");
+        sensorService = new SensorService(
+                getApplication().getApplicationContext());
 
     }
 
@@ -108,9 +108,11 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
     public void startSensorService() {
 
-        SensorService sensorService = new SensorService(
-                getApplication().getApplicationContext());
-        sensorService.listenToSensors();
+            sensorService.listenToSensors();
+
+    }
+    public void stopSensorService() {
+        sensorService.stopListening();
     }
 
     public class SensorService extends AppCompatActivity implements SensorEventListener {

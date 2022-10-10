@@ -60,7 +60,7 @@
     <string name="distance">Distance: </string>
     <string name="difficulty">Difficulty: </string>
     <string name="total_ascent">Total ascent: </string>
-    <string name="highest_elevation">Highest elevation: </string>
+    <string name="highest_elevation">Elevation: </string>
     <string name="easy">Easy</string>
     <string name="moderate">Moderate</string>
     <string name="hard">Hard</string>

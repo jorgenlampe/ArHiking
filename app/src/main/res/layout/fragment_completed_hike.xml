@@ -265,6 +265,38 @@
                     android:layout_weight="1" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/hikeDifficultyLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_15sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hikeElevationLinearLayout">
+
+                <TextView
+                    android:id="@+id/completedHikeDifficultyTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_landscape"
+                    android:text="@string/difficulty"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="start"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:id="@+id/difficultySpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/hikeCompletedTextView"
                 android:layout_width="match_parent"
@@ -293,7 +325,7 @@
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/hikeElevationLinearLayout"
+                app:layout_constraintTop_toBottomOf="@id/hikeDifficultyLinearLayout"
                 app:layout_constraintWidth_percent="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

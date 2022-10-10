@@ -32,7 +32,6 @@ public class CompletedHikeFragment extends Fragment {
         View root = binding.getRoot();
 
         // Open calendar when clicking on date text view
-        // TODO : fix datepicking for current day
         calendarEditText = root.findViewById(R.id.calendarEditText);
         calendarEditText.setInputType(InputType.TYPE_NULL);
         calendarEditText.setOnClickListener(new View.OnClickListener() {

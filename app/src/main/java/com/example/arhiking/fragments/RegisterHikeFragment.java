@@ -70,6 +70,10 @@ public class RegisterHikeFragment extends Fragment {
 
         imgPlay = binding.imageViewPlay;
         imgPlay.setOnClickListener(v -> {
+            
+            //hvis not tracking....
+            //skrive til database, få tak i id, sende med i startSensor
+            //service...?
             registerHikeViewModel.startSensorService();
 
             registerHikeViewModel.getSensorData().observe(
@@ -94,7 +98,7 @@ public class RegisterHikeFragment extends Fragment {
 
         imgStop = binding.imageViewStop;
         imgStop.setOnClickListener(v -> registerHikeViewModel.stopSensorService());
-//todo denne virker ikke...
+
 
         return root;
     }

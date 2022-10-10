@@ -21,7 +21,7 @@ public interface HikeActivityDao {
   //  HikeActivity findByName(String hikeActivityName);
 
     @Insert
-    void insertAll(Hike_Activity... hikeActivities);
+    long[] insertAll(Hike_Activity... hikeActivities);
 
 
 /*

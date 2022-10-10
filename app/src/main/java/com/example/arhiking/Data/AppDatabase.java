@@ -24,8 +24,8 @@ import java.util.Date;
 
 @Database(entities = {User.class, Hike.class, Hike_Activity.class, HikeGeoPoint.class,
 GyroscopeSensorData.class, AccelerometerData.class, GeomagneticSensorData.class}
-        , version = 19, autoMigrations = {
-        @AutoMigration (from = 18, to = 19, spec = AppDatabase.MyAutoMigration.class)
+        , version = 20, autoMigrations = {
+        @AutoMigration (from = 19, to = 20, spec = AppDatabase.MyAutoMigration.class)
 }, exportSchema = true)
 @TypeConverters({AppDatabase.Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -37,7 +37,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract GyroscopeDao gyroscopeDao();
     public abstract GeoPointsDao geoPointsDao();
 
-    @DeleteTable.Entries(value = @DeleteTable(tableName = "hikeActivity"))
+    //@DeleteTable.Entries(value = @DeleteTable(tableName = "hikeActivity"))
     static class MyAutoMigration implements AutoMigrationSpec {
 
     }

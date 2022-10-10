@@ -10,8 +10,8 @@ public class HikeActivitiesWithAccelerometerData {
     @Embedded
     public Hike_Activity hikeActivity;
     @Relation(
-            parentColumn = "hikeAtivityId",
-            entityColumn = "hike__activity_id"
+            parentColumn = "hikeActivityId",
+            entityColumn = "hike_activity_id"
     )
     public List<AccelerometerData> accelerometerData;
 }

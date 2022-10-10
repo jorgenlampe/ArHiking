@@ -13,5 +13,6 @@
     <color name="app_theme_color">#54AA8B</color>
     <color name="rating_stars">#F1C914</color>
     <color name="latest_hikes_card">#6A54AA8B</color>
+    <color name="button_save">#008CBA</color>
 
 </resources>

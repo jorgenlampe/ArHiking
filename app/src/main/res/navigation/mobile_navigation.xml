@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
 
-    app:startDestination="@id/acceleratorVisualizationFragment">
+    app:startDestination="@id/completedHikeFragment">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -60,4 +60,9 @@
         android:name="com.example.arhiking.fragments.UserDataFragment"
         android:label="fragment_user_data"
         tools:layout="@layout/fragment_user_data" />
+    <fragment
+        android:id="@+id/completedHikeFragment"
+        android:name="com.example.arhiking.fragments.CompletedHikeFragment"
+        android:label="fragment_completed_hike"
+        tools:layout="@layout/fragment_completed_hike" />
 </navigation>

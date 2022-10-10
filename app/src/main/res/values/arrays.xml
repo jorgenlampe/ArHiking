@@ -9,4 +9,18 @@
         <item>english</item>
         <item>norwegian</item>
     </string-array>
+
+    <string-array name="hike_difficulty_entries">
+        <item>@string/easy</item>
+        <item>@string/moderate</item>
+        <item>@string/hard</item>
+        <item>@string/very_hard</item>
+    </string-array>
+
+    <string-array name="hike_difficulty_values">
+        <item>easy</item>
+        <item>moderate</item>
+        <item>hard</item>
+        <item>very hard</item>
+    </string-array>
 </resources>

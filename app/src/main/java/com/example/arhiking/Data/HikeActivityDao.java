@@ -2,8 +2,10 @@ package com.example.arhiking.Data;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.arhiking.Models.Hike_Activity;
 
@@ -17,8 +19,11 @@ public interface HikeActivityDao {
     @Query("SELECT * FROM hike_activity WHERE hikeActivityId IN (:hikeActivityIds)")
     List<Hike_Activity> loadAllByIds(int[] hikeActivityIds);
 
-//    @Query("SELECT * FROM hikeActivity WHERE hike_activity_name LIKE :hikeActivityName")
-  //  HikeActivity findByName(String hikeActivityName);
+    @Delete
+    void deleteHikeActivity(Hike_Activity hikeActivity);
+
+    @Update
+    void updateHikeActivity(Hike_Activity hikeActivity);
 
     @Insert
     long[] insertAll(Hike_Activity... hikeActivities);

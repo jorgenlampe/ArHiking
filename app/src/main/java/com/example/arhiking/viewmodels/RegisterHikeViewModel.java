@@ -15,6 +15,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,9 +51,10 @@ public class RegisterHikeViewModel extends AndroidViewModel {
     public MutableLiveData<Float> accelerationData;
 
     public MutableLiveData<Integer> trackingStatus;
+    public MutableLiveData<Long> hikeActivityId;
     public MutableLiveData<GeoPoint> currentLocation;
     SensorService sensorService;
-    //todo livedata for turId???
+
 
     public RegisterHikeViewModel(Application application) {
         super(application);
@@ -70,6 +72,14 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
         return trackingStatus;
         //1 - start, 2 - pause, 3 - stop
+    }
+
+    public MutableLiveData<Long> getHikeActivityId() {
+        if (hikeActivityId == null) {
+            hikeActivityId = new MutableLiveData<>();
+        }
+
+        return hikeActivityId;
     }
 
     public MutableLiveData<float[]> getSensorData() {
@@ -106,12 +116,19 @@ public class RegisterHikeViewModel extends AndroidViewModel {
     }
 
 
-    public void startSensorService() {
+    public void pauseSensorService() {
+        getTrackingStatus().setValue(2);
+        sensorService.stopListening();
 
+    }
+
+    public void startSensorService() {
+            getTrackingStatus().setValue(1);
             sensorService.listenToSensors();
 
     }
     public void stopSensorService() {
+        getTrackingStatus().setValue(3);
         sensorService.stopListening();
     }
 
@@ -155,8 +172,6 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         }
 
 
-
-
         private void setUpLocationManager() {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0,
                     new LocationListener() {
@@ -178,7 +193,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
             GeoPoint point = new GeoPoint(latLng.latitude, latLng.longitude);
             HikeGeoPoint hikeGeoPoint = new HikeGeoPoint();
             hikeGeoPoint.geoPoint = point;
-            //hikeGeoPoint.hike_activity_id = //todo få tak i id på gjeldende tur
+            hikeGeoPoint.hike_activity_id = getHikeActivityId().getValue();//todo testes
             db.geoPointsDao().insertAll(hikeGeoPoint);
         }
 
@@ -228,9 +243,6 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
 
-           /* AppDatabase db = Room.databaseBuilder(_context,
-                    AppDatabase.class, "database-name").allowMainThreadQueries().build();
-*/
             AccelerometerDao accelerometerDao = db.accelerometerDao();
             GeomagneticDao geomagneticDao = db.geomagneticDao();
 
@@ -245,21 +257,15 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
                 AccelerometerData accelerometerData = new AccelerometerData();
                 accelerometerData.timeRegistered = date.getTime();
-                //todo koble til aktuell tur... accelerometerData.hike_activity_id
+                accelerometerData.hike_activity_id = getHikeActivityId().getValue();
                 accelerometerData.xValue = accelerometerReading[0];
                 accelerometerData.yValue = accelerometerReading[1];
                 accelerometerData.zValue = accelerometerReading[2];
 
                 //lagrer til dataase todo bare lagre hvert 10. sekund?
+
                 accelerometerDao.insertAll(accelerometerData);
 
-                //beregner akselerasjon
-               /* float[] testValues = new float[3];
-                testValues[0] = (float)1.26;
-                testValues[1] = (float)1.26;
-                testValues[2] = (float)1.26;
-                calculateAcceleration(testValues);
-*/
                 calculateAcceleration(sensorEvent.values);
 
 
@@ -273,7 +279,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
                 GeomagneticSensorData geomagneticData = new GeomagneticSensorData();
                 geomagneticData.timeRegistered = date.getTime();
-                //todo koble til aktuell tur... geomagneticData.hike_activity_id
+                geomagneticData.hike_activity_id = getHikeActivityId().getValue();
                 geomagneticData.xValue = magnetometerReading[0];
                 geomagneticData.yValue = magnetometerReading[1];
                 geomagneticData.zValue = magnetometerReading[2];
@@ -281,7 +287,6 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                 geomagneticDao.insertAll(geomagneticData);
 
             }
-
 
             calculateOrientationFromSensors(magnetometerReading, accelerometerReading);
 

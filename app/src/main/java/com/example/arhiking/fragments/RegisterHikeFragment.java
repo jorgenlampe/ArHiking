@@ -1,27 +1,22 @@
 package com.example.arhiking.fragments;
 
-import android.app.Application;
 import android.content.Context;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
-import com.example.arhiking.R;
-import com.example.arhiking.databinding.FragmentMapBinding;
+import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.HikeActivityDao;
+import com.example.arhiking.Models.Hike_Activity;
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
@@ -31,8 +26,6 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
-
-import java.util.Date;
 
 public class RegisterHikeFragment extends Fragment {
 
@@ -45,15 +38,25 @@ public class RegisterHikeFragment extends Fragment {
     private ImageView imgStop;
     private ImageView imgPause;
 
+    HikeActivityDao hikeActivityDao;
+    RegisterHikeViewModel registerHikeViewModel;
+    AppDatabase db;
+
     private static final String TAG = "RegisterHikeFragment";
+    private int trackingStatus;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        RegisterHikeViewModel registerHikeViewModel =
+        registerHikeViewModel =
                 new ViewModelProvider(this).get(RegisterHikeViewModel.class);
 
         binding = FragmentRegisterHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        db = Room.databaseBuilder(getContext(),
+                AppDatabase.class, "database-name").allowMainThreadQueries().build();
+
+        hikeActivityDao = db.hikeActivityDao();
 
         Context ctx = getActivity().getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
@@ -69,11 +72,29 @@ public class RegisterHikeFragment extends Fragment {
         mapController.setCenter(startPoint);
 
         imgPlay = binding.imageViewPlay;
+
+        imgPause = binding.imageViewPause;
+
+        imgPause.setOnClickListener(((View.OnClickListener) v -> {
+            trackingStatus = 2;
+            registerHikeViewModel.getTrackingStatus().setValue(trackingStatus);
+            registerHikeViewModel.pauseSensorService();
+
+        }));
+
+
         imgPlay.setOnClickListener(v -> {
-            
-            //hvis not tracking....
-            //skrive til database, få tak i id, sende med i startSensor
-            //service...?
+            //todo get database instance....
+            if (trackingStatus != 2) {//hvis pause, ikke opprett ny tur i database
+                Hike_Activity newActivity = new Hike_Activity();
+                long[] id = hikeActivityDao.insertAll(newActivity);
+                registerHikeViewModel.getHikeActivityId().
+                        setValue(id[0]);
+
+            }
+
+            trackingStatus = 1;
+
             registerHikeViewModel.startSensorService();
 
             registerHikeViewModel.getSensorData().observe(
@@ -97,8 +118,11 @@ public class RegisterHikeFragment extends Fragment {
         });
 
         imgStop = binding.imageViewStop;
-        imgStop.setOnClickListener(v -> registerHikeViewModel.stopSensorService());
-
+        imgStop.setOnClickListener(v -> {
+            registerHikeViewModel.stopSensorService();
+            trackingStatus = 2;
+            registerHikeViewModel.getTrackingStatus().setValue(trackingStatus);
+        });
 
         return root;
     }
@@ -116,8 +140,6 @@ public class RegisterHikeFragment extends Fragment {
         if (map != null)
             map.onPause();
     }
-
-
 
     @Override
     public void onDestroyView() {

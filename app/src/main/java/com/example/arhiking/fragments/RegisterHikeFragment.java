@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
@@ -28,6 +29,7 @@ import com.example.arhiking.Models.Hike_Activity;
 
 import com.example.arhiking.KalmanFilter.KalmanLatLong;
 
+import com.example.arhiking.R;
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
@@ -198,6 +200,7 @@ public class RegisterHikeFragment extends Fragment {
             registerHikeViewModel.stopSensorService();
             trackingStatus = 2;
             registerHikeViewModel.getTrackingStatus().setValue(trackingStatus);
+            Navigation.findNavController(getView()).navigate(R.id.action_navigation_register_hike_to_completedHikeFragment);
         });
 
         return root;

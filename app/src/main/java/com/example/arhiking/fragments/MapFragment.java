@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
+import androidx.room.Room;
 
+import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Models.User;
 import com.example.arhiking.Models.UserWithHikes;
 import com.example.arhiking.R;
@@ -30,6 +33,8 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -47,14 +52,21 @@ public class MapFragment extends Fragment {
 
     private LocationManager lm;
 
-    private Context mContext;
+    private Context ctx;
+
+    AppDatabase_v2 db;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MapViewModel mapViewModel =
                 new ViewModelProvider(this).get(MapViewModel.class);
 
+        ctx = getActivity().getApplicationContext();
+
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        db = Room.databaseBuilder(ctx,
+                AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
 
         if (!checkPermissions())
         {
@@ -83,9 +95,9 @@ public class MapFragment extends Fragment {
         mapController.setZoom(13.0);
         GeoPoint startPoint = new GeoPoint(63.45, 10.42);
         mapController.setCenter(startPoint);
-        UserWithHikes user = new UserWithHikes();
+        List<UserWithHikes> users = db.userDao().getUserWithHikes();
 
-
+        for (UserWithHikes user : users) {
             for (int i = 0; i < user.hikes.size(); i++) {
                 Marker startPosMarker = new Marker(map);
                 startPosMarker.setPosition(user.hikes.get(i).startingPoint);
@@ -94,6 +106,7 @@ public class MapFragment extends Fragment {
                 startPosMarker.setSubDescription("Turen starter her");
             }
 
+        }
 
         return root;
     }
@@ -105,7 +118,7 @@ public class MapFragment extends Fragment {
     private boolean checkPermissions() {
         Context ctx = getActivity().getApplicationContext();
         if (ActivityCompat.checkSelfPermission(ctx , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return false;
         }
@@ -145,7 +158,7 @@ public class MapFragment extends Fragment {
                     lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListenerGPS);
                 }
                 else {
-                    Toast.makeText(mContext, "Permission denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, "Permission denied", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

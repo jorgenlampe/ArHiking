@@ -19,6 +19,7 @@ import com.example.arhiking.R;
 import com.example.arhiking.Tour;
 import com.example.arhiking.databinding.FragmentHomeBinding;
 import com.example.arhiking.viewmodels.HomeViewModel;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    MaterialButton startHikeButton;
     //CardView cardBrowseLibrary;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -35,6 +37,9 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        startHikeButton = (MaterialButton) root.findViewById(R.id.clickToStartButton);
+        // todo connect button to start hike function
 
         // todo Fix navigation when fragment opened on button click
         /*CardView cardBrowseLibrary = (CardView) root.findViewById(R.id.cardBrowseLibrary);

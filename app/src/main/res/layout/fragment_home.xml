@@ -18,6 +18,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clickToStartButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:backgroundTint="@color/app_theme_color"
+                android:text="@string/start_hike_button"
+                app:icon="@drawable/ic_hiking"
+                app:iconGravity="start" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardBrowseLibrary"
                 android:layout_width="match_parent"

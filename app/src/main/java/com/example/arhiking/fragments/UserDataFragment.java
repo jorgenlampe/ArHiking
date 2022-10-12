@@ -63,4 +63,20 @@ public class UserDataFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user_data, container, false);
     }
+
+    public double getHighPassFilteredAccelerometerData(float x, float y, float z) {
+         Float[] gravity = {0.0f, 0.0f, 0.0f};
+         final float alpha = 0.8f;
+
+        gravity[0] = alpha * gravity[0] + (1 - alpha) * x;
+        gravity[1] = alpha * gravity[1] + (1 - alpha) * y;
+        gravity[2] = alpha * gravity[2] + (1 - alpha) * z;
+
+        float fx = x - gravity[0];
+        float fy = y - gravity[1];
+        float fz = z - gravity[2];
+
+        double accelerationFilteredValue = Math.sqrt(fx * fx + fy * fy + fz * fz);
+        return accelerationFilteredValue;
+    }
 }

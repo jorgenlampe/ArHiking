@@ -38,8 +38,11 @@ import com.google.android.gms.maps.model.LatLng;
 
 
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -110,6 +113,24 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
     }
 
+    private MutableLiveData<Boolean> startPos;
+
+    public MutableLiveData<Boolean> getStartPos() {
+        if (startPos == null) {
+            startPos = new MutableLiveData<Boolean>();
+        }
+        return startPos;
+    }
+
+    private MutableLiveData<Boolean> tracking;
+
+    public MutableLiveData<Boolean> getTracking() {
+        if (tracking == null) {
+            tracking = new MutableLiveData<Boolean>();
+        }
+        return tracking;
+    }
+
     public LiveData<String> getText() {
 
         return mText;
@@ -137,6 +158,11 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         private static final int REQUEST_CODE = 999;
         LocationManager locationManager;
         LatLng latLng;
+     /*   private boolean startPos = false;
+        private boolean tracking = false;*/
+        GeoPoint startPoint;
+        /*GeoPoint currentPosition;*/
+        private List<GeoPoint> trackedPath = new ArrayList<>();
 
         private final SensorManager sensorManager;
         private final Sensor geoMagneticSensor;
@@ -184,6 +210,22 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                             Log.i("location information: ",
                                     getLocationInfo(latLng));
                          //   saveToDatabase(latLng);
+
+                            /*if (startPos.getValue() == false){*/
+                                getCurrentLocation().setValue(new GeoPoint(latLng.latitude, latLng.longitude));
+
+                              /*  startPos.setValue(true);
+                                trackingStatus.setValue(1);*/
+
+                                /*trackedPath.add(startPoint);*/
+                                saveToDatabase(latLng);
+                          /*  }*/
+
+                           /* if (trackingStatus.getValue() == 1){*/
+                                currentLocation.setValue( new GeoPoint(latLng.latitude, latLng.longitude));
+                                /*trackedPath.add(currentLocation.getValue());*/
+                                saveToDatabase(latLng);
+                           /* }*/
 
                         }
                     });

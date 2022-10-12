@@ -3,9 +3,7 @@ package com.example.arhiking.fragments;
 import android.content.Context;
 
 import android.content.Intent;
-import android.hardware.SensorManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 
 import android.os.Bundle;
@@ -24,17 +22,14 @@ import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
 
-import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Data.HikeActivityDao;
 import com.example.arhiking.Models.Hike_Activity;
 
 import com.example.arhiking.KalmanFilter.KalmanLatLong;
-import com.example.arhiking.R;
-import com.example.arhiking.databinding.FragmentMapBinding;
 
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -47,7 +42,6 @@ import org.osmdroid.views.overlay.Polyline;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -81,7 +75,7 @@ public class RegisterHikeFragment extends Fragment {
 
     HikeActivityDao hikeActivityDao;
     RegisterHikeViewModel registerHikeViewModel;
-    AppDatabase db;
+    AppDatabase_v2 db;
 
     private static final String TAG = "RegisterHikeFragment";
     private int trackingStatus;
@@ -105,7 +99,7 @@ public class RegisterHikeFragment extends Fragment {
 
 
         db = Room.databaseBuilder(getContext(),
-                AppDatabase.class, "database-name").allowMainThreadQueries().build();
+                AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
 
         hikeActivityDao = db.hikeActivityDao();
 

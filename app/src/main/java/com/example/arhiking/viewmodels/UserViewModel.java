@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.AppDatabase_v2;
 
 public class UserViewModel extends ViewModel {
 
-    private AppDatabase database;
+    private AppDatabase_v2 database;
     private final MutableLiveData<String> mText;
 
     public UserViewModel() {

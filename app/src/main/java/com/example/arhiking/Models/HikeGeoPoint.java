@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.AppDatabase_v2;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -15,7 +15,7 @@ public class HikeGeoPoint {
     @PrimaryKey(autoGenerate = true)
     public int hikeGeoPointId;
 
-    @TypeConverters(AppDatabase.Converters.class)
+    @TypeConverters(AppDatabase_v2.Converters.class)
     @ColumnInfo(name = "geoPoint")
     public GeoPoint geoPoint;
 

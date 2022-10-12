@@ -84,13 +84,15 @@ public class MapFragment extends Fragment {
         GeoPoint startPoint = new GeoPoint(63.45, 10.42);
         mapController.setCenter(startPoint);
         UserWithHikes user = new UserWithHikes();
-        for (int i = 0; i < user.hikes.size(); i++) {
-            Marker startPosMarker = new Marker(map);
-            startPosMarker.setPosition(user.hikes.get(i).startingPoint);
-            startPosMarker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM);
-            startPosMarker.setTitle("Startposisjon");
-            startPosMarker.setSubDescription("Turen starter her");
-        }
+
+
+            for (int i = 0; i < user.hikes.size(); i++) {
+                Marker startPosMarker = new Marker(map);
+                startPosMarker.setPosition(user.hikes.get(i).startingPoint);
+                startPosMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                startPosMarker.setTitle("Startposisjon");
+                startPosMarker.setSubDescription("Turen starter her");
+            }
 
 
         return root;

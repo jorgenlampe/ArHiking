@@ -21,7 +21,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
 import com.example.arhiking.Data.AccelerometerDao;
-import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Data.GeomagneticDao;
 import com.example.arhiking.Data.HikeActivityDao;
 import com.example.arhiking.Models.AccelerometerData;
@@ -31,8 +31,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Polyline;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -171,7 +169,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
         HikeActivityDao hikeActivityDao;
 
-        AppDatabase db;
+        AppDatabase_v2 db;
 
         public SensorService(Context context) {
 
@@ -184,7 +182,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
             setUpLocationManager();
 
             db = Room.databaseBuilder(context,
-            AppDatabase.class, "database-name").allowMainThreadQueries().build();
+            AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
 
             hikeActivityDao = db.hikeActivityDao();
 
@@ -225,11 +223,13 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         }
 
         private void saveToDatabase(LatLng latLng) {
-            GeoPoint point = new GeoPoint(latLng.latitude, latLng.longitude);
-            HikeGeoPoint hikeGeoPoint = new HikeGeoPoint();
-            hikeGeoPoint.geoPoint = point;
-            hikeGeoPoint.hikeId = getHikeActivityId().getValue();//todo testes
-            db.HikeGeoPointsDao().insertAll(hikeGeoPoint);
+            if (getHikeActivityId().getValue() != null) {
+                GeoPoint point = new GeoPoint(latLng.latitude, latLng.longitude);
+                HikeGeoPoint hikeGeoPoint = new HikeGeoPoint();
+                hikeGeoPoint.geoPoint = point;
+                hikeGeoPoint.hikeId = getHikeActivityId().getValue();//todo testes
+                db.HikeGeoPointsDao().insertAll(hikeGeoPoint);
+            }
         }
 
         private String getLocationInfo(LatLng latLng) {

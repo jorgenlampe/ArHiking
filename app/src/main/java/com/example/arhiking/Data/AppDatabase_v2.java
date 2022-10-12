@@ -17,7 +17,6 @@ import com.example.arhiking.Models.Hike_Activity;
 import com.example.arhiking.Models.User;
 import com.google.gson.Gson;
 
-
 import org.osmdroid.util.GeoPoint;
 
 import java.util.Date;
@@ -25,11 +24,11 @@ import java.util.Date;
 @Database(entities = {User.class, Hike.class, Hike_Activity.class,
 GyroscopeSensorData.class, AccelerometerData.class, GeomagneticSensorData.class,
 HikeGeoPoint.class, HikeActivityGeoPoint.class}
-        , version = 23, autoMigrations = {
-        @AutoMigration (from = 22, to = 23, spec = AppDatabase.MyAutoMigration.class)
-}, exportSchema = true)
-@TypeConverters({AppDatabase.Converters.class})
-public abstract class AppDatabase extends RoomDatabase {
+        , version = 1) //autoMigrations = {
+       // @AutoMigration (from = 22, to = 23, spec = AppDatabase_v2.MyAutoMigration.class)
+//}, exportSchema = true)
+@TypeConverters({AppDatabase_v2.Converters.class})
+public abstract class AppDatabase_v2 extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract HikeDao hikeDao();
     public abstract HikeActivityDao hikeActivityDao();

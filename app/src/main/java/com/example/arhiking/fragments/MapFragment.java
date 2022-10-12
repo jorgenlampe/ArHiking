@@ -96,6 +96,7 @@ public class MapFragment extends Fragment {
         mapController.setZoom(13.0);
         GeoPoint startPoint = new GeoPoint(63.45, 10.42);
         mapController.setCenter(startPoint);
+
         List<UserWithHikes> users = db.userDao().getUserWithHikes();
 
         for (UserWithHikes user : users)
@@ -106,6 +107,7 @@ public class MapFragment extends Fragment {
                 startPosMarker.setTitle("Startposisjon");
                 startPosMarker.setSubDescription("Turen starter her");
         }
+
 
 
         return root;

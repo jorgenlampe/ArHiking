@@ -14,7 +14,7 @@ import org.osmdroid.util.GeoPoint;
 public class Hike_Activity {
 
     @PrimaryKey(autoGenerate = true)
-    public int hikeActivityId;
+    public long hikeActivityId;
 
     @ColumnInfo(name = "hike_activity_name")
     public String hikeActivityName;

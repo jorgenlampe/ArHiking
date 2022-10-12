@@ -1,12 +1,13 @@
 package com.example.arhiking.fragments;
 
-import android.app.Application;
 import android.content.Context;
+
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -14,21 +15,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
+
+import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.HikeActivityDao;
+import com.example.arhiking.Models.Hike_Activity;
+
 import com.example.arhiking.KalmanFilter.KalmanLatLong;
 import com.example.arhiking.R;
 import com.example.arhiking.databinding.FragmentMapBinding;
+
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 import com.google.android.gms.maps.model.LatLng;
@@ -42,9 +45,11 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 public class RegisterHikeFragment extends Fragment {
 
@@ -74,7 +79,12 @@ public class RegisterHikeFragment extends Fragment {
 
 
 
+    HikeActivityDao hikeActivityDao;
+    RegisterHikeViewModel registerHikeViewModel;
+    AppDatabase db;
+
     private static final String TAG = "RegisterHikeFragment";
+    private int trackingStatus;
 
     private GeoPoint geoPoint;
 
@@ -87,11 +97,17 @@ public class RegisterHikeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        RegisterHikeViewModel registerHikeViewModel =
+        registerHikeViewModel =
                 new ViewModelProvider(this).get(RegisterHikeViewModel.class);
 
         binding = FragmentRegisterHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+
+        db = Room.databaseBuilder(getContext(),
+                AppDatabase.class, "database-name").allowMainThreadQueries().build();
+
+        hikeActivityDao = db.hikeActivityDao();
 
         locationList = new ArrayList<>();
         noAccuracyLocationList = new ArrayList<>();
@@ -99,6 +115,7 @@ public class RegisterHikeFragment extends Fragment {
         inaccurateLocationList = new ArrayList<>();
         kalmanNGLocationList = new ArrayList<>();
         kalmanFilter = new KalmanLatLong(3);
+
 
 
         Context ctx = getActivity().getApplicationContext();
@@ -117,7 +134,29 @@ public class RegisterHikeFragment extends Fragment {
         trackedPath = new ArrayList<>();
 
         imgPlay = binding.imageViewPlay;
+
+        imgPause = binding.imageViewPause;
+
+        imgPause.setOnClickListener(((View.OnClickListener) v -> {
+            trackingStatus = 2;
+            registerHikeViewModel.getTrackingStatus().setValue(trackingStatus);
+            registerHikeViewModel.pauseSensorService();
+
+        }));
+
+
         imgPlay.setOnClickListener(v -> {
+
+            if (trackingStatus != 2) {//hvis pause, ikke opprett ny tur i database
+                Hike_Activity newActivity = new Hike_Activity();
+                long[] id = hikeActivityDao.insertAll(newActivity);
+                registerHikeViewModel.getHikeActivityId().
+                        setValue(id[0]);
+
+            }
+
+            trackingStatus = 1;
+
             GeoPoint startingPoint = registerHikeViewModel.getCurrentLocation().getValue();
             mapController.setCenter(startingPoint);
             Marker startPosMarker = new Marker(map);
@@ -126,6 +165,7 @@ public class RegisterHikeFragment extends Fragment {
             startPosMarker.setTitle("Startposisjon");
             startPosMarker.setSubDescription("Turen starter her");
             map.getOverlays().add(startPosMarker);
+
 
             registerHikeViewModel.startSensorService();
 
@@ -160,8 +200,11 @@ public class RegisterHikeFragment extends Fragment {
         });
 
         imgStop = binding.imageViewStop;
-        imgStop.setOnClickListener(v -> registerHikeViewModel.stopSensorService());
-//todo denne virker ikke...
+        imgStop.setOnClickListener(v -> {
+            registerHikeViewModel.stopSensorService();
+            trackingStatus = 2;
+            registerHikeViewModel.getTrackingStatus().setValue(trackingStatus);
+        });
 
         return root;
     }
@@ -179,8 +222,6 @@ public class RegisterHikeFragment extends Fragment {
         if (map != null)
             map.onPause();
     }
-
-
 
     @Override
     public void onDestroyView() {

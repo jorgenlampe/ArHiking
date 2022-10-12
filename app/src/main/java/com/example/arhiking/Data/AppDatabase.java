@@ -2,7 +2,6 @@ package com.example.arhiking.Data;
 
 import androidx.room.AutoMigration;
 import androidx.room.Database;
-import androidx.room.DeleteTable;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
@@ -12,6 +11,7 @@ import com.example.arhiking.Models.AccelerometerData;
 import com.example.arhiking.Models.GeomagneticSensorData;
 import com.example.arhiking.Models.GyroscopeSensorData;
 import com.example.arhiking.Models.Hike;
+import com.example.arhiking.Models.HikeActivityGeoPoint;
 import com.example.arhiking.Models.HikeGeoPoint;
 import com.example.arhiking.Models.Hike_Activity;
 import com.example.arhiking.Models.User;
@@ -22,10 +22,11 @@ import org.osmdroid.util.GeoPoint;
 
 import java.util.Date;
 
-@Database(entities = {User.class, Hike.class, Hike_Activity.class, HikeGeoPoint.class,
-GyroscopeSensorData.class, AccelerometerData.class, GeomagneticSensorData.class}
-        , version = 20, autoMigrations = {
-        @AutoMigration (from = 19, to = 20, spec = AppDatabase.MyAutoMigration.class)
+@Database(entities = {User.class, Hike.class, Hike_Activity.class,
+GyroscopeSensorData.class, AccelerometerData.class, GeomagneticSensorData.class,
+HikeGeoPoint.class, HikeActivityGeoPoint.class}
+        , version = 23, autoMigrations = {
+        @AutoMigration (from = 22, to = 23, spec = AppDatabase.MyAutoMigration.class)
 }, exportSchema = true)
 @TypeConverters({AppDatabase.Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -35,9 +36,11 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract AccelerometerDao accelerometerDao();
     public abstract GeomagneticDao geomagneticDao();
     public abstract GyroscopeDao gyroscopeDao();
-    public abstract GeoPointsDao geoPointsDao();
+    public abstract HikeGeoPointsDao HikeGeoPointsDao();
+    public abstract HikeActivityGeoPointsDao HikeActivityGeoPointsDao();
 
-    //@DeleteTable.Entries(value = @DeleteTable(tableName = "hikeActivity"))
+    //@DeleteTable.Entries(value = @DeleteTable(tableName = "HikeActivityGeoPoint"))
+
     static class MyAutoMigration implements AutoMigrationSpec {
 
     }

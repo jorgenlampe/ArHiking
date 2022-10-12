@@ -1,3 +1,5 @@
+
+
 package com.example.arhiking.Models;
 
 import androidx.room.ColumnInfo;
@@ -10,15 +12,15 @@ import com.example.arhiking.Data.AppDatabase;
 import org.osmdroid.util.GeoPoint;
 
 @Entity
-public class HikeGeoPoint {
+public class HikeActivityGeoPoint {
 
     @PrimaryKey(autoGenerate = true)
-    public int hikeGeoPointId;
+    public int hikeActivityGeoPointId;
 
     @TypeConverters(AppDatabase.Converters.class)
     @ColumnInfo(name = "geoPoint")
     public GeoPoint geoPoint;
 
-    @ColumnInfo(name = "hike_id", defaultValue = "0")
-    public long hikeId;
+    @ColumnInfo(name = "hike_activity_id", defaultValue = "0")
+    public long hikeActivityId;
 }

@@ -7,7 +7,7 @@ import com.example.arhiking.Models.HikeGeoPoint;
 
 
 @Dao
-public interface GeoPointsDao {
+public interface HikeGeoPointsDao {
 
     @Insert
     void insertAll(HikeGeoPoint... geoPoints);

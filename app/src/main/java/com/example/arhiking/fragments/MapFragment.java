@@ -1,16 +1,24 @@
 package com.example.arhiking.fragments;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import com.example.arhiking.Models.User;
+import com.example.arhiking.Models.UserWithHikes;
 import com.example.arhiking.R;
 import com.example.arhiking.databinding.FragmentMapBinding;
 import com.example.arhiking.viewmodels.MapViewModel;
@@ -21,8 +29,12 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+
+import javax.annotation.Nonnull;
 
 public class MapFragment extends Fragment {
+
 
     private FragmentMapBinding binding;
 
@@ -33,10 +45,25 @@ public class MapFragment extends Fragment {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
 
+    private LocationManager lm;
+
+    private Context mContext;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MapViewModel mapViewModel =
                 new ViewModelProvider(this).get(MapViewModel.class);
+
+        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        if (!checkPermissions())
+        {
+            requestAllPermissions();
+        }
+        else {
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListenerGPS);
+        }
+
 
         binding = FragmentMapBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -56,8 +83,31 @@ public class MapFragment extends Fragment {
         mapController.setZoom(13.0);
         GeoPoint startPoint = new GeoPoint(63.45, 10.42);
         mapController.setCenter(startPoint);
+        UserWithHikes user = new UserWithHikes();
+        for (int i = 0; i < user.hikes.size(); i++) {
+            Marker startPosMarker = new Marker(map);
+            startPosMarker.setPosition(user.hikes.get(i).startingPoint);
+            startPosMarker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM);
+            startPosMarker.setTitle("Startposisjon");
+            startPosMarker.setSubDescription("Turen starter her");
+        }
+
 
         return root;
+    }
+
+    private void requestAllPermissions() {
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
+    }
+
+    private boolean checkPermissions() {
+        Context ctx = getActivity().getApplicationContext();
+        if (ActivityCompat.checkSelfPermission(ctx , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return false;
+        }
+        return true;
     }
 
     public void onResume() {
@@ -85,4 +135,45 @@ public class MapFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override public void onRequestPermissionsResult(int requestCode, @Nonnull String[] permissions, @Nonnull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListenerGPS);
+                }
+                else {
+                    Toast.makeText(mContext, "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    LocationListener locationListenerGPS=new LocationListener() {
+        @Override
+        public void onLocationChanged(android.location.Location location) {
+            Context ctx = getActivity().getApplicationContext();
+            double latitude=location.getLatitude();
+            double longitude=location.getLongitude();
+            String msg="New Latitude: "+latitude + "New Longitude: "+longitude;
+            Toast.makeText(ctx,msg,Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
 }

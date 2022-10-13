@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
-
+import com.example.arhiking.Data.UserDao;
 import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Models.User;
 import com.example.arhiking.Models.UserWithHikes;
@@ -26,6 +26,7 @@ import com.example.arhiking.R;
 import com.example.arhiking.databinding.FragmentMapBinding;
 import com.example.arhiking.viewmodels.MapViewModel;
 
+import org.checkerframework.checker.units.qual.A;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -95,18 +96,20 @@ public class MapFragment extends Fragment {
         mapController.setZoom(13.0);
         GeoPoint startPoint = new GeoPoint(63.45, 10.42);
         mapController.setCenter(startPoint);
+
         List<UserWithHikes> users = db.userDao().getUserWithHikes();
 
-        for (UserWithHikes user : users) {
+        for (UserWithHikes user : users){
             for (int i = 0; i < user.hikes.size(); i++) {
                 Marker startPosMarker = new Marker(map);
                 startPosMarker.setPosition(user.hikes.get(i).startingPoint);
-                startPosMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                startPosMarker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM);
                 startPosMarker.setTitle("Startposisjon");
                 startPosMarker.setSubDescription("Turen starter her");
-            }
+        }
 
         }
+
 
         return root;
     }

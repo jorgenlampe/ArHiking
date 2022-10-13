@@ -184,6 +184,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:isIndicator="true"
             android:progressTint="@color/rating_stars"
+            android:secondaryProgressTint="@color/rating_stars"
             tools:rating="4.5"
             android:numStars="5"/>
 

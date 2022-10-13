@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.util.List;
+
 @Entity
 public class Hike {
     @PrimaryKey(autoGenerate = true)
@@ -22,5 +24,8 @@ public class Hike {
 
     @ColumnInfo(name = "starting_point")
     public GeoPoint startingPoint;
+
+    /*@ColumnInfo(name = "path")
+    public List<GeoPoint> path;*/
 
 }

@@ -20,7 +20,9 @@
         <entry key="..\:/Users/jorge/AndroidStudioProjects/ArHiking2/app/src/main/res/drawable/ic_nav_map_background.xml" value="0.1" />
         <entry key="..\:/Users/jorge/AndroidStudioProjects/ArHiking2/app/src/main/res/drawable/ic_nav_map_foreground.xml" value="0.1" />
         <entry key="..\:/Users/jorge/AndroidStudioProjects/ArHiking2/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/jorge/AndroidStudioProjects/ArHiking2/app/src/main/res/layout/fragment_completed_hike.xml" value="0.1" />
         <entry key="..\:/Users/jorge/AndroidStudioProjects/ArHiking2/app/src/main/res/layout/fragment_dashboard.xml" value="0.14175724637681159" />
+        <entry key="..\:/Users/jorge/AndroidStudioProjects/ArHiking2/app/src/main/res/layout/item_container_hike_library.xml" value="0.1" />
         <entry key="..\:/Users/jorge/AndroidStudioProjects/ArHiking2/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
       </map>
     </option>

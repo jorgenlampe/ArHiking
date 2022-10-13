@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.room.Room;
 
 import android.text.InputType;
@@ -68,12 +69,21 @@ public class CompletedHikeFragment extends Fragment {
             hikeActivity.hikeActivityName
                     = etHikeName.getText().toString();
 
+
+
+            //todo get distance...
+            //Location.distanceBetween(
+            //    startLatitude,
+            //    startLongitude,
+            //    endLatitude,
+            //    endLongitude,
+            //    results);
+
+            //oppdaterer hike med input fra skjema og navigerer til Home
+            db.hikeActivityDao().updateHikeActivity(hikeActivity);
+            Navigation.findNavController(getView()).navigate(R.id.
+                    action_completedHikeFragment_to_navigation_home);
         });
-
-
-
-
-
 
         // Open calendar when clicking on date text view
         calendarEditText = root.findViewById(R.id.calendarEditText);

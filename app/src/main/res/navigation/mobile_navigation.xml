@@ -68,5 +68,9 @@
         android:id="@+id/completedHikeFragment"
         android:name="com.example.arhiking.fragments.CompletedHikeFragment"
         android:label="fragment_completed_hike"
-        tools:layout="@layout/fragment_completed_hike" />
+        tools:layout="@layout/fragment_completed_hike" >
+        <action
+            android:id="@+id/action_completedHikeFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 </navigation>

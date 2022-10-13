@@ -31,7 +31,7 @@ public interface HikeActivityDao {
     @Insert
     long[] insertAll(Hike_Activity... hikeActivities);
 
-   // @Transaction
-   // @Query("SELECT * FROM Hike_Activity")
-    //public List<HikeActivitiesWithGeoPoints> getHikeActivitiesWithGeoPoints();
+    @Transaction
+    @Query("SELECT * FROM Hike_Activity")
+    public List<HikeActivitiesWithGeoPoints> getHikeActivitiesWithGeoPoints();
 }

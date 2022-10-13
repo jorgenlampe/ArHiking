@@ -45,6 +45,7 @@ import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
 
 public class RegisterHikeFragment extends Fragment {
@@ -134,24 +135,32 @@ public class RegisterHikeFragment extends Fragment {
         imgPause = binding.imageViewPause;
 
         imgPause.setOnClickListener(((View.OnClickListener) v -> {
-            trackingStatus = 2;
-            registerHikeViewModel.getTrackingStatus().setValue(trackingStatus);
+            //trackingStatus = 2;
+            registerHikeViewModel.getTrackingStatus().setValue(2);
             registerHikeViewModel.pauseSensorService();
 
         }));
 
 
+        registerHikeViewModel.getTrackingStatus().observe(
+                getViewLifecycleOwner(), status -> {
+
+                    trackingStatus = status;
+
+                });
+
         imgPlay.setOnClickListener(v -> {
 
-            if (trackingStatus == 3) {//hvis play eller pause, ikke opprett ny tur i database
+            if (trackingStatus == 0 || trackingStatus == 3)
+             {//hvis play eller pause, ikke opprett ny tur i database
                 Hike_Activity newActivity = new Hike_Activity();
                 long[] id = hikeActivityDao.insertAll(newActivity);
                 registerHikeViewModel.getHikeActivityId().
                         setValue(id[0]);
-
             }
 
-            trackingStatus = 1;
+           // trackingStatus = 1;
+            registerHikeViewModel.getTrackingStatus().setValue(1);
 
             GeoPoint startingPoint = registerHikeViewModel.getCurrentLocation().getValue();
             mapController.setCenter(startingPoint);
@@ -198,8 +207,8 @@ public class RegisterHikeFragment extends Fragment {
         imgStop = binding.imageViewStop;
         imgStop.setOnClickListener(v -> {
             registerHikeViewModel.stopSensorService();
-            trackingStatus = 2;
-            registerHikeViewModel.getTrackingStatus().setValue(trackingStatus);
+            //trackingStatus = 2;
+            registerHikeViewModel.getTrackingStatus().setValue(2);
             Navigation.findNavController(getView()).navigate(R.id.action_navigation_register_hike_to_completedHikeFragment);
         });
 

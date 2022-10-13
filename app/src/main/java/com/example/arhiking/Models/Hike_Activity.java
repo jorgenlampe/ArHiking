@@ -26,5 +26,8 @@ public class Hike_Activity {
     @ColumnInfo(name = "hike_time_registered")
     public long timeRegistered;
 
+    @ColumnInfo(name = "hike_time_end", defaultValue = "0")
+    public long timeEnd;
+
 
 }

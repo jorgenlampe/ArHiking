@@ -71,14 +71,12 @@ public class MainActivity extends AppCompatActivity {
 
             //todo fjerne mulighet for å bruke database i main thread
 
-
-
             //example use of db
             UserDao userDao = db.userDao();
 
             User user = new User();
-            user.firstName = "John";
-            user.lastName = "Doe";
+            user.firstName = "Paul";
+            user.lastName = "Newman";
 
             userDao.insertAll(user);
 

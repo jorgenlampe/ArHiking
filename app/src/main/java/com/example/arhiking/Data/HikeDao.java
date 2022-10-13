@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.example.arhiking.Models.Hike;
+import com.example.arhiking.Models.HikesWithGeoPoints;
 import com.example.arhiking.Models.HikesWithHikesActivities;
 import com.example.arhiking.Models.UserWithHikes;
 
@@ -32,4 +33,8 @@ public interface HikeDao {
     @Transaction
     @Query("SELECT * FROM Hike")
     public List<HikesWithHikesActivities> getHikesWithActivities();
+
+    /*@Transaction
+    @Query("SELECT * FROM Hike")
+    public List<HikesWithGeoPoints> getHikesWithGeoPoints();*/
 }

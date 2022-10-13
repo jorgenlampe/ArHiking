@@ -3,14 +3,12 @@ package com.example.arhiking;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Data.HikeDao;
 import com.example.arhiking.Data.UserDao;
 import com.example.arhiking.Models.Hike;
@@ -29,8 +27,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
 
 import com.example.arhiking.databinding.ActivityMainBinding;
-import com.google.firebase.firestore.GeoPoint;
-import com.google.type.LatLng;
 
 import java.util.List;
 
@@ -69,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         //create instance of database
         try {
 
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "database-name").allowMainThreadQueries().build();
+            AppDatabase_v2 db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
           //          addMigrations(MIGRATION_3_4).allowMainThreadQueries().build();
 
             //todo fjerne mulighet for å bruke database i main thread

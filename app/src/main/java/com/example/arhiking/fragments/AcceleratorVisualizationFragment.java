@@ -4,6 +4,7 @@ import static android.content.Context.SENSOR_SERVICE;
 
 import static org.osgeo.proj4j.parser.Proj4Keyword.f;
 
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -66,7 +67,7 @@ public class AcceleratorVisualizationFragment extends Fragment {
             float y = sensorEvent.values[1];
             float z = sensorEvent.values[2];
 
-            final float alpha = 0.8f;
+            /*final float alpha = 0.8f;
 
             gravity[0] = alpha * gravity[0] + (1 - alpha) * x;
             gravity[1] = alpha * gravity[1] + (1 - alpha) * y;
@@ -78,10 +79,10 @@ public class AcceleratorVisualizationFragment extends Fragment {
 
             float fx = linear_acceleration[0];
             float fy = linear_acceleration[1];
-            float fz = linear_acceleration[2];
+            float fz = linear_acceleration[2];*/
 
             accelerationRawValue = Math.sqrt(x * x + y * y + z * z);
-            accelerationFilteredValue = Math.sqrt(fx * fx + fy * fy + fz * fz);
+            accelerationFilteredValue = new UserDataFragment().getHighPassFilteredAccelerometerData(x,y,z);
 
             tvRawAcceleratorData.setText("Raw data reading: " + accelerationRawValue);
             tvFilteredAcceleratorData.setText("Filtered data reading: " + accelerationFilteredValue);

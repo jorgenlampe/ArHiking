@@ -2,6 +2,7 @@ package com.example.arhiking.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,8 @@ import com.example.arhiking.databinding.FragmentCompletedHikeBinding;
 import com.example.arhiking.databinding.FragmentHomeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +49,7 @@ public class CompletedHikeFragment extends Fragment {
     HikeActivityDao dao;
     EditText etHikeName;
     TextView tvDuration;
+    TextView tvDistance;
 
     Hike_Activity hikeActivity;
     @Override
@@ -66,12 +70,24 @@ public class CompletedHikeFragment extends Fragment {
 
         etHikeName = binding.hikeNameEditText;
         tvDuration = binding.durationNewHikeTextView;
+        tvDuration = binding.completedHikeDistanceTextView;
 
         long timeRegistered = hikeActivity.timeRegistered;
         Date date = new Date();
         long currentTime = date.getTime();
         long duration = currentTime - timeRegistered;
         tvDuration.setText((int) duration);
+
+
+        GeoPoint startPoint = hikeActivity.hikeActivityStartingPoint;
+        GeoPoint endPoint = viewModel.getCurrentLocation().getValue();
+
+        float[] results = new float[1];
+        Location.distanceBetween(startPoint.getLatitude(),
+                startPoint.getLongitude(), endPoint.getLatitude(),
+                endPoint.getLongitude(), results);
+
+        tvDistance.setText((int) results[0]);
 
 
         btnSave = binding.saveNewHikeButton;

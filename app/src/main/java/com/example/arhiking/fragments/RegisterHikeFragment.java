@@ -92,7 +92,7 @@ public class RegisterHikeFragment extends Fragment {
     private List<GeoPoint> trackedPath;
 
     Polyline path = new Polyline();
-
+    GeoPoint startingPoint;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -102,6 +102,7 @@ public class RegisterHikeFragment extends Fragment {
         binding = FragmentRegisterHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        startingPoint = registerHikeViewModel.getCurrentLocation().getValue();
 
         db = Room.databaseBuilder(getContext(),
                 AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
@@ -160,6 +161,8 @@ public class RegisterHikeFragment extends Fragment {
                  Date date = new Date();
                  long timeRegistered = date.getTime();
                  newActivity.timeRegistered = timeRegistered;
+                 newActivity.hikeActivityStartingPoint
+                         = startingPoint;
                 long[] id = hikeActivityDao.insertAll(newActivity);
                 registerHikeViewModel.getHikeActivityId().
                         setValue(id[0]);
@@ -169,7 +172,7 @@ public class RegisterHikeFragment extends Fragment {
            // trackingStatus = 1;
             registerHikeViewModel.getTrackingStatus().setValue(1);
 
-            GeoPoint startingPoint = registerHikeViewModel.getCurrentLocation().getValue();
+
             mapController.setCenter(startingPoint);
             Marker startPosMarker = new Marker(map);
             startPosMarker.setPosition(startingPoint);
@@ -177,6 +180,7 @@ public class RegisterHikeFragment extends Fragment {
             startPosMarker.setTitle("Startposisjon");
             startPosMarker.setSubDescription("Turen starter her");
             map.getOverlays().add(startPosMarker);
+
 
 
             registerHikeViewModel.startSensorService();

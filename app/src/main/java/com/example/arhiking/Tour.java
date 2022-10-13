@@ -19,4 +19,8 @@ public class Tour {
     public int image3;
 
     public float rating;
+
+    public String getName() {
+        return name;
+    }
 }

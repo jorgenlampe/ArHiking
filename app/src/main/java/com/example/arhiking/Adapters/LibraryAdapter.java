@@ -3,6 +3,8 @@ package com.example.arhiking.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,12 +17,15 @@ import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.HikeLibraryViewHolder> {
-    private final List<Tour> hikeList;
+public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.HikeLibraryViewHolder> implements Filterable {
+    private final ArrayList<Tour> hikeList;
+    private final ArrayList<Tour> hikeListFull;
 
-    public LibraryAdapter(List<Tour> hikes) {
+    public LibraryAdapter(ArrayList<Tour> hikes) {
         this.hikeList = hikes;
+        hikeListFull = new ArrayList<>(hikeList);
     }
 
     @NonNull
@@ -80,4 +85,44 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.HikeLibr
             libraryDifficultyDataTextView.setText(hike.hikeDifficulty);
         }
     }
+
+    @Override
+    public Filter getFilter(){
+        return hikeLibraryFilter;
+    }
+
+    private Filter hikeLibraryFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Tour> filteredList = new ArrayList<>();
+
+            if(charSequence == null || charSequence.length() == 0){
+                filteredList.addAll(hikeListFull);
+            }
+            else{
+                // filter pattern - not case sensitive, trim empty space in front or at the end of string
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                // loop through the list
+                for (Tour hike : hikeListFull) {
+                    if(hike.getName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(hike);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+            // clear the list so only filtered items are added from filteredList
+            hikeList.clear();
+            hikeList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

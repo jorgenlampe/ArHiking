@@ -2,13 +2,19 @@ package com.example.arhiking.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +36,7 @@ public class LibraryFragment extends Fragment {
 
     private FragmentLibraryBinding binding;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private LibraryAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -47,6 +53,36 @@ public class LibraryFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.library_menu, menu);
+
+                MenuItem searchItem = menu.findItem(R.id.action_search_hike);
+                SearchView searchView = (SearchView) searchItem.getActionView();
+
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        mAdapter.getFilter().filter(newText);
+                        return false;
+                    }
+                });
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                return false;
+            }
+        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+
+
         return root;
     }
 
@@ -56,8 +92,8 @@ public class LibraryFragment extends Fragment {
     }
 
     //dummy data for RecyclerView
-    private List<Tour> getHikes() {
-        List<Tour> hikes = new ArrayList<>();
+    private ArrayList<Tour> getHikes() {
+        ArrayList<Tour> hikes = new ArrayList<>();
 
         Tour bakkanosiHike = new Tour();
         bakkanosiHike.poster = R.drawable.hike_1;

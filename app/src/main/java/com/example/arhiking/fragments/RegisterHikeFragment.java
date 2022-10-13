@@ -1,5 +1,6 @@
 package com.example.arhiking.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 
 import android.content.Intent;
@@ -44,6 +45,7 @@ import org.osmdroid.views.overlay.Polyline;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observer;
 
@@ -153,10 +155,15 @@ public class RegisterHikeFragment extends Fragment {
 
             if (trackingStatus == 0 || trackingStatus == 3)
              {//hvis play eller pause, ikke opprett ny tur i database
+                 //lagrer id og timeRegistered for ny tur.
                 Hike_Activity newActivity = new Hike_Activity();
+                 Date date = new Date();
+                 long timeRegistered = date.getTime();
+                 newActivity.timeRegistered = timeRegistered;
                 long[] id = hikeActivityDao.insertAll(newActivity);
                 registerHikeViewModel.getHikeActivityId().
                         setValue(id[0]);
+
             }
 
            // trackingStatus = 1;

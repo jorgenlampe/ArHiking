@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Data.HikeActivityDao;
@@ -30,6 +31,7 @@ import com.example.arhiking.databinding.FragmentHomeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class CompletedHikeFragment extends Fragment {
@@ -43,33 +45,40 @@ public class CompletedHikeFragment extends Fragment {
     Context ctx;
     HikeActivityDao dao;
     EditText etHikeName;
+    TextView tvDuration;
+
+    Hike_Activity hikeActivity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCompletedHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        viewModel =
-                new ViewModelProvider(this).get(RegisterHikeViewModel.class);
-
         ctx = getActivity().getApplicationContext();
         db = Room.databaseBuilder(ctx,
                 AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
 
         dao = db.hikeActivityDao();
+        viewModel =
+                new ViewModelProvider(this).get(RegisterHikeViewModel.class);
+
+        hikeActivity = dao.getHikeActivityById(
+                viewModel.getHikeActivityId().getValue());
 
         etHikeName = binding.hikeNameEditText;
+        tvDuration = binding.durationNewHikeTextView;
+
+        long timeRegistered = hikeActivity.timeRegistered;
+        Date date = new Date();
+        long currentTime = date.getTime();
+        long duration = currentTime - timeRegistered;
+        tvDuration.setText((int) duration);
+
 
         btnSave = binding.saveNewHikeButton;
         btnSave.setOnClickListener(v -> {
 
-            Hike_Activity hikeActivity = dao.getHikeActivityById(
-                    viewModel.getHikeActivityId().getValue());
-
             hikeActivity.hikeActivityName
                     = etHikeName.getText().toString();
-
-
 
             //todo get distance...
             //Location.distanceBetween(

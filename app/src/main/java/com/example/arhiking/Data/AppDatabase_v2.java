@@ -24,9 +24,9 @@ import java.util.Date;
 @Database(entities = {User.class, Hike.class, Hike_Activity.class,
 GyroscopeSensorData.class, AccelerometerData.class, GeomagneticSensorData.class,
 HikeGeoPoint.class, HikeActivityGeoPoint.class}
-        , version = 2,  exportSchema = true,
+        , version = 3,  exportSchema = true,
         autoMigrations = {
-        @AutoMigration (from = 1, to = 2, spec = AppDatabase_v2.MyAutoMigration.class)
+        @AutoMigration (from = 2, to = 3, spec = AppDatabase_v2.MyAutoMigration.class)
 })
 
 @TypeConverters({AppDatabase_v2.Converters.class})

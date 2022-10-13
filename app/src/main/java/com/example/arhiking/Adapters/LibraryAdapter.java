@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.HikeLibr
                 libraryDurationDataTextView, libraryAscentDataTextView, libraryElevationDataTextView,
                 libraryDifficultyDataTextView, libraryDateDataTextView;
         public RoundedImageView librarySmallImage1, librarySmallImage2, librarySmallImage3;
+        public RatingBar libraryHikeRatingBar;
 
         public HikeLibraryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +67,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.HikeLibr
             libraryElevationDataTextView = itemView.findViewById(R.id.libraryElevationDataTextView);
             libraryDifficultyDataTextView = itemView.findViewById(R.id.libraryDifficultyDataTextView);
             libraryDateDataTextView = itemView.findViewById(R.id.libraryDateDataTextView);
+            libraryHikeRatingBar = itemView.findViewById(R.id.libraryHikeRatingBar);
             librarySmallImage1 = itemView.findViewById(R.id.librarySmallImage1);
             librarySmallImage2 = itemView.findViewById(R.id.librarySmallImage2);
             librarySmallImage3 = itemView.findViewById(R.id.librarySmallImage3);
@@ -83,6 +86,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.HikeLibr
             libraryAscentDataTextView.setText(hike.hikeAscent);
             libraryElevationDataTextView.setText(hike.hikeElevation);
             libraryDifficultyDataTextView.setText(hike.hikeDifficulty);
+            libraryHikeRatingBar.setRating(hike.rating);
         }
     }
 

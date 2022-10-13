@@ -108,7 +108,7 @@ public class LibraryFragment extends Fragment {
         bakkanosiHike.image1 = R.drawable.hike_1;
         bakkanosiHike.image2 = R.drawable.hike_1;
         bakkanosiHike.image3 = R.drawable.hike_1;
-        bakkanosiHike.rating = 4.5f;
+        bakkanosiHike.rating = 5f;
         hikes.add(bakkanosiHike);
 
         Tour prestHike = new Tour();
@@ -140,7 +140,7 @@ public class LibraryFragment extends Fragment {
         litlefjelletHike.image1 = R.drawable.hike_2;
         litlefjelletHike.image2 = R.drawable.hike_2;
         litlefjelletHike.image3 = R.drawable.hike_2;
-        litlefjelletHike.rating = 5f;
+        litlefjelletHike.rating = 4.5f;
         hikes.add(litlefjelletHike);
 
         Tour stalheimsnipaHike = new Tour();

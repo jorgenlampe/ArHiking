@@ -11,6 +11,7 @@
     <string name="title_map">Map</string>
     <string name="save">Save</string>
     <string name="search">Search</string>
+    <string name="my_rating">My rating: </string>
 
     <!-- Home fragment string -->
     <string name="latest_hikes">LATEST HIKES</string>

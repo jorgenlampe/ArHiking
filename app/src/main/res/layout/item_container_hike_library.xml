@@ -18,13 +18,14 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/imageLibraryHikePoster"
-            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:clickable="true"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="H, 2:1.6"
             app:layout_constraintTop_toTopOf="parent"
             app:riv_corner_radius="@dimen/_20sdp"
+            tools:layout_editor_absoluteX="-13dp"
             tools:src="@drawable/hike_1" />
 
         <TextView
@@ -237,13 +238,53 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/libraryRatingLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/_5sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/libraryDifficultyLinearLayout">
+
+            <TextView
+                android:id="@+id/libraryRatingTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/my_rating"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_gravity="start"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="2">
+
+                <RatingBar
+                    android:id="@+id/libraryHikeRatingBar"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:progressTint="@color/rating_stars"
+                    android:secondaryProgressTint="@color/rating_stars"
+                    android:layout_gravity="left"
+                    android:numStars="5" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/libraryImageHolderLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/libraryDifficultyLinearLayout">
+            app:layout_constraintTop_toBottomOf="@id/libraryRatingLinearLayout">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/librarySmallImage1"

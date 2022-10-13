@@ -143,7 +143,7 @@ public class RegisterHikeFragment extends Fragment {
 
         imgPlay.setOnClickListener(v -> {
 
-            if (trackingStatus != 2) {//hvis pause, ikke opprett ny tur i database
+            if (trackingStatus == 3) {//hvis play eller pause, ikke opprett ny tur i database
                 Hike_Activity newActivity = new Hike_Activity();
                 long[] id = hikeActivityDao.insertAll(newActivity);
                 registerHikeViewModel.getHikeActivityId().

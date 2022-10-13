@@ -292,7 +292,8 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
                 AccelerometerData accelerometerData = new AccelerometerData();
                 accelerometerData.timeRegistered = date.getTime();
-                accelerometerData.hike_activity_id = getHikeActivityId().getValue();
+                if (getHikeActivityId().getValue() != null) //todo...
+                    accelerometerData.hike_activity_id = getHikeActivityId().getValue();
                 accelerometerData.xValue = accelerometerReading[0];
                 accelerometerData.yValue = accelerometerReading[1];
                 accelerometerData.zValue = accelerometerReading[2];
@@ -314,7 +315,8 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
                 GeomagneticSensorData geomagneticData = new GeomagneticSensorData();
                 geomagneticData.timeRegistered = date.getTime();
-                geomagneticData.hike_activity_id = getHikeActivityId().getValue();
+                if (getHikeActivityId().getValue() != null) //todo...
+                    geomagneticData.hike_activity_id = getHikeActivityId().getValue();
                 geomagneticData.xValue = magnetometerReading[0];
                 geomagneticData.yValue = magnetometerReading[1];
                 geomagneticData.zValue = magnetometerReading[2];

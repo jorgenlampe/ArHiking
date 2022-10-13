@@ -1,9 +1,12 @@
 package com.example.arhiking.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -11,28 +14,66 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.arhiking.Data.AppDatabase_v2;
+import com.example.arhiking.Data.HikeActivityDao;
 import com.example.arhiking.MainActivity;
+import com.example.arhiking.Models.Hike_Activity;
 import com.example.arhiking.R;
 import com.example.arhiking.databinding.FragmentCompletedHikeBinding;
 import com.example.arhiking.databinding.FragmentHomeBinding;
+import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class CompletedHikeFragment extends Fragment {
 
     private FragmentCompletedHikeBinding binding;
     DatePickerDialog picker;
     EditText calendarEditText;
-
+    RegisterHikeViewModel viewModel;
+    Button btnSave;
+    AppDatabase_v2 db;
+    Context ctx;
+    HikeActivityDao dao;
+    EditText etHikeName;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCompletedHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        viewModel =
+                new ViewModelProvider(this).get(RegisterHikeViewModel.class);
+
+        ctx = getActivity().getApplicationContext();
+        db = Room.databaseBuilder(ctx,
+                AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
+
+        dao = db.hikeActivityDao();
+
+        etHikeName = binding.hikeNameEditText;
+
+        btnSave = binding.saveNewHikeButton;
+        btnSave.setOnClickListener(v -> {
+
+            Hike_Activity hikeActivity = dao.getHikeActivityById(
+                    viewModel.getHikeActivityId().getValue());
+
+            hikeActivity.hikeActivityName
+                    = etHikeName.getText().toString();
+
+        });
+
+
+
+
+
 
         // Open calendar when clicking on date text view
         calendarEditText = root.findViewById(R.id.calendarEditText);

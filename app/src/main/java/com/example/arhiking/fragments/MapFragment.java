@@ -20,6 +20,9 @@ import androidx.room.Room;
 
 import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Data.UserDao;
+import com.example.arhiking.Models.HikeActivitiesWithGeoPoints;
+import com.example.arhiking.Models.HikeActivityGeoPoint;
+import com.example.arhiking.Models.HikesWithHikesActivities;
 import com.example.arhiking.Models.User;
 import com.example.arhiking.Models.UserWithHikes;
 import com.example.arhiking.R;
@@ -34,7 +37,9 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -107,6 +112,23 @@ public class MapFragment extends Fragment {
                 startPosMarker.setTitle("Startposisjon");
                 startPosMarker.setSubDescription("Turen starter her");
         }
+
+        List<HikeActivitiesWithGeoPoints> hikes = db.hikeActivityDao().getHikeActivitiesWithGeoPoints();
+
+            for (HikeActivitiesWithGeoPoints hikeActivity : hikes) {
+                List<HikeActivityGeoPoint> geoPoints = hikeActivity.hikeActivityGeoPoints;
+                for (HikeActivityGeoPoint geoPoint : geoPoints) {
+                    List<GeoPoint> trackedPath = new ArrayList<>();
+                    trackedPath.add(geoPoint.geoPoint);
+                    Polyline path = new Polyline();
+                    path.setPoints(trackedPath);
+
+                    map.getOverlayManager().add(path);
+
+                    map.invalidate();
+                }
+            }
+
 
 
 

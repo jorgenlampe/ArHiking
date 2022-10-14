@@ -13,6 +13,9 @@
     <string name="start_hike_button">Click here to start a hike now!</string>
     <string name="search">Search</string>
     <string name="my_rating">My rating: </string>
+    <string name="usage_statistics">Usage statistics</string>
+    <string name="total_hikes">Total registered hikes: </string>
+    <string name="hikes_chart_title">Monthly activity</string>
 
     <!-- Home fragment string -->
     <string name="latest_hikes">LATEST HIKES</string>

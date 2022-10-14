@@ -61,7 +61,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             @Override
             public boolean onPreferenceClick(@NonNull Preference preference) {
 
-
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_settings_to_userDataFragment);
              /*  UserDataFragment userDataFragment = new UserDataFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, userDataFragment)

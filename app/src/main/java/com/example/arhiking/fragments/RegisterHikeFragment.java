@@ -138,6 +138,8 @@ public class RegisterHikeFragment extends Fragment {
 
             registerHikeViewModel.getTrackingStatus().setValue(2);
             registerHikeViewModel.pauseSensorService();
+            Toast.makeText(ctx, "Hike activity paused",
+                    Toast.LENGTH_SHORT).show();
 
         }));
 
@@ -166,7 +168,8 @@ public class RegisterHikeFragment extends Fragment {
                 });
 
         imgPlay.setOnClickListener(v -> {
-
+            Toast.makeText(ctx, "Hike activity started",
+                    Toast.LENGTH_SHORT).show();
             if (trackingStatus == 0 || trackingStatus == 3)
              {//hvis play eller pause, ikke opprett ny tur i database
                  //lagrer id og timeRegistered for ny tur.

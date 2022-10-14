@@ -6,9 +6,23 @@
         android:layout_height="match_parent"
         tools:context=".fragments.RegisterHikeFragment">
 
+    <!-- TODO: Update blank fragment layout -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/registerHikeMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
+    </org.osmdroid.views.MapView>
 
+    <ImageView
+        android:id="@+id/imageViewDelete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|left"
+        android:background="@color/cardview_dark_background"
+        android:src="@android:drawable/ic_delete"
+        />
 
     <ImageView
         android:id="@+id/imageViewPlay"
@@ -32,16 +46,8 @@
         android:layout_height="50dp"
         android:layout_gravity="right|top"
         android:background="@color/cardview_dark_background"
-        android:src="@drawable/ic_settings_foreground" />
+        android:src="@android:drawable/ic_menu_save" />
 
-    <ImageView
-        android:id="@+id/imageViewDelete"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center|bottom"
-        android:background="@color/cardview_dark_background"
-        android:src="@android:drawable/ic_delete"
-        />
 
     <TextView
         android:id="@+id/text_register_hike"
@@ -53,14 +59,7 @@
         android:textAlignment="center"
         android:textSize="20sp" />
 
-    <!-- TODO: Update blank fragment layout -->
-    <org.osmdroid.views.MapView
-        android:id="@+id/registerHikeMapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-
-    </org.osmdroid.views.MapView>
 
 
 </FrameLayout>

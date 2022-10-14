@@ -43,7 +43,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
     private MutableLiveData<String> mText;
     public MutableLiveData<float[]> sensorData; //orientation
     public MutableLiveData<Float> accelerationData;
-
+    public MutableLiveData<String> movementStatus;
     public MutableLiveData<Integer> trackingStatus;
     public MutableLiveData<Long> hikeActivityId;
     public MutableLiveData<GeoPoint> currentLocation;
@@ -77,6 +77,15 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         return hikeActivityId;
     }
 
+    public MutableLiveData<String> getMovementStatus
+            () {
+        if (movementStatus == null) {
+            movementStatus = new MutableLiveData<>();
+        }
+
+        return movementStatus;
+    }
+
     public MutableLiveData<Double> getHighestElevation() {
         if (highestElevation == null) {
             highestElevation = new MutableLiveData<>();
@@ -91,6 +100,20 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         }
 
         return sensorData;
+
+    }
+
+    public void calculateMovement(float[] accelerometerReading){
+
+        float movementX = accelerometerReading[0];
+        float movementY = accelerometerReading[1];
+
+        if (movementX < 0.5 && movementY < 0.5)
+            getMovementStatus().setValue("Standing still...");
+        if (movementX >  0.5 || movementY > 0.5)
+            getMovementStatus().setValue("Walking...");
+        if (movementX >  2 || movementY > 2)
+            getMovementStatus().setValue("Running...");
 
     }
 
@@ -311,10 +334,12 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                 Log.i("acceleromater sensor changed. value_y: ", String.valueOf(accelerometerReading[1]));
                 Log.i("acceleromater sensor changed. value_z: ", String.valueOf(accelerometerReading[2]));
 
+                //calculate movement
+                calculateMovement(accelerometerReading);
+
                 AccelerometerData accelerometerData = new AccelerometerData();
                 accelerometerData.timeRegistered = date.getTime();
-                if (getHikeActivityId().getValue() != null) //todo...
-                    accelerometerData.hike_activity_id = getHikeActivityId().getValue();
+                accelerometerData.hike_activity_id = getHikeActivityId().getValue();
                 accelerometerData.xValue = accelerometerReading[0];
                 accelerometerData.yValue = accelerometerReading[1];
                 accelerometerData.zValue = accelerometerReading[2];

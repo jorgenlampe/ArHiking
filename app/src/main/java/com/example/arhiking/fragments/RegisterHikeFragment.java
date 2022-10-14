@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ import org.osmdroid.views.overlay.Polyline;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Observer;
 
 
 public class RegisterHikeFragment extends Fragment {
@@ -69,6 +71,7 @@ public class RegisterHikeFragment extends Fragment {
     ArrayList<Location> kalmanNGLocationList;
     long runStartTimeInMillis;
 
+    TextView tvMovementStatus;
 
     boolean isLogging;
 
@@ -93,6 +96,7 @@ public class RegisterHikeFragment extends Fragment {
     Polyline path = new Polyline();
     GeoPoint startingPoint;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         registerHikeViewModel = new ViewModelProvider(getActivity()).get(RegisterHikeViewModel.class);
@@ -101,6 +105,7 @@ public class RegisterHikeFragment extends Fragment {
         View root = binding.getRoot();
 
       //  startingPoint = registerHikeViewModel.getCurrentLocation().getValue();
+        tvMovementStatus = binding.tvMovementStatus;
 
         db = Room.databaseBuilder(getContext(),
                 AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
@@ -131,6 +136,13 @@ public class RegisterHikeFragment extends Fragment {
 
         trackedPath = new ArrayList<>();
 
+        registerHikeViewModel.getMovementStatus().observe(
+                getViewLifecycleOwner(), status -> {
+
+                    tvMovementStatus.setText(status);
+
+                });
+
         imgPlay = binding.imageViewPlay;
         imgPause = binding.imageViewPause;
 
@@ -140,6 +152,7 @@ public class RegisterHikeFragment extends Fragment {
             registerHikeViewModel.pauseSensorService();
             Toast.makeText(ctx, "Hike activity paused",
                     Toast.LENGTH_SHORT).show();
+            registerHikeViewModel.getMovementStatus().setValue("Paused");
 
         }));
 
@@ -151,6 +164,7 @@ public class RegisterHikeFragment extends Fragment {
             registerHikeViewModel.getHikeActivityId().setValue(0L);
             Toast.makeText(ctx, "Hike activity deleted",
                     Toast.LENGTH_SHORT).show();
+            registerHikeViewModel.getMovementStatus().setValue("");
         }));
 
         registerHikeViewModel.getTrackingStatus().observe(

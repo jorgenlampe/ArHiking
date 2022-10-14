@@ -85,8 +85,6 @@ public class CompletedHikeFragment extends Fragment {
         tvDuration.setText(((int) duration/1000) + " sec");
 
 
-
-
         GeoPoint startPoint = hikeActivity.hikeActivityStartingPoint;
         GeoPoint endPoint = viewModel.getCurrentLocation().getValue();
 

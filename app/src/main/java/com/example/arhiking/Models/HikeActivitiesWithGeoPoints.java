@@ -15,3 +15,5 @@ public class HikeActivitiesWithGeoPoints {
     )
     public List<HikeActivityGeoPoint> hikeActivityGeoPoints;
 }
+
+//

@@ -4,8 +4,8 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="30"
-6-->C:\Users\Bruker\AndroidStudioProjects\ArHiking\OpenCV2\java\AndroidManifest.xml
+6-->C:\Users\jorge\AndroidStudioProjects\ArHiking2\OpenCV2\java\AndroidManifest.xml
 7        android:targetSdkVersion="32" />
-7-->C:\Users\Bruker\AndroidStudioProjects\ArHiking\OpenCV2\java\AndroidManifest.xml
+7-->C:\Users\jorge\AndroidStudioProjects\ArHiking2\OpenCV2\java\AndroidManifest.xml
 8
 9</manifest>

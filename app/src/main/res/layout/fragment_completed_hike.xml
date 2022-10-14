@@ -266,6 +266,40 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/hikeSpeedLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_15sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hikeElevationLinearLayout">
+
+                <TextView
+                    android:id="@+id/completedHikeSpeedTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/osm_ic_follow_me"
+                    android:text="@string/hikeSpeed"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="start"
+                    android:layout_weight="1"/>
+
+
+                <TextView
+                    android:id="@+id/completedHikeSpeedResultTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sensors_dummy_string"
+                    android:textSize="@dimen/_15ssp"
+                    android:layout_gravity="start"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/hikeDifficultyLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

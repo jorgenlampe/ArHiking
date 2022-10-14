@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
-
 import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Data.UserDao;
 import com.example.arhiking.Models.HikeActivitiesWithGeoPoints;
 import com.example.arhiking.Models.HikeActivityGeoPoint;
 import com.example.arhiking.Models.HikesWithHikesActivities;
+
 import com.example.arhiking.Models.User;
 import com.example.arhiking.Models.UserWithHikes;
 import com.example.arhiking.R;
@@ -102,9 +103,10 @@ public class MapFragment extends Fragment {
         GeoPoint startPoint = new GeoPoint(63.45, 10.42);
         mapController.setCenter(startPoint);
 
+  
         List<UserWithHikes> users = db.userDao().getUserWithHikes();
 
-        for (UserWithHikes user : users)
+        for (UserWithHikes user : users){
             for (int i = 0; i < user.hikes.size(); i++) {
                 Marker startPosMarker = new Marker(map);
                 startPosMarker.setPosition(user.hikes.get(i).startingPoint);
@@ -112,6 +114,7 @@ public class MapFragment extends Fragment {
                 startPosMarker.setTitle("Startposisjon");
                 startPosMarker.setSubDescription("Turen starter her");
         }
+
 
         List<HikeActivitiesWithGeoPoints> hikes = db.hikeActivityDao().getHikeActivitiesWithGeoPoints();
 
@@ -128,7 +131,6 @@ public class MapFragment extends Fragment {
                     map.invalidate();
                 }
             }
-
 
 
 

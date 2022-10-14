@@ -19,8 +19,8 @@ public interface HikeActivityDao {
     @Query("SELECT * FROM hike_Activity")
     LiveData<List<Hike_Activity>> getAll();
 
-    @Query("SELECT * FROM hike_activity WHERE hikeActivityId IN (:hikeActivityIds)")
-    List<Hike_Activity> loadAllByIds(int[] hikeActivityIds);
+    @Query("SELECT * FROM hike_activity WHERE hikeActivityId IN (:hikeActivityId)")
+    Hike_Activity getHikeActivityById(Long hikeActivityId);
 
     @Delete
     void deleteHikeActivity(Hike_Activity hikeActivity);

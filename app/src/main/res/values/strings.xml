@@ -68,7 +68,8 @@
     <string name="moderate">Moderate</string>
     <string name="hard">Hard</string>
     <string name="very_hard">Very hard</string>
-
+    <string name="hikeSpeed">Speed:</string>
+    <string name="standing_still">Standing still...</string>
 
 
 </resources>

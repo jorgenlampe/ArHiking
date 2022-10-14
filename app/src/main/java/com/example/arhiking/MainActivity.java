@@ -58,58 +58,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-
-
-
-
-        //create instance of database
-        try {
-
-            AppDatabase_v2 db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
-          //          addMigrations(MIGRATION_3_4).allowMainThreadQueries().build();
-
-            //todo fjerne mulighet for å bruke database i main thread
-
-
-
-            //example use of db
-            UserDao userDao = db.userDao();
-
-            User user = new User();
-            user.firstName = "John";
-            user.lastName = "Doe";
-
-            userDao.insertAll(user);
-
-
-            List<User> users = userDao.getAll();
-            String firstName = users.get(0).firstName;
-            Log.i("fornavn", firstName);
-
-            HikeDao hikeDao = db.hikeDao();
-            Hike hike = new Hike();
-            hike.hikeName = "En fin tur";
-            hike.hikeDescription = "Turen gikk fra A til B";
-
-            List<Hike> hikes = hikeDao.getAll();
-            hikeDao.insertAll(hike);
-            String hikeName = hikes.get(0).hikeName;
-            Log.i("hikeName", hikeName);
-
-            List<UserWithHikes> userWithHikes = userDao.getUserWithHikes();
-            Log.i("userWithHikes", userWithHikes.toString());
-
-            List<HikesWithHikesActivities> activities = hikeDao.getHikesWithActivities();
-
-            Log.i("activities", activities.toString());
-
-
-        }
-        catch (Exception e) {
-            new Exception(e.getMessage(), e);
-        }
-
     }
 
     private void askForPermission() {

@@ -43,10 +43,11 @@ public class RegisterHikeViewModel extends AndroidViewModel {
     private MutableLiveData<String> mText;
     public MutableLiveData<float[]> sensorData; //orientation
     public MutableLiveData<Float> accelerationData;
-
+    public MutableLiveData<String> movementStatus;
     public MutableLiveData<Integer> trackingStatus;
     public MutableLiveData<Long> hikeActivityId;
     public MutableLiveData<GeoPoint> currentLocation;
+    public MutableLiveData<Double> highestElevation;
     SensorService sensorService;
 
 
@@ -76,12 +77,43 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         return hikeActivityId;
     }
 
+    public MutableLiveData<String> getMovementStatus
+            () {
+        if (movementStatus == null) {
+            movementStatus = new MutableLiveData<>();
+        }
+
+        return movementStatus;
+    }
+
+    public MutableLiveData<Double> getHighestElevation() {
+        if (highestElevation == null) {
+            highestElevation = new MutableLiveData<>();
+        }
+
+        return highestElevation;
+    }
+
     public MutableLiveData<float[]> getSensorData() {
         if (sensorData == null) {
             sensorData = new MutableLiveData<float[]>();
         }
 
         return sensorData;
+
+    }
+
+    public void calculateMovement(float[] accelerometerReading){
+
+        float movementX = accelerometerReading[0];
+        float movementY = accelerometerReading[1];
+
+        if (movementX < 0.5 && movementY < 0.5)
+            getMovementStatus().setValue("Standing still...");
+        if (movementX >  0.5 || movementY > 0.5)
+            getMovementStatus().setValue("Walking...");
+        if (movementX >  10 || movementY > 10)
+            getMovementStatus().setValue("Running...");
 
     }
 
@@ -190,6 +222,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
 
         private void setUpLocationManager() {
+            getHighestElevation().setValue(0D);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0,
                     new LocationListener() {
                         @Override
@@ -203,7 +236,18 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                          //   saveToDatabase(latLng);
 
                             /*if (startPos.getValue() == false){*/
+
                                 getCurrentLocation().setValue(new GeoPoint(latLng.latitude, latLng.longitude));
+
+                            double currentAltitude = getCurrentLocation().
+                                    getValue().getAltitude();
+
+                            double highestElevation =
+                                    getHighestElevation().getValue();
+                                //update highest elevation:
+                            if (currentAltitude > highestElevation)
+                                getHighestElevation().setValue(currentAltitude);
+
 
                               /*  startPos.setValue(true);
                                 trackingStatus.setValue(1);*/
@@ -290,6 +334,9 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                 Log.i("acceleromater sensor changed. value_y: ", String.valueOf(accelerometerReading[1]));
                 Log.i("acceleromater sensor changed. value_z: ", String.valueOf(accelerometerReading[2]));
 
+                //calculate movement
+                calculateMovement(accelerometerReading);
+
                 AccelerometerData accelerometerData = new AccelerometerData();
                 accelerometerData.timeRegistered = date.getTime();
                 accelerometerData.hike_activity_id = getHikeActivityId().getValue();
@@ -297,12 +344,9 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                 accelerometerData.yValue = accelerometerReading[1];
                 accelerometerData.zValue = accelerometerReading[2];
 
-                //lagrer til dataase todo bare lagre hvert 10. sekund?
-
                 accelerometerDao.insertAll(accelerometerData);
 
                 calculateAcceleration(sensorEvent.values);
-
 
 
             } else if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
@@ -314,7 +358,8 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
                 GeomagneticSensorData geomagneticData = new GeomagneticSensorData();
                 geomagneticData.timeRegistered = date.getTime();
-                geomagneticData.hike_activity_id = getHikeActivityId().getValue();
+                if (getHikeActivityId().getValue() != null)
+                    geomagneticData.hike_activity_id = getHikeActivityId().getValue();
                 geomagneticData.xValue = magnetometerReading[0];
                 geomagneticData.yValue = magnetometerReading[1];
                 geomagneticData.zValue = magnetometerReading[2];

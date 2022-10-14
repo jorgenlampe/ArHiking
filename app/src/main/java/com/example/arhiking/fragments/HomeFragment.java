@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,11 +30,17 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private FragmentHomeBinding binding;
-    MaterialButton startHikeButton;
-    //CardView cardBrowseLibrary;
+
+    private LinearLayout startHike;
+    private LinearLayout startBike;
+    private LinearLayout startSki;
+    private LinearLayout startOther;
+
+    private CardView cardBrowseLibrary;
+    private CardView cardViewMap;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,28 +50,26 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        startHikeButton = (MaterialButton) root.findViewById(R.id.clickToStartButton);
-        // todo connect button to start hike function
+       // Listeners for activity image buttons
+        startHike = root.findViewById(R.id.buttonHikeTrip);
+        startBike = root.findViewById(R.id.buttonBikeTrip);
+        startSki = root.findViewById(R.id.buttonSkiTrip);
+        startOther = root.findViewById(R.id.buttonOtherTrip);
 
-        // Navigate to library when clicking on cardview in home fragment
+        startHike.setOnClickListener(this);
+        startBike.setOnClickListener(this);
+        startSki.setOnClickListener(this);
+        startOther.setOnClickListener(this);
+
+        // Listener to navigate to library when clicking on cardview in home fragment
         // todo: Fix bottom navigation after library opens through cardview onClick
-        CardView cardBrowseLibrary = (CardView) root.findViewById(R.id.cardBrowseLibrary);
-        cardBrowseLibrary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_navigation_library);
-            }
-        });
+        cardBrowseLibrary = root.findViewById(R.id.cardBrowseLibrary);
+        cardBrowseLibrary.setOnClickListener(this);
 
-        // Navigate to map when clicking on cardview in home fragment
+        // Listener to navigate to map when clicking on cardview in home fragment
         // todo: Fix bottom navigation after map opens through cardview onClick
-        CardView cardViewMap = (CardView) root.findViewById(R.id.cardMapView);
-        cardViewMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_navigation_map);
-            }
-        });
+        cardViewMap = root.findViewById(R.id.cardMapView);
+        cardViewMap.setOnClickListener(this);
 
         return root;
     }
@@ -139,6 +146,26 @@ public class HomeFragment extends Fragment {
         hikes.add(stalheimsnipaHike);
 
         return hikes;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.buttonHikeTrip:
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_navigation_register_hike);
+                break;
+            case R.id.buttonBikeTrip:
+            case R.id.buttonSkiTrip:
+            case R.id.buttonOtherTrip:
+                Toast.makeText(view.getContext(), "Possible future implementation :)", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.cardBrowseLibrary:
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_navigation_library);
+                break;
+            case R.id.cardMapView:
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_navigation_map);
+                break;
+        }
     }
 
     @Override

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
 
-    app:startDestination="@id/userDataFragment">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_map"
             app:destination="@id/navigation_map" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_register_hike"
+            app:destination="@id/navigation_register_hike" />
     </fragment>
 
     <fragment

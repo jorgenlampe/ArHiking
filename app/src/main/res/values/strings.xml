@@ -25,6 +25,11 @@
     <string name="date">Date of hike: </string>
     <string name="browse_hike_library">Browse your hike library</string>
     <string name="create_new_hike">Click map to plan your next trip!</string>
+    <string name="activity_click_buttons">Select category to start a new activity</string>
+    <string name="hike_button">Hiking</string>
+    <string name="bike_button">Cycling</string>
+    <string name="ski_button">Skiing</string>
+    <string name="other_button">Other</string>
 
     <!--Hardcoded data strings (temporary) -->
     <string name="hike_name">BAKKANOSI</string>

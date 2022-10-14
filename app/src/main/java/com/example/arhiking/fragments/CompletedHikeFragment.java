@@ -52,6 +52,7 @@ public class CompletedHikeFragment extends Fragment {
     TextView tvDuration;
     TextView tvDistance;
     TextView tvHighestElevation;
+    TextView tvSpeed;
 
     //Hike_Activity hikeActivity;
     @Override
@@ -75,12 +76,15 @@ public class CompletedHikeFragment extends Fragment {
         tvDuration = binding.durationNewHikeTextView;
         tvDistance = binding.completedHikeDistanceTextView;
         tvHighestElevation = binding.highestElevationNewHikeTextView;
+        tvSpeed = binding.completedHikeSpeedResultTextView;
 
         long timeRegistered = hikeActivity.timeRegistered;
         Date date = new Date();
         long currentTime = date.getTime();
         long duration = currentTime - timeRegistered;
         tvDuration.setText(((int) duration/1000) + " sec");
+
+
 
 
         GeoPoint startPoint = hikeActivity.hikeActivityStartingPoint;
@@ -97,6 +101,9 @@ public class CompletedHikeFragment extends Fragment {
 
         tvDistance.setText(String.valueOf(((int) results[0])/1000) +
                 " km");
+
+        int speed = (int) (results[0] / duration);
+        tvSpeed.setText(String.valueOf(((int) speed)));
 
         btnSave = binding.saveNewHikeButton;
         btnSave.setOnClickListener(v -> {

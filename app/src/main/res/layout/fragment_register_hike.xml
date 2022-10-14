@@ -6,16 +6,22 @@
         android:layout_height="match_parent"
         tools:context=".fragments.RegisterHikeFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <org.osmdroid.views.MapView
-            android:id="@+id/registerHikeMapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <!-- TODO: Update blank fragment layout -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/registerHikeMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+    </org.osmdroid.views.MapView>
 
-        </org.osmdroid.views.MapView>
-
-
+    <ImageView
+        android:id="@+id/imageViewDelete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|left"
+        android:background="@color/cardview_dark_background"
+        android:src="@android:drawable/ic_delete"
+        />
 
     <ImageView
         android:id="@+id/imageViewPlay"
@@ -24,6 +30,8 @@
         android:layout_gravity="left|top"
         android:background="@color/cardview_dark_background"
         android:src="@android:drawable/ic_media_play" />
+
+
 
     <ImageView
         android:id="@+id/imageViewPause"
@@ -39,17 +47,20 @@
         android:layout_height="50dp"
         android:layout_gravity="right|top"
         android:background="@color/cardview_dark_background"
-        android:src="@drawable/ic_settings_foreground" />
+        android:src="@android:drawable/ic_menu_save" />
+
 
     <TextView
-        android:id="@+id/text_register_hike"
+        android:id="@+id/tvMovementStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
-        android:textSize="20sp" />
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:text="@string/standing_still"/>
 
 
 </FrameLayout>

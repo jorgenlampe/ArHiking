@@ -34,7 +34,7 @@ public interface HikeDao {
     @Query("SELECT * FROM Hike")
     public List<HikesWithHikesActivities> getHikesWithActivities();
 
-    /*@Transaction
+    @Transaction
     @Query("SELECT * FROM Hike")
-    public List<HikesWithGeoPoints> getHikesWithGeoPoints();*/
+    public List<HikesWithGeoPoints> getHikesWithGeoPoints();
 }

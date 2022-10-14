@@ -13,21 +13,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
 
 import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Data.HikeActivityDao;
+import com.example.arhiking.Models.HikeActivityGeoPoint;
 import com.example.arhiking.Models.Hike_Activity;
 
 import com.example.arhiking.KalmanFilter.KalmanLatLong;
 
+import com.example.arhiking.R;
 import com.example.arhiking.databinding.FragmentRegisterHikeBinding;
 import com.example.arhiking.viewmodels.RegisterHikeViewModel;
 
@@ -42,7 +47,9 @@ import org.osmdroid.views.overlay.Polyline;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Observer;
 
 
 public class RegisterHikeFragment extends Fragment {
@@ -55,6 +62,7 @@ public class RegisterHikeFragment extends Fragment {
     private ImageView imgPlay;
     private ImageView imgStop;
     private ImageView imgPause;
+    private ImageView imgDelete;
     public com.google.android.gms.maps.model.LatLng locationLatLong;
     ArrayList<Location> locationList;
 
@@ -64,14 +72,13 @@ public class RegisterHikeFragment extends Fragment {
     ArrayList<Location> kalmanNGLocationList;
     long runStartTimeInMillis;
 
+    TextView tvMovementStatus;
 
     boolean isLogging;
 
     float currentSpeed = 0.0f; // meters/second
 
     KalmanLatLong kalmanFilter;
-
-
 
     HikeActivityDao hikeActivityDao;
     RegisterHikeViewModel registerHikeViewModel;
@@ -82,21 +89,25 @@ public class RegisterHikeFragment extends Fragment {
 
     private GeoPoint geoPoint;
 
+    private GeoPoint currentLocation;
     private Location locationFromGeoPoint;
 
     private List<GeoPoint> trackedPath;
 
+
     Polyline path = new Polyline(map, true);
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        registerHikeViewModel =
-                new ViewModelProvider(this).get(RegisterHikeViewModel.class);
+        registerHikeViewModel = new ViewModelProvider(getActivity()).get(RegisterHikeViewModel.class);
 
         binding = FragmentRegisterHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+      //  startingPoint = registerHikeViewModel.getCurrentLocation().getValue();
+        tvMovementStatus = binding.tvMovementStatus;
 
         db = Room.databaseBuilder(getContext(),
                 AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
@@ -121,37 +132,79 @@ public class RegisterHikeFragment extends Fragment {
         map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(13.0);
-        GeoPoint startPoint = new GeoPoint(63.45, 10.42);
+        GeoPoint startingPoint = new GeoPoint(63.45, 10.42);
         //todo sette aktuelt startpoint
-        mapController.setCenter(startPoint);
+        mapController.setCenter(startingPoint);
 
         trackedPath = new ArrayList<>();
 
-        imgPlay = binding.imageViewPlay;
+        registerHikeViewModel.getMovementStatus().observe(
+                getViewLifecycleOwner(), status -> {
 
+                    tvMovementStatus.setText(status);
+
+                });
+
+        imgPlay = binding.imageViewPlay;
         imgPause = binding.imageViewPause;
 
         imgPause.setOnClickListener(((View.OnClickListener) v -> {
-            trackingStatus = 2;
-            registerHikeViewModel.getTrackingStatus().setValue(trackingStatus);
+
+            registerHikeViewModel.getTrackingStatus().setValue(2);
             registerHikeViewModel.pauseSensorService();
+            Toast.makeText(ctx, "Hike activity paused",
+                    Toast.LENGTH_SHORT).show();
+            registerHikeViewModel.getMovementStatus().setValue("Paused");
 
         }));
 
+        imgDelete = binding.imageViewDelete;
+        imgDelete.setOnClickListener(((View.OnClickListener) v -> {
+
+            registerHikeViewModel.getTrackingStatus().setValue(3);
+            registerHikeViewModel.stopSensorService();
+            registerHikeViewModel.getHikeActivityId().setValue(0L);
+            Toast.makeText(ctx, "Hike activity deleted",
+                    Toast.LENGTH_SHORT).show();
+            registerHikeViewModel.getMovementStatus().setValue("");
+        }));
+
+        registerHikeViewModel.getTrackingStatus().observe(
+                getViewLifecycleOwner(), status -> {
+
+                    trackingStatus = status;
+
+                });
+
+        registerHikeViewModel.getCurrentLocation().observe(
+                getViewLifecycleOwner(), location -> {
+
+                    currentLocation = location;
+
+                });
 
         imgPlay.setOnClickListener(v -> {
-
-            if (trackingStatus != 2) {//hvis pause, ikke opprett ny tur i database
+            Toast.makeText(ctx, "Hike activity started",
+                    Toast.LENGTH_SHORT).show();
+            if (trackingStatus == 0 || trackingStatus == 3)
+             {//hvis play eller pause, ikke opprett ny tur i database
+                 //lagrer id og timeRegistered for ny tur.
                 Hike_Activity newActivity = new Hike_Activity();
+                 Date date = new Date();
+                 long timeRegistered = date.getTime();
+                 newActivity.timeRegistered = timeRegistered;
+                 newActivity.hikeActivityStartingPoint
+                         = startingPoint;
                 long[] id = hikeActivityDao.insertAll(newActivity);
                 registerHikeViewModel.getHikeActivityId().
                         setValue(id[0]);
 
             }
 
-            trackingStatus = 1;
+           // trackingStatus = 1;
+            registerHikeViewModel.getTrackingStatus().setValue(1);
 
-            GeoPoint startingPoint = registerHikeViewModel.getCurrentLocation().getValue();
+
             mapController.setCenter(startingPoint);
             Marker startPosMarker = new Marker(map);
             startPosMarker.setPosition(startingPoint);
@@ -159,6 +212,7 @@ public class RegisterHikeFragment extends Fragment {
             startPosMarker.setTitle("Startposisjon");
             startPosMarker.setSubDescription("Turen starter her");
             map.getOverlays().add(startPosMarker);
+
 
 
             registerHikeViewModel.startSensorService();
@@ -185,7 +239,9 @@ public class RegisterHikeFragment extends Fragment {
                 locationFromGeoPoint.setLatitude(curLoc.getLatitude());
                 locationFromGeoPoint.setLongitude(curLoc.getLongitude());
                 filterAndAddLocation(locationFromGeoPoint);
-                /*trackedPath.add(curLoc);*/
+                HikeActivityGeoPoint hikeActivityGeoPoint = new HikeActivityGeoPoint();
+                hikeActivityGeoPoint.geoPoint = curLoc;
+                db.HikeActivityGeoPointsDao().insertAll(hikeActivityGeoPoint);
                 path.setPoints(trackedPath);
                 map.getOverlayManager().add(path);
 
@@ -198,8 +254,9 @@ public class RegisterHikeFragment extends Fragment {
         imgStop.setOnClickListener(v -> {
 
             registerHikeViewModel.stopSensorService();
-            trackingStatus = 2;
-            registerHikeViewModel.getTrackingStatus().setValue(trackingStatus);
+            //trackingStatus = 2;
+            registerHikeViewModel.getTrackingStatus().setValue(2);
+            Navigation.findNavController(getView()).navigate(R.id.action_navigation_register_hike_to_completedHikeFragment);
         });
 
         return root;
@@ -311,33 +368,4 @@ public class RegisterHikeFragment extends Fragment {
         }
         return locationAge;
     }
-
-    /*@Override
-    public void onLocationChanged(@NonNull Location location) {
-        locationLatLong = new LatLng(location.getLatitude(), location.getLongitude());
-
-        if (!startPos){
-            GeoPoint startPoint = new GeoPoint(locationLatLong.latitude, locationLatLong.longitude);
-
-            mapController.setCenter(startPoint);
-            startPos = true;
-            tracking = true;
-            Marker startPosMarker = new Marker(map);
-            startPosMarker.setPosition(startPoint);
-            startPosMarker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM);
-            startPosMarker.setTitle("Startposisjon");
-            startPosMarker.setSubDescription("Turen starter her");
-            map.getOverlays().add(startPosMarker);
-            trackedPath.add(startPoint);
-        }
-
-        if (tracking) {
-            GeoPoint currentPosition = new GeoPoint(locationLatLong.latitude, locationLatLong.longitude);
-            trackedPath.add(currentPosition);
-
-            path.setPoints(trackedPath);
-            map.getOverlayManager().add(path);
-            map.invalidate();
-        }
-    }*/
 }

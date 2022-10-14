@@ -27,11 +27,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Database(entities = {User.class, Hike.class, Hike_Activity.class,
-        GyroscopeSensorData.class, AccelerometerData.class, GeomagneticSensorData.class,
-        HikeGeoPoint.class, HikeActivityGeoPoint.class/*, TrackingEntity.class*/}
-        , version = 1) //autoMigrations = {
-// @AutoMigration (from = 22, to = 23, spec = AppDatabase_v2.MyAutoMigration.class)
-//}, exportSchema = true)
+GyroscopeSensorData.class, AccelerometerData.class, GeomagneticSensorData.class,
+HikeGeoPoint.class, HikeActivityGeoPoint.class}
+        , version = 3,  exportSchema = true,
+        autoMigrations = {
+        @AutoMigration (from = 2, to = 3, spec = AppDatabase_v2.MyAutoMigration.class)
+})
+
 @TypeConverters({AppDatabase_v2.Converters.class})
 public abstract class AppDatabase_v2 extends RoomDatabase {
     public abstract UserDao userDao();
@@ -58,15 +60,15 @@ public abstract class AppDatabase_v2 extends RoomDatabase {
     }
 
     public static class Converters {
-        @TypeConverter
-        public Date fromTimestamp(Long value) {
-            return value == null ? null : new Date(value);
-        }
+//        @TypeConverter
+  //      public Date fromTimestamp(Long value) {
+          //  return value == null ? null : new Date(value);
+        //}
 
-        @TypeConverter
-        public Long dateToTimestamp(Date date) {
-            return date == null ? null : date.getTime();
-        }
+    //    @TypeConverter
+      //  public Long dateToTimestamp(Date date) {
+        //    return date == null ? null : date.getTime();
+        //}
 
         @TypeConverter
         public static GeoPoint stringToGeoPoint(String data) {

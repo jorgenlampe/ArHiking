@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
 
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/navigation_register_hike">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -38,7 +38,11 @@
         android:id="@+id/navigation_register_hike"
         android:name="com.example.arhiking.fragments.RegisterHikeFragment"
         android:label="@string/title_register_hike"
-        tools:layout="@layout/fragment_register_hike" />
+        tools:layout="@layout/fragment_register_hike" >
+        <action
+            android:id="@+id/action_navigation_register_hike_to_completedHikeFragment"
+            app:destination="@id/completedHikeFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
@@ -78,5 +82,9 @@
         android:id="@+id/completedHikeFragment"
         android:name="com.example.arhiking.fragments.CompletedHikeFragment"
         android:label="fragment_completed_hike"
-        tools:layout="@layout/fragment_completed_hike" />
+        tools:layout="@layout/fragment_completed_hike" >
+        <action
+            android:id="@+id/action_completedHikeFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 </navigation>

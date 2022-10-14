@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
-
 import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Data.UserDao;
+import com.example.arhiking.Models.HikeActivitiesWithGeoPoints;
+import com.example.arhiking.Models.HikeActivityGeoPoint;
+import com.example.arhiking.Models.HikesWithHikesActivities;
+
 import com.example.arhiking.Models.User;
 import com.example.arhiking.Models.UserWithHikes;
 import com.example.arhiking.R;
@@ -34,7 +38,9 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -69,11 +75,9 @@ public class MapFragment extends Fragment {
         db = Room.databaseBuilder(ctx,
                 AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
 
-        if (!checkPermissions())
-        {
+        if (!checkPermissions()) {
             requestAllPermissions();
-        }
-        else {
+        } else {
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListenerGPS);
         }
 
@@ -99,19 +103,36 @@ public class MapFragment extends Fragment {
 
         List<UserWithHikes> users = db.userDao().getUserWithHikes();
 
-        for (UserWithHikes user : users)
+        for (UserWithHikes user : users) {
             for (int i = 0; i < user.hikes.size(); i++) {
                 Marker startPosMarker = new Marker(map);
                 startPosMarker.setPosition(user.hikes.get(i).startingPoint);
-                startPosMarker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM);
+                startPosMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 startPosMarker.setTitle("Startposisjon");
                 startPosMarker.setSubDescription("Turen starter her");
+            }
+
+        List<GeoPoint> trackedPath = new ArrayList<>();
+        List<HikeActivitiesWithGeoPoints> hikes = db.hikeActivityDao().getHikeActivitiesWithGeoPoints();
+
+            for (HikeActivitiesWithGeoPoints hikeActivity : hikes) {
+                List<HikeActivityGeoPoint> geoPoints = hikeActivity.hikeActivityGeoPoints;
+                for (HikeActivityGeoPoint geoPoint : geoPoints) {
+
+                    trackedPath.add(geoPoint.geoPoint);
+                    Polyline path = new Polyline();
+                    path.setPoints(trackedPath);
+
+                    map.getOverlayManager().add(path);
+
+                    map.invalidate();
+                }
+            }
+
+        }
+            return root;
         }
 
-
-
-        return root;
-    }
 
     private void requestAllPermissions() {
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);

@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.osmdroid.util.GeoPoint;
+
 
 @Entity
 public class Hike_Activity {
@@ -25,6 +27,12 @@ public class Hike_Activity {
 
     @ColumnInfo(name = "hike_time_registered")
     public long timeRegistered;
+
+    @ColumnInfo(name = "hike_time_end", defaultValue = "0")
+    public long timeEnd;
+
+    @ColumnInfo(name = "hike_activity_starting_point")
+    public GeoPoint hikeActivityStartingPoint;
 
 
 }

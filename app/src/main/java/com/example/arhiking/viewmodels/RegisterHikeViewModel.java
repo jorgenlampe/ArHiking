@@ -199,6 +199,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
 
         private void setUpLocationManager() {
+            getHighestElevation().setValue(0D);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0,
                     new LocationListener() {
                         @Override
@@ -212,12 +213,14 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                          //   saveToDatabase(latLng);
 
                             /*if (startPos.getValue() == false){*/
+
                                 getCurrentLocation().setValue(new GeoPoint(latLng.latitude, latLng.longitude));
 
                             double currentAltitude = getCurrentLocation().
                                     getValue().getAltitude();
 
-                            double highestElevation = getHighestElevation().getValue();
+                            double highestElevation =
+                                    getHighestElevation().getValue();
                                 //update highest elevation:
                             if (currentAltitude > highestElevation)
                                 getHighestElevation().setValue(currentAltitude);

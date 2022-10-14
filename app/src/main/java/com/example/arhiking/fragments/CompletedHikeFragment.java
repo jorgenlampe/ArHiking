@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.room.Room;
 
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class CompletedHikeFragment extends Fragment {
     TextView tvDistance;
     TextView tvHighestElevation;
 
-    Hike_Activity hikeActivity;
+    //Hike_Activity hikeActivity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,10 +65,11 @@ public class CompletedHikeFragment extends Fragment {
 
         dao = db.hikeActivityDao();
         viewModel =
-                new ViewModelProvider(this).get(RegisterHikeViewModel.class);
+                new ViewModelProvider(getActivity()).get(RegisterHikeViewModel.class);
 
-        hikeActivity = dao.getHikeActivityById(
+        Hike_Activity hikeActivity = dao.getHikeActivityById(
                 viewModel.getHikeActivityId().getValue());
+
 
         etHikeName = binding.hikeNameEditText;
         tvDuration = binding.durationNewHikeTextView;
@@ -78,7 +80,7 @@ public class CompletedHikeFragment extends Fragment {
         Date date = new Date();
         long currentTime = date.getTime();
         long duration = currentTime - timeRegistered;
-        tvDuration.setText((int) duration);
+        tvDuration.setText(((int) duration/1000) + " sec");
 
 
         GeoPoint startPoint = hikeActivity.hikeActivityStartingPoint;
@@ -86,25 +88,21 @@ public class CompletedHikeFragment extends Fragment {
 
         double highestElevation = viewModel.getHighestElevation().getValue();
 
-        tvHighestElevation.setText((int) highestElevation);
+        tvHighestElevation.setText(String.valueOf((int)highestElevation));
 
         float[] results = new float[1];
         Location.distanceBetween(startPoint.getLatitude(),
                 startPoint.getLongitude(), endPoint.getLatitude(),
                 endPoint.getLongitude(), results);
 
-        tvDistance.setText((int) results[0]);
-
+        tvDistance.setText(String.valueOf(((int) results[0])/1000) +
+                " km");
 
         btnSave = binding.saveNewHikeButton;
         btnSave.setOnClickListener(v -> {
 
             hikeActivity.hikeActivityName
                     = etHikeName.getText().toString();
-
-
-        //beregner altitude
-
 
             //oppdaterer hike med input fra skjema og navigerer til Home
             db.hikeActivityDao().updateHikeActivity(hikeActivity);

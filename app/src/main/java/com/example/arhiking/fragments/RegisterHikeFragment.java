@@ -1,6 +1,5 @@
 package com.example.arhiking.fragments;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 
 import android.content.Intent;
@@ -14,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -47,7 +47,6 @@ import org.osmdroid.views.overlay.Polyline;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Observer;
 
 
 public class RegisterHikeFragment extends Fragment {
@@ -60,6 +59,7 @@ public class RegisterHikeFragment extends Fragment {
     private ImageView imgPlay;
     private ImageView imgStop;
     private ImageView imgPause;
+    private ImageView imgDelete;
     public com.google.android.gms.maps.model.LatLng locationLatLong;
     ArrayList<Location> locationList;
 
@@ -76,8 +76,6 @@ public class RegisterHikeFragment extends Fragment {
 
     KalmanLatLong kalmanFilter;
 
-
-
     HikeActivityDao hikeActivityDao;
     RegisterHikeViewModel registerHikeViewModel;
     AppDatabase_v2 db;
@@ -87,6 +85,7 @@ public class RegisterHikeFragment extends Fragment {
 
     private GeoPoint geoPoint;
 
+    private GeoPoint currentLocation;
     private Location locationFromGeoPoint;
 
     private List<GeoPoint> trackedPath;
@@ -96,13 +95,12 @@ public class RegisterHikeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        registerHikeViewModel =
-                new ViewModelProvider(this).get(RegisterHikeViewModel.class);
+        registerHikeViewModel = new ViewModelProvider(getActivity()).get(RegisterHikeViewModel.class);
 
         binding = FragmentRegisterHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        startingPoint = registerHikeViewModel.getCurrentLocation().getValue();
+      //  startingPoint = registerHikeViewModel.getCurrentLocation().getValue();
 
         db = Room.databaseBuilder(getContext(),
                 AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
@@ -127,28 +125,43 @@ public class RegisterHikeFragment extends Fragment {
         map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(13.0);
-        GeoPoint startPoint = new GeoPoint(63.45, 10.42);
+        startingPoint = new GeoPoint(63.45, 10.42);
         //todo sette aktuelt startpoint
-        mapController.setCenter(startPoint);
+        mapController.setCenter(startingPoint);
 
         trackedPath = new ArrayList<>();
 
         imgPlay = binding.imageViewPlay;
-
         imgPause = binding.imageViewPause;
 
         imgPause.setOnClickListener(((View.OnClickListener) v -> {
-            //trackingStatus = 2;
+
             registerHikeViewModel.getTrackingStatus().setValue(2);
             registerHikeViewModel.pauseSensorService();
 
         }));
 
+        imgDelete = binding.imageViewDelete;
+        imgDelete.setOnClickListener(((View.OnClickListener) v -> {
+
+            registerHikeViewModel.getTrackingStatus().setValue(3);
+            registerHikeViewModel.stopSensorService();
+            registerHikeViewModel.getHikeActivityId().setValue(0L);
+            Toast.makeText(ctx, "Hike activity deleted",
+                    Toast.LENGTH_SHORT).show();
+        }));
 
         registerHikeViewModel.getTrackingStatus().observe(
                 getViewLifecycleOwner(), status -> {
 
                     trackingStatus = status;
+
+                });
+
+        registerHikeViewModel.getCurrentLocation().observe(
+                getViewLifecycleOwner(), location -> {
+
+                    currentLocation = location;
 
                 });
 
@@ -332,7 +345,7 @@ public class RegisterHikeFragment extends Fragment {
         }
         return locationAge;
     }
-
+/*
     /*@Override
     public void onLocationChanged(@NonNull Location location) {
         locationLatLong = new LatLng(location.getLatitude(), location.getLongitude());

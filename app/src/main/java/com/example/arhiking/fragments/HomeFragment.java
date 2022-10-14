@@ -4,11 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -19,14 +25,22 @@ import com.example.arhiking.R;
 import com.example.arhiking.Tour;
 import com.example.arhiking.databinding.FragmentHomeBinding;
 import com.example.arhiking.viewmodels.HomeViewModel;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private FragmentHomeBinding binding;
-    //CardView cardBrowseLibrary;
+
+    private LinearLayout startHike;
+    private LinearLayout startBike;
+    private LinearLayout startSki;
+    private LinearLayout startOther;
+
+    private CardView cardBrowseLibrary;
+    private CardView cardViewMap;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,14 +50,26 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // todo Fix navigation when fragment opened on button click
-        /*CardView cardBrowseLibrary = (CardView) root.findViewById(R.id.cardBrowseLibrary);
-        cardBrowseLibrary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.navigation_library);
-            }
-        });*/
+       // Listeners for activity image buttons
+        startHike = root.findViewById(R.id.buttonHikeTrip);
+        startBike = root.findViewById(R.id.buttonBikeTrip);
+        startSki = root.findViewById(R.id.buttonSkiTrip);
+        startOther = root.findViewById(R.id.buttonOtherTrip);
+
+        startHike.setOnClickListener(this);
+        startBike.setOnClickListener(this);
+        startSki.setOnClickListener(this);
+        startOther.setOnClickListener(this);
+
+        // Listener to navigate to library when clicking on cardview in home fragment
+        // todo: Fix bottom navigation after library opens through cardview onClick
+        cardBrowseLibrary = root.findViewById(R.id.cardBrowseLibrary);
+        cardBrowseLibrary.setOnClickListener(this);
+
+        // Listener to navigate to map when clicking on cardview in home fragment
+        // todo: Fix bottom navigation after map opens through cardview onClick
+        cardViewMap = root.findViewById(R.id.cardMapView);
+        cardViewMap.setOnClickListener(this);
 
         return root;
     }
@@ -123,10 +149,28 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.buttonHikeTrip:
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_navigation_register_hike);
+                break;
+            case R.id.buttonBikeTrip:
+            case R.id.buttonSkiTrip:
+            case R.id.buttonOtherTrip:
+                Toast.makeText(view.getContext(), "Possible future implementation :)", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.cardBrowseLibrary:
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_navigation_library);
+                break;
+            case R.id.cardMapView:
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_navigation_map);
+                break;
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
-
-
 }

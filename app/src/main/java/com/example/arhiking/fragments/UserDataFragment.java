@@ -9,60 +9,80 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.arhiking.R;
+import com.example.arhiking.databinding.FragmentUserDataBinding;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserDataFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class UserDataFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentUserDataBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public UserDataFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserDataFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UserDataFragment newInstance(String param1, String param2) {
-        UserDataFragment fragment = new UserDataFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    BarChart barChartHikesPerMonth;
+    BarData barDataHikesPerMonth;
+    BarDataSet barDataSetHikesPerMonth;
+    ArrayList barHikesPerMonthEntriesArrayList;
+    ArrayList<String> monthLabels;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_data, container, false);
+        binding = FragmentUserDataBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        barChartHikesPerMonth = root.findViewById(R.id.barCharUserData);
+        getHikesPerMonthDataEntries();
+
+        barDataSetHikesPerMonth = new BarDataSet(barHikesPerMonthEntriesArrayList, "Hikes");
+        barDataHikesPerMonth = new BarData(barDataSetHikesPerMonth);
+
+        barChartHikesPerMonth.setData(barDataHikesPerMonth);
+        barChartHikesPerMonth.getDescription().setText("The total number of hikes in each month this year");
+        barDataSetHikesPerMonth.setColors(ColorTemplate.COLORFUL_COLORS);
+        barChartHikesPerMonth.animateY(1000);
+
+        return root;
     }
+
+    private void getHikesPerMonthDataEntries(){
+        barHikesPerMonthEntriesArrayList = new ArrayList<>();
+
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(1, 1));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(2, 3));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(3, 1));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(4, 5));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(5, 4));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(6, 8));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(7, 6));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(8, 7));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(9, 5));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(10, 3));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(11, 0));
+        barHikesPerMonthEntriesArrayList.add(new BarEntry(12, 2));
+
+        // TODO find out and fix x to show month strings
+/*        monthLabels = new ArrayList<>();
+        monthLabels.add("January");
+        monthLabels.add("February");
+        monthLabels.add("March");
+        monthLabels.add("April");
+        monthLabels.add("May");
+        monthLabels.add("June");
+        monthLabels.add("July");
+        monthLabels.add("August");
+        monthLabels.add("September");
+        monthLabels.add("October");
+        monthLabels.add("November");
+        monthLabels.add("December");*/
+    }
+
+
 
     public double getHighPassFilteredAccelerometerData(float x, float y, float z) {
          Float[] gravity = {0.0f, 0.0f, 0.0f};

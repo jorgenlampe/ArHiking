@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.example.arhiking.R;
+import com.example.arhiking.databinding.FragmentHomeBinding;
 import com.example.arhiking.databinding.FragmentSettingsBinding;
 import com.example.arhiking.viewmodels.SettingsViewModel;
 
@@ -34,9 +36,20 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         // Load preferences from an XML resource
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
         SwitchPreferenceCompat themePreference = findPreference("theme_settings");
+
+        // Navigate to user statistics fragment after 'user_data_pref' preference click
+        // TODO fix preference
+        Preference userDataPreference = findPreference("user_data_pref");
+        if(userDataPreference != null){
+            userDataPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(@NonNull Preference preference) {
+                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_settings_to_userDataFragment);
+                    return true;
+                }
+            });
+        }
     }
-
-
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -52,26 +65,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             themePreference.setSummaryOff(R.string.light_theme);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-
-
-
-       //open user data fragment (user statistics) from settings
-        Preference userDataPreference = findPreference("user_data");
-        userDataPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(@NonNull Preference preference) {
-
-                Navigation.findNavController(getView()).navigate(R.id.action_navigation_settings_to_userDataFragment);
-             /*  UserDataFragment userDataFragment = new UserDataFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, userDataFragment)
-                        .addToBackStack(null)
-                        .commit();
-*/
-                return true;
-            }
-        });
-
     }
 
     @Override

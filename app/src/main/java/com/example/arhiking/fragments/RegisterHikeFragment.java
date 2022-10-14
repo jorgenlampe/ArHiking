@@ -132,7 +132,7 @@ public class RegisterHikeFragment extends Fragment {
         map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(13.0);
-        startingPoint = new GeoPoint(63.45, 10.42);
+        GeoPoint startingPoint = new GeoPoint(63.45, 10.42);
         //todo sette aktuelt startpoint
         mapController.setCenter(startingPoint);
 

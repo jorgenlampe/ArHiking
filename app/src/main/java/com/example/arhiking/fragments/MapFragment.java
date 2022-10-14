@@ -75,11 +75,9 @@ public class MapFragment extends Fragment {
         db = Room.databaseBuilder(ctx,
                 AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
 
-        if (!checkPermissions())
-        {
+        if (!checkPermissions()) {
             requestAllPermissions();
-        }
-        else {
+        } else {
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListenerGPS);
         }
 
@@ -103,20 +101,20 @@ public class MapFragment extends Fragment {
         GeoPoint startPoint = new GeoPoint(63.45, 10.42);
         mapController.setCenter(startPoint);
 
-  
+
         List<UserWithHikes> users = db.userDao().getUserWithHikes();
 
-        for (UserWithHikes user : users){
+        for (UserWithHikes user : users) {
             for (int i = 0; i < user.hikes.size(); i++) {
                 Marker startPosMarker = new Marker(map);
                 startPosMarker.setPosition(user.hikes.get(i).startingPoint);
-                startPosMarker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM);
+                startPosMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 startPosMarker.setTitle("Startposisjon");
                 startPosMarker.setSubDescription("Turen starter her");
-        }
+            }
 
 
-        List<HikeActivitiesWithGeoPoints> hikes = db.hikeActivityDao().getHikeActivitiesWithGeoPoints();
+            List<HikeActivitiesWithGeoPoints> hikes = db.hikeActivityDao().getHikeActivitiesWithGeoPoints();
 
             for (HikeActivitiesWithGeoPoints hikeActivity : hikes) {
                 List<HikeActivityGeoPoint> geoPoints = hikeActivity.hikeActivityGeoPoints;
@@ -132,10 +130,10 @@ public class MapFragment extends Fragment {
                 }
             }
 
+        }
+            return root;
+        }
 
-
-        return root;
-    }
 
     private void requestAllPermissions() {
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);

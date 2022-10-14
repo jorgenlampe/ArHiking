@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -41,14 +44,25 @@ public class HomeFragment extends Fragment {
         startHikeButton = (MaterialButton) root.findViewById(R.id.clickToStartButton);
         // todo connect button to start hike function
 
-        // todo Fix navigation when fragment opened on button click
-        /*CardView cardBrowseLibrary = (CardView) root.findViewById(R.id.cardBrowseLibrary);
+        // Navigate to library when clicking on cardview in home fragment
+        // todo: Fix bottom navigation after library opens through cardview onClick
+        CardView cardBrowseLibrary = (CardView) root.findViewById(R.id.cardBrowseLibrary);
         cardBrowseLibrary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.navigation_library);
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_navigation_library);
             }
-        });*/
+        });
+
+        // Navigate to map when clicking on cardview in home fragment
+        // todo: Fix bottom navigation after map opens through cardview onClick
+        CardView cardViewMap = (CardView) root.findViewById(R.id.cardMapView);
+        cardViewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_navigation_map);
+            }
+        });
 
         return root;
     }
@@ -132,6 +146,4 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-
 }

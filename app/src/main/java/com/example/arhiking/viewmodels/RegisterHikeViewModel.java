@@ -112,7 +112,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
             getMovementStatus().setValue("Standing still...");
         if (movementX >  0.5 || movementY > 0.5)
             getMovementStatus().setValue("Walking...");
-        if (movementX >  2 || movementY > 2)
+        if (movementX >  10 || movementY > 10)
             getMovementStatus().setValue("Running...");
 
     }
@@ -344,12 +344,9 @@ public class RegisterHikeViewModel extends AndroidViewModel {
                 accelerometerData.yValue = accelerometerReading[1];
                 accelerometerData.zValue = accelerometerReading[2];
 
-                //lagrer til dataase todo bare lagre hvert 10. sekund?
-
                 accelerometerDao.insertAll(accelerometerData);
 
                 calculateAcceleration(sensorEvent.values);
-
 
 
             } else if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
@@ -361,7 +358,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
                 GeomagneticSensorData geomagneticData = new GeomagneticSensorData();
                 geomagneticData.timeRegistered = date.getTime();
-                if (getHikeActivityId().getValue() != null) //todo...
+                if (getHikeActivityId().getValue() != null)
                     geomagneticData.hike_activity_id = getHikeActivityId().getValue();
                 geomagneticData.xValue = magnetometerReading[0];
                 geomagneticData.yValue = magnetometerReading[1];

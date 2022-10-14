@@ -86,7 +86,7 @@ public class RegisterHikeFragment extends Fragment {
 
     private List<GeoPoint> trackedPath;
 
-    Polyline path = new Polyline();
+    Polyline path = new Polyline(map, true);
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -188,6 +188,7 @@ public class RegisterHikeFragment extends Fragment {
                 /*trackedPath.add(curLoc);*/
                 path.setPoints(trackedPath);
                 map.getOverlayManager().add(path);
+
                 map.invalidate();
 
             });
@@ -195,6 +196,7 @@ public class RegisterHikeFragment extends Fragment {
 
         imgStop = binding.imageViewStop;
         imgStop.setOnClickListener(v -> {
+
             registerHikeViewModel.stopSensorService();
             trackingStatus = 2;
             registerHikeViewModel.getTrackingStatus().setValue(trackingStatus);

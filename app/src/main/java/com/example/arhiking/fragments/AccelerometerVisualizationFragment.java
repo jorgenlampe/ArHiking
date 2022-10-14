@@ -25,7 +25,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 
-public class AcceleratorVisualizationFragment extends Fragment {
+public class AccelerometerVisualizationFragment extends Fragment {
     TextView tvRawAcceleratorData, tvFilteredAcceleratorData;
 
     private SensorManager mSensorManager;

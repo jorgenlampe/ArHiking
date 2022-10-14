@@ -27,6 +27,7 @@ import androidx.room.Room;
 
 import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Data.HikeActivityDao;
+import com.example.arhiking.Models.HikeActivityGeoPoint;
 import com.example.arhiking.Models.Hike_Activity;
 
 import com.example.arhiking.KalmanFilter.KalmanLatLong;
@@ -93,8 +94,9 @@ public class RegisterHikeFragment extends Fragment {
 
     private List<GeoPoint> trackedPath;
 
-    Polyline path = new Polyline();
-    GeoPoint startingPoint;
+
+    Polyline path = new Polyline(map, true);
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -236,10 +238,14 @@ public class RegisterHikeFragment extends Fragment {
                 locationFromGeoPoint = new Location(LocationManager.GPS_PROVIDER);
                 locationFromGeoPoint.setLatitude(curLoc.getLatitude());
                 locationFromGeoPoint.setLongitude(curLoc.getLongitude());
-                filterAndAddLocation(locationFromGeoPoint);
-                /*trackedPath.add(curLoc);*/
+                /*filterAndAddLocation(locationFromGeoPoint);*/
+                trackedPath.add(curLoc);
+                HikeActivityGeoPoint hikeActivityGeoPoint = new HikeActivityGeoPoint();
+                hikeActivityGeoPoint.geoPoint = curLoc;
+                db.HikeActivityGeoPointsDao().insertAll(hikeActivityGeoPoint);
                 path.setPoints(trackedPath);
                 map.getOverlayManager().add(path);
+
                 map.invalidate();
 
             });
@@ -247,6 +253,7 @@ public class RegisterHikeFragment extends Fragment {
 
         imgStop = binding.imageViewStop;
         imgStop.setOnClickListener(v -> {
+
             registerHikeViewModel.stopSensorService();
             //trackingStatus = 2;
             registerHikeViewModel.getTrackingStatus().setValue(2);

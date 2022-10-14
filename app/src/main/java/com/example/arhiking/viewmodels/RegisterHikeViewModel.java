@@ -47,6 +47,7 @@ public class RegisterHikeViewModel extends AndroidViewModel {
     public MutableLiveData<Integer> trackingStatus;
     public MutableLiveData<Long> hikeActivityId;
     public MutableLiveData<GeoPoint> currentLocation;
+    public MutableLiveData<Double> highestElevation;
     SensorService sensorService;
 
 
@@ -74,6 +75,14 @@ public class RegisterHikeViewModel extends AndroidViewModel {
         }
 
         return hikeActivityId;
+    }
+
+    public MutableLiveData<Double> getHighestElevation() {
+        if (highestElevation == null) {
+            highestElevation = new MutableLiveData<>();
+        }
+
+        return highestElevation;
     }
 
     public MutableLiveData<float[]> getSensorData() {
@@ -204,6 +213,15 @@ public class RegisterHikeViewModel extends AndroidViewModel {
 
                             /*if (startPos.getValue() == false){*/
                                 getCurrentLocation().setValue(new GeoPoint(latLng.latitude, latLng.longitude));
+
+                            double currentAltitude = getCurrentLocation().
+                                    getValue().getAltitude();
+
+                            double highestElevation = getHighestElevation().getValue();
+                                //update highest elevation:
+                            if (currentAltitude > highestElevation)
+                                getHighestElevation().setValue(currentAltitude);
+
 
                               /*  startPos.setValue(true);
                                 trackingStatus.setValue(1);*/

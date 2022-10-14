@@ -97,6 +97,7 @@ public class MapFragment extends Fragment {
         GeoPoint startPoint = new GeoPoint(63.45, 10.42);
         mapController.setCenter(startPoint);
 
+  
         List<UserWithHikes> users = db.userDao().getUserWithHikes();
 
         for (UserWithHikes user : users){

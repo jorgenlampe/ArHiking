@@ -50,6 +50,7 @@ public class CompletedHikeFragment extends Fragment {
     EditText etHikeName;
     TextView tvDuration;
     TextView tvDistance;
+    TextView tvHighestElevation;
 
     Hike_Activity hikeActivity;
     @Override
@@ -70,7 +71,8 @@ public class CompletedHikeFragment extends Fragment {
 
         etHikeName = binding.hikeNameEditText;
         tvDuration = binding.durationNewHikeTextView;
-        tvDuration = binding.completedHikeDistanceTextView;
+        tvDistance = binding.completedHikeDistanceTextView;
+        tvHighestElevation = binding.highestElevationNewHikeTextView;
 
         long timeRegistered = hikeActivity.timeRegistered;
         Date date = new Date();
@@ -81,6 +83,10 @@ public class CompletedHikeFragment extends Fragment {
 
         GeoPoint startPoint = hikeActivity.hikeActivityStartingPoint;
         GeoPoint endPoint = viewModel.getCurrentLocation().getValue();
+
+        double highestElevation = viewModel.getHighestElevation().getValue();
+
+        tvHighestElevation.setText((int) highestElevation);
 
         float[] results = new float[1];
         Location.distanceBetween(startPoint.getLatitude(),
@@ -96,13 +102,9 @@ public class CompletedHikeFragment extends Fragment {
             hikeActivity.hikeActivityName
                     = etHikeName.getText().toString();
 
-            //todo get distance...
-            //Location.distanceBetween(
-            //    startLatitude,
-            //    startLongitude,
-            //    endLatitude,
-            //    endLongitude,
-            //    results);
+
+        //beregner altitude
+
 
             //oppdaterer hike med input fra skjema og navigerer til Home
             db.hikeActivityDao().updateHikeActivity(hikeActivity);

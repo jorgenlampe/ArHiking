@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
-import com.example.arhiking.Data.AppDatabase;
+import com.example.arhiking.Data.AppDatabase_v2;
 import com.example.arhiking.Data.UserDao;
 import com.example.arhiking.Models.User;
 import com.example.arhiking.Models.UserWithHikes;
@@ -55,7 +55,7 @@ public class MapFragment extends Fragment {
 
     private Context ctx;
 
-    AppDatabase db;
+    AppDatabase_v2 db;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class MapFragment extends Fragment {
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         db = Room.databaseBuilder(ctx,
-                AppDatabase.class, "database-name").allowMainThreadQueries().build();
+                AppDatabase_v2.class, "database-v2").allowMainThreadQueries().build();
 
         if (!checkPermissions())
         {

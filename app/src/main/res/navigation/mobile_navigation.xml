@@ -56,7 +56,7 @@
         tools:layout="@layout/fragment_info" />
     <fragment
         android:id="@+id/acceleratorVisualizationFragment"
-        android:name="com.example.arhiking.fragments.AcceleratorVisualizationFragment"
+        android:name="com.example.arhiking.fragments.AccelerometerVisualizationFragment"
         android:label="fragment_accelerator_visualization"
         tools:layout="@layout/fragment_accelerator_visualization" />
     <fragment

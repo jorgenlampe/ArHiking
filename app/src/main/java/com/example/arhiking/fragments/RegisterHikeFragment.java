@@ -238,8 +238,7 @@ public class RegisterHikeFragment extends Fragment {
                 locationFromGeoPoint = new Location(LocationManager.GPS_PROVIDER);
                 locationFromGeoPoint.setLatitude(curLoc.getLatitude());
                 locationFromGeoPoint.setLongitude(curLoc.getLongitude());
-                /*filterAndAddLocation(locationFromGeoPoint);*/
-                trackedPath.add(curLoc);
+                filterAndAddLocation(locationFromGeoPoint);
                 HikeActivityGeoPoint hikeActivityGeoPoint = new HikeActivityGeoPoint();
                 hikeActivityGeoPoint.geoPoint = curLoc;
                 db.HikeActivityGeoPointsDao().insertAll(hikeActivityGeoPoint);
@@ -369,33 +368,4 @@ public class RegisterHikeFragment extends Fragment {
         }
         return locationAge;
     }
-/*
-    /*@Override
-    public void onLocationChanged(@NonNull Location location) {
-        locationLatLong = new LatLng(location.getLatitude(), location.getLongitude());
-
-        if (!startPos){
-            GeoPoint startPoint = new GeoPoint(locationLatLong.latitude, locationLatLong.longitude);
-
-            mapController.setCenter(startPoint);
-            startPos = true;
-            tracking = true;
-            Marker startPosMarker = new Marker(map);
-            startPosMarker.setPosition(startPoint);
-            startPosMarker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM);
-            startPosMarker.setTitle("Startposisjon");
-            startPosMarker.setSubDescription("Turen starter her");
-            map.getOverlays().add(startPosMarker);
-            trackedPath.add(startPoint);
-        }
-
-        if (tracking) {
-            GeoPoint currentPosition = new GeoPoint(locationLatLong.latitude, locationLatLong.longitude);
-            trackedPath.add(currentPosition);
-
-            path.setPoints(trackedPath);
-            map.getOverlayManager().add(path);
-            map.invalidate();
-        }
-    }*/
 }

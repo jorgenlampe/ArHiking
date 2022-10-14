@@ -101,7 +101,6 @@ public class MapFragment extends Fragment {
         GeoPoint startPoint = new GeoPoint(63.45, 10.42);
         mapController.setCenter(startPoint);
 
-
         List<UserWithHikes> users = db.userDao().getUserWithHikes();
 
         for (UserWithHikes user : users) {
@@ -113,13 +112,13 @@ public class MapFragment extends Fragment {
                 startPosMarker.setSubDescription("Turen starter her");
             }
 
-
-            List<HikeActivitiesWithGeoPoints> hikes = db.hikeActivityDao().getHikeActivitiesWithGeoPoints();
+        List<GeoPoint> trackedPath = new ArrayList<>();
+        List<HikeActivitiesWithGeoPoints> hikes = db.hikeActivityDao().getHikeActivitiesWithGeoPoints();
 
             for (HikeActivitiesWithGeoPoints hikeActivity : hikes) {
                 List<HikeActivityGeoPoint> geoPoints = hikeActivity.hikeActivityGeoPoints;
                 for (HikeActivityGeoPoint geoPoint : geoPoints) {
-                    List<GeoPoint> trackedPath = new ArrayList<>();
+
                     trackedPath.add(geoPoint.geoPoint);
                     Polyline path = new Polyline();
                     path.setPoints(trackedPath);

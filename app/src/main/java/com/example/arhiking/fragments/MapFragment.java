@@ -133,7 +133,7 @@ public class MapFragment extends Fragment {
             return root;
         }
 
-            List<GeoPoint> trackedPath = new ArrayList<>();
+
     private void requestAllPermissions() {
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
     }

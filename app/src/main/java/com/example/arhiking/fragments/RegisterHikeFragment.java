@@ -64,12 +64,12 @@ public class RegisterHikeFragment extends Fragment {
     private ImageView imgPause;
     private ImageView imgDelete;
     public com.google.android.gms.maps.model.LatLng locationLatLong;
-    ArrayList<Location> locationList;
+    List<Location> locationList;
 
-    ArrayList<Location> oldLocationList;
-    ArrayList<Location> noAccuracyLocationList;
-    ArrayList<Location> inaccurateLocationList;
-    ArrayList<Location> kalmanNGLocationList;
+    List<Location> oldLocationList;
+    List<Location> noAccuracyLocationList;
+    List<Location> inaccurateLocationList;
+    List<Location> kalmanNGLocationList;
     long runStartTimeInMillis;
 
     TextView tvMovementStatus;
@@ -95,14 +95,14 @@ public class RegisterHikeFragment extends Fragment {
     private List<GeoPoint> trackedPath;
 
 
-    Polyline path = new Polyline(map, true);
+    Polyline path;
 
-
+    Context ctx;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         registerHikeViewModel = new ViewModelProvider(getActivity()).get(RegisterHikeViewModel.class);
-
+        path = new Polyline(map, true);
         binding = FragmentRegisterHikeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -123,7 +123,7 @@ public class RegisterHikeFragment extends Fragment {
 
 
 
-        Context ctx = getActivity().getApplicationContext();
+        ctx = getActivity().getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         // Inflate the layout for this fragment
         map = binding.registerHikeMapView;
@@ -213,8 +213,6 @@ public class RegisterHikeFragment extends Fragment {
             startPosMarker.setSubDescription("Turen starter her");
             map.getOverlays().add(startPosMarker);
 
-
-
             registerHikeViewModel.startSensorService();
 
             registerHikeViewModel.getSensorData().observe(
@@ -271,7 +269,6 @@ public class RegisterHikeFragment extends Fragment {
 
     public void onPause() {
         super.onPause();
-
         if (map != null)
             map.onPause();
     }

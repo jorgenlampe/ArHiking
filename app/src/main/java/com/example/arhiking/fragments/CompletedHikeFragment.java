@@ -53,8 +53,8 @@ public class CompletedHikeFragment extends Fragment {
     TextView tvDistance;
     TextView tvHighestElevation;
     TextView tvSpeed;
+    Hike_Activity hikeActivity;
 
-    //Hike_Activity hikeActivity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,9 +68,8 @@ public class CompletedHikeFragment extends Fragment {
         viewModel =
                 new ViewModelProvider(getActivity()).get(RegisterHikeViewModel.class);
 
-        Hike_Activity hikeActivity = dao.getHikeActivityById(
+         hikeActivity = dao.getHikeActivityById(
                 viewModel.getHikeActivityId().getValue());
-
 
         etHikeName = binding.hikeNameEditText;
         tvDuration = binding.durationNewHikeTextView;
